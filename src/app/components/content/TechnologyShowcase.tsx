@@ -7,6 +7,8 @@ import {
   SiPayloadcms,
   SiNodedotjs,
   SiPython,
+  SiGraphql,
+  SiPostgresql,
 } from "react-icons/si";
 
 export function TechnologyShowcase() {
@@ -18,10 +20,12 @@ export function TechnologyShowcase() {
     { name: "Payload CMS", icon: <SiPayloadcms className="w-6 h-6" /> },
     { name: "Node.js", icon: <SiNodedotjs className="w-6 h-6" /> },
     { name: "Python", icon: <SiPython className="w-6 h-6" /> },
+    { name: "Postgres", icon: <SiPostgresql className="w-6 h-6" /> },
+    { name: "GraphQL", icon: <SiGraphql className="w-6 h-6" /> },
   ];
 
   return (
-    <div className="flex flex-wrap gap-4 justify-center">
+    <div className="flex flex-wrap gap-4 justify-center max-w-2xl">
       {technologies.map((tech) => (
         <WebTechnology key={tech.name} name={tech.name} icon={tech.icon} />
       ))}

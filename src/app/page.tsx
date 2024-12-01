@@ -1,12 +1,10 @@
-import AnimatedHome from "./components/layout/AnimatedHome";
 import { Hero } from "./components/layout";
 
 export default function Home() {
   return (
-    // <AnimatedHome>
     <div className="flex min-h-screen flex-col items-center justify-center">
       <Hero />
-      <div className="">
+      <div id="about">
         <p className="text-xl max-w-2xl mb-12">
           I am a Software Developer with now over five years of professional
           experience crafting user-interfaces for B2B SaaS product and high
@@ -46,6 +44,5 @@ export default function Home() {
         </div>
       </div>
     </div>
-    // </AnimatedHome>
   );
 }

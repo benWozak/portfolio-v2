@@ -2,20 +2,62 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: 210 20% 98%;
+    --foreground: 210 29% 16%;
+    --secondary-bg: 210 14% 89%;
+
+    /* Primary color and its variations */
+    --primary-50: 22 100% 95%;
+    --primary-100: 22 100% 90%;
+    --primary-200: 22 100% 80%;
+    --primary-300: 22 99% 70%;
+    --primary-400: 22 99% 60%;
+    --primary-500: 22 99% 50%;
+    --primary: 22 99% 44%; /* This is your current primary color */
+    --primary-600: 22 99% 40%;
+    --primary-700: 22 99% 35%;
+    --primary-800: 22 99% 30%;
+    --primary-900: 22 99% 25%;
+    --primary-950: 22 99% 15%;
+
+    --primary-foreground: 210 20% 98%;
+    --secondary: 174 69% 52%;
+    --secondary-foreground: 210 29% 16%;
+    --accent: 27 29% 87%;
+    --accent-foreground: 210 29% 16%;
+  }
+
+  .dark {
+    --background: 210 22% 16%;
+    --foreground: 0 0% 98%;
+    --secondary-bg: 210 18% 24%;
+
+    /* Adjusted primary colors for dark mode */
+    --primary-50: 22 85% 95%;
+    --primary-100: 22 85% 90%;
+    --primary-200: 22 85% 80%;
+    --primary-300: 22 85% 70%;
+    --primary-400: 22 85% 60%;
+    --primary-500: 22 85% 50%;
+    --primary: 22 85% 44%; /* Slightly desaturated in dark mode */
+    --primary-600: 22 85% 40%;
+    --primary-700: 22 85% 35%;
+    --primary-800: 22 85% 30%;
+    --primary-900: 22 85% 25%;
+    --primary-950: 22 85% 15%;
+
+    --primary-foreground: 0 0% 98%;
+    --secondary: 174 69% 52%;
+    --secondary-foreground: 210 22% 16%;
+    --accent: 27 29% 87%;
+    --accent-foreground: 210 22% 16%;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  body {
+    @apply bg-background text-foreground;
+  }
 }

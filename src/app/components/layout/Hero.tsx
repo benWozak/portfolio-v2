@@ -1,4 +1,5 @@
 import { TechnologyShowcase } from "../content";
+import { CTAButton } from "../ui";
 
 export function Hero() {
   return (
@@ -14,12 +15,15 @@ export function Hero() {
         Combining clean design with powerful functionality to help you stand out
         online.
       </p>
-      <a
+      {/* <a
         href="#contact"
-        className="py-3 px-5 rounded-md bg-primary text-black mt-16 hover:bg-sky-600 transition"
+        className="py-3 px-5 rounded-md bg-primary text-primary-foreground mt-16 hover:bg-sky-600 transition"
       >
         Book a Meeting
-      </a>
+      </a> */}
+      <CTAButton href="#contact" className="mt-12">
+        Book a Meeting
+      </CTAButton>
       <div className="flex items-center justify-center gap-5 uppercase  text-sm lg:text-xl font-semibold mt-10">
         <div className="w-6 lg:w-12 h-0.5 lg:h-1 rounded-full bg-primary"></div>
         Technologies

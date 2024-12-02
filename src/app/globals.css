@@ -8,14 +8,13 @@
     --foreground: 210 29% 16%;
     --secondary-bg: 210 14% 89%;
 
-    /* Primary color and its variations */
     --primary-50: 22 100% 95%;
     --primary-100: 22 100% 90%;
     --primary-200: 22 100% 80%;
     --primary-300: 22 99% 70%;
     --primary-400: 22 99% 60%;
     --primary-500: 22 99% 50%;
-    --primary: 22 99% 44%; /* This is your current primary color */
+    --primary: 22 99% 44%; /* default primary */
     --primary-600: 22 99% 40%;
     --primary-700: 22 99% 35%;
     --primary-800: 22 99% 30%;
@@ -23,7 +22,19 @@
     --primary-950: 22 99% 15%;
 
     --primary-foreground: 210 20% 98%;
-    --secondary: 174 69% 52%;
+
+    --secondary-50: 174 69% 95%;
+    --secondary-100: 174 69% 90%;
+    --secondary-200: 174 69% 80%;
+    --secondary-300: 174 69% 70%;
+    --secondary-400: 174 69% 60%;
+    --secondary-500: 174 69% 52%; /* Your original secondary color */
+    --secondary-600: 174 69% 45%;
+    --secondary-700: 174 69% 38%;
+    --secondary-800: 174 69% 31%;
+    --secondary-900: 174 69% 24%;
+    --secondary-950: 174 69% 17%;
+
     --secondary-foreground: 210 29% 16%;
     --accent: 27 29% 87%;
     --accent-foreground: 210 29% 16%;
@@ -34,14 +45,13 @@
     --foreground: 0 0% 98%;
     --secondary-bg: 210 18% 24%;
 
-    /* Adjusted primary colors for dark mode */
     --primary-50: 22 85% 95%;
     --primary-100: 22 85% 90%;
     --primary-200: 22 85% 80%;
     --primary-300: 22 85% 70%;
     --primary-400: 22 85% 60%;
     --primary-500: 22 85% 50%;
-    --primary: 22 85% 44%; /* Slightly desaturated in dark mode */
+    --primary: 22 85% 44%; /* Slightly de-saturated in dark mode */
     --primary-600: 22 85% 40%;
     --primary-700: 22 85% 35%;
     --primary-800: 22 85% 30%;
@@ -49,7 +59,19 @@
     --primary-950: 22 85% 15%;
 
     --primary-foreground: 0 0% 98%;
-    --secondary: 174 69% 52%;
+    
+    --secondary-50: 174 60% 95%;
+    --secondary-100: 174 60% 90%;
+    --secondary-200: 174 60% 80%;
+    --secondary-300: 174 60% 70%;
+    --secondary-400: 174 60% 60%;
+    --secondary-500: 174 60% 52%; /* Slightly de-saturated in dark mode */
+    --secondary-600: 174 60% 45%;
+    --secondary-700: 174 60% 38%;
+    --secondary-800: 174 60% 31%;
+    --secondary-900: 174 60% 24%;
+    --secondary-950: 174 60% 17%;
+
     --secondary-foreground: 210 22% 16%;
     --accent: 27 29% 87%;
     --accent-foreground: 210 22% 16%;

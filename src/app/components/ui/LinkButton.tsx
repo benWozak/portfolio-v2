@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -32,7 +33,7 @@ export function LinkButton({
       href={href}
       onClick={handleClick}
       className={`
-        relative pb-2 tracking-wider text-sm uppercase
+        relative pb-2 tracking-wider text-sm
         after:content-[''] after:absolute after:w-full
         after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0
         after:bg-primary after:origin-right

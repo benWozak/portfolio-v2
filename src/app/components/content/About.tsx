@@ -1,12 +1,11 @@
 import React from "react";
-import { SectionHeading } from "../layout/SectionHeading";
+import Section from "../layout/section";
 
 type Props = {};
 
 export function About({}: Props) {
   return (
-    <section id="about" className="max-w-4xl mb-16">
-      <SectionHeading title="About Me" />
+    <Section id="about" title="About Me">
       <p className="text-xl mb-4">
         I am a Software Developer with 6 years of professional experience
         crafting user-interfaces for B2B SaaS product and high traffic
@@ -26,6 +25,6 @@ export function About({}: Props) {
         of web development trends to deliver state-of-the-art solutions for
         clients and users alike.
       </p>
-    </section>
+    </Section>
   );
 }

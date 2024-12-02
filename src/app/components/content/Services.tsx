@@ -1,12 +1,11 @@
 import React from "react";
-import { SectionHeading } from "../layout/SectionHeading";
+import Section from "../layout/section";
 
 type Props = {};
 
 export function Services({}: Props) {
   return (
-    <section id="services" className="max-w-4xl mb-16">
-      <SectionHeading title="Services" />
+    <Section id="services" title="Services">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="text-center p-6 bg-secondary-bg rounded-lg shadow-md">
           <h2 className="text-2xl font-semibold mb-2 text-primary">
@@ -39,6 +38,6 @@ export function Services({}: Props) {
           </p>
         </div>
       </div>
-    </section>
+    </Section>
   );
 }

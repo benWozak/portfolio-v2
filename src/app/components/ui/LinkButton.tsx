@@ -15,7 +15,7 @@ export function LinkButton({
   className = "",
   onClick,
 }: LinkButtonProps) {
-  const scrollToElement = useSmoothScroll();
+  const { scrollToElement } = useSmoothScroll();
 
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>) => {

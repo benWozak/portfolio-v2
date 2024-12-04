@@ -48,9 +48,6 @@ export function Header({}: Props) {
                 <li>
                   <LinkButton href="#experience">Experience</LinkButton>
                 </li>
-                {/* <li>
-                  <LinkButton href="#services">Services</LinkButton>
-                </li> */}
                 <li>
                   <LinkButton href="#projects">Projects</LinkButton>
                 </li>
@@ -131,8 +128,8 @@ export function Header({}: Props) {
                     </LinkButton>
                   </li>
                   <li>
-                    <LinkButton href="#services" onClick={toggleMobileMenu}>
-                      Services
+                    <LinkButton href="#experience" onClick={toggleMobileMenu}>
+                      Experience
                     </LinkButton>
                   </li>
                   <li>

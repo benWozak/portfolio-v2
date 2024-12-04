@@ -11,5 +11,13 @@ export const useSmoothScroll = () => {
     }
   }, []);
 
-  return scrollToElement;
+  const scrollToTop = useCallback(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }, []);
+
+  return { scrollToElement, scrollToTop };
 };
+

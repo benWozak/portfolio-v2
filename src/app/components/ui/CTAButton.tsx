@@ -16,7 +16,7 @@ export function CTAButton({
   className = "",
   onClick,
 }: CTAButtonProps) {
-  const scrollToElement = useSmoothScroll();
+  const { scrollToElement } = useSmoothScroll();
 
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>) => {

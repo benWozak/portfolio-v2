@@ -9,17 +9,17 @@ export function Experience() {
     description: string
   ) {
     return (
-      <li className="mb-20 ms-12">
+      <li className="mb-8 ms-8 lg:mb-20 lg:ms-12">
         <div className="absolute w-3 h-3 bg-secondary-700 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-secondary-500"></div>
-        <time className="mb-1 text-sm font-normal leading-none text-secondary-800 dark:text-secondary-500/70">
+        <time className="mb-1 text-sm lg:text-base font-normal leading-none text-secondary-800 dark:text-secondary-500/70">
           {time}
         </time>
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+        <h3 className="text-lg lg:text-xl font-semibold text-gray-900 dark:text-white">
           <span className="text-primary dark:text-secondary-500">{role}</span>{" "}
           {"@"}
           {company}
         </h3>
-        <p className="mb-4 text-base font-normal text-gray-600 dark:text-gray-300">
+        <p className="mb-4 text-sm lg:text-base font-normal text-gray-600 dark:text-gray-300">
           {description}
         </p>
       </li>
@@ -27,7 +27,7 @@ export function Experience() {
   }
   return (
     <Section id="experience" title="Experience">
-      <ol className="relative border-s border-primary-500 dark:border-primary-500 py-10">
+      <ol className="relative border-s border-primary-500 dark:border-primary-500 py-10 mx-8 lg:mx-0">
         {renderTimeBlock(
           "Nov, 2023 - July, 2024",
           "Flipp Advertising",

@@ -16,7 +16,7 @@ export function About() {
           />
         </div>
         <div className="max-w-xl">
-          <p className="text-sm md:text-md lg:text-xl">
+          <p className="text-sm md:text-base lg:text-xl mb-4">
             I am a Software Developer with 6 years of professional experience
             crafting user-interfaces for B2B SaaS product and high traffic
             client-facing websites, I am specialized in all things JavaScript,
@@ -24,7 +24,7 @@ export function About() {
             with a proven track record leading cross-functional teams in fast
             paced environments.
           </p>
-          <p className="text-sm md:text-md lg:text-xl">
+          <p className="text-sm md:text-base lg:text-xl">
             Driven by a passion for coding excellence, I thrive on pushing the
             boundaries of what&lsquo;s possible in web development. Always eager
             to embrace new technologies, I try to stay at the forefront of web

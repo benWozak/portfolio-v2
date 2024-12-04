@@ -56,7 +56,7 @@ export function CTAButton({
       <span
         className="
         relative w-full text-center text-primary-foreground transition-all duration-300 
-        hover:text-primary-foreground text-md z-20 px-12 py-2 lg:px-16 lg:py-3 lg:text-lg
+        hover:text-primary-foreground text-md z-20 px-12 py-2 lg:px-20 lg:py-3 lg:text-lg
         "
       >
         {children}

@@ -6,9 +6,7 @@ import Logo from "./Logo";
 import { ThemeToggle } from "./ThemeToggle";
 import { LinkButton } from "../ui/LinkButton";
 
-type Props = {};
-
-export function Header({}: Props) {
+export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -36,7 +34,7 @@ export function Header({}: Props) {
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex-1 md:flex md:items-center md:gap-12">
-            <Logo href="#" />
+            <Logo />
           </div>
 
           <div className="md:flex md:items-center md:gap-12">

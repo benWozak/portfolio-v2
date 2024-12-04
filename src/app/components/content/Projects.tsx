@@ -1,9 +1,7 @@
 import React from "react";
 import Section from "../layout/section";
 
-type Props = {};
-
-export function Projects({}: Props) {
+export function Projects() {
   return (
     <Section
       id="projects"

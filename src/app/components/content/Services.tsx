@@ -1,9 +1,7 @@
 import React from "react";
 import Section from "../layout/section";
 
-type Props = {};
-
-export function Services({}: Props) {
+export function Services() {
   return (
     <Section id="services" title="Services">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

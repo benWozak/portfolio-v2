@@ -2,9 +2,7 @@ import React from "react";
 import Section from "../layout/section";
 import Image from "next/image";
 
-type Props = {};
-
-export function About({}: Props) {
+export function About() {
   return (
     <Section id="about" title="About Me">
       <div className="flex gap-12 flex-col lg:flex-row lg:px-2 mb-4 px-8">
@@ -28,8 +26,8 @@ export function About({}: Props) {
           </p>
           <p className="text-sm md:text-md lg:text-xl">
             Driven by a passion for coding excellence, I thrive on pushing the
-            boundaries of what's possible in web development. Always eager to
-            embrace new technologies, I try to stay at the forefront of web
+            boundaries of what&lsquo;s possible in web development. Always eager
+            to embrace new technologies, I try to stay at the forefront of web
             development trends to deliver state-of-the-art solutions for clients
             and users alike.
           </p>

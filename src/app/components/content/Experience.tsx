@@ -1,9 +1,7 @@
 import React from "react";
 import Section from "../layout/section";
 
-type Props = {};
-
-export function Experience({}: Props) {
+export function Experience() {
   function renderTimeBlock(
     time: string,
     company: string,

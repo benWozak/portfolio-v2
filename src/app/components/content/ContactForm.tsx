@@ -36,7 +36,7 @@ export default function ContactForm() {
   return (
     <motion.form
       action={handleSubmit}
-      className="space-y-6"
+      className="container w-full max-w-2xl p-8 mx-auto space-y-6 rounded-md border"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -44,7 +44,7 @@ export default function ContactForm() {
       <div>
         <label
           htmlFor="name"
-          className="block text-sm font-medium text-gray-700"
+          className="block mb-1 ml-1 text-sm md:text-md lg:text-xl"
         >
           Name
         </label>
@@ -54,7 +54,7 @@ export default function ContactForm() {
           name="name"
           id="name"
           required
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          className="block w-full p-2 rounded border focus:outline-none focus:ring focus:ring-opacity-25 focus:dark:ring-secondary-700 dark:bg-secondary-bg"
         />
         {errors.name && (
           <p className="mt-1 text-sm text-red-600">{errors.name[0]}</p>
@@ -63,7 +63,7 @@ export default function ContactForm() {
       <div>
         <label
           htmlFor="email"
-          className="block text-sm font-medium text-gray-700"
+          className="block mb-1 ml-1 text-sm md:text-md lg:text-xl"
         >
           Email
         </label>
@@ -73,7 +73,7 @@ export default function ContactForm() {
           name="email"
           id="email"
           required
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          className="block w-full p-2 rounded border focus:outline-none focus:ring focus:ring-opacity-25 focus:dark:ring-secondary-700 dark:bg-secondary-bg"
         />
         {errors.email && (
           <p className="mt-1 text-sm text-red-600">{errors.email[0]}</p>
@@ -82,7 +82,7 @@ export default function ContactForm() {
       <div>
         <label
           htmlFor="message"
-          className="block text-sm font-medium text-gray-700"
+          className="block mb-1 ml-1 text-sm md:text-md lg:text-xl"
         >
           Message
         </label>
@@ -91,8 +91,8 @@ export default function ContactForm() {
           name="message"
           id="message"
           required
-          rows={4}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          rows={5}
+          className="block w-full p-2 rounded border focus:outline-none focus:ring focus:ring-opacity-25 focus:dark:ring-secondary-700 dark:bg-secondary-bg"
         />
         {errors.message && (
           <p className="mt-1 text-sm text-red-600">{errors.message[0]}</p>
@@ -103,7 +103,7 @@ export default function ContactForm() {
         whileTap={{ scale: 0.95 }}
         type="submit"
         disabled={isSubmitting}
-        className="inline-flex justify-center rounded-md border border-transparent bg-primary py-2 px-4 text-sm font-medium text-primary-foreground shadow-sm hover:bg-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+        className="w-full inline-flex justify-center rounded-md border border-transparent bg-primary py-2 px-4 text-sm md:text-md lg:text-xl font-medium text-primary-foreground shadow-sm hover:bg-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
       >
         {isSubmitting ? "Sending..." : "Send Message"}
       </motion.button>

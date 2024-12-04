@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
-const words = ["Your Vision", "//", "Expertly Developed"];
+const words = ["Your Vision", "// Expertly Developed"];
 
 export default function InitialAnimation({
   onComplete,
@@ -29,7 +29,7 @@ export default function InitialAnimation({
   }, [currentWordIndex, isAnimationComplete, onComplete]);
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black text-white">
+    <div className="fixed inset-0 flex items-center justify-center bg-background text-foreground">
       <div className="text-4xl md:text-6xl font-bold">
         {words.map((word, index) => (
           <motion.span

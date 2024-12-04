@@ -19,8 +19,7 @@ export async function submitContactForm(formData: FormData) {
     return { success: false, errors: validatedFields.error.flatten().fieldErrors }
   }
 
-  // Here you would typically send an email or save to a database
-  // For this example, we'll just simulate a delay
+  // TODO: setup email service
   await new Promise(resolve => setTimeout(resolve, 1000))
 
   return { success: true }

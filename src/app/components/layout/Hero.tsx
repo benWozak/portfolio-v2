@@ -12,18 +12,14 @@ export function Hero() {
         Into <span className="text-primary">Polished</span> Web Experiences
       </h1>
       <p className="text-center lg:text-xl text-foreground mt-10 max-w-xl">
-        Combining clean design with powerful functionality to help you stand out
-        online.
+        {/* Combining clean design with powerful functionality to help you stand out
+        online. */}
+        A full-stack software developer focused on creating elegant
+        user-interfaces with the most modern web technologies
       </p>
-      {/* <a
-        href="#contact"
-        className="py-3 px-5 rounded-md bg-primary text-primary-foreground mt-16 hover:bg-sky-600 transition"
-      >
-        Book a Meeting
-      </a> */}
-      <CTAButton href="#contact" className="mt-12">
-        Book a Meeting
-      </CTAButton>
+      <div className="mt-12">
+        <CTAButton href="#contact">Get in Touch</CTAButton>
+      </div>
       <div className="flex items-center justify-center gap-5 uppercase  text-sm lg:text-xl font-semibold mt-10">
         <div className="w-6 lg:w-12 h-0.5 lg:h-1 rounded-full bg-primary"></div>
         Technologies

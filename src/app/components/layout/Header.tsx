@@ -48,8 +48,11 @@ export function Header({}: Props) {
                   <LinkButton href="#about">About</LinkButton>
                 </li>
                 <li>
-                  <LinkButton href="#services">Services</LinkButton>
+                  <LinkButton href="#experience">Experience</LinkButton>
                 </li>
+                {/* <li>
+                  <LinkButton href="#services">Services</LinkButton>
+                </li> */}
                 <li>
                   <LinkButton href="#projects">Projects</LinkButton>
                 </li>

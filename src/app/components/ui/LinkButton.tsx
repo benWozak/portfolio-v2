@@ -1,7 +1,6 @@
-"use client";
-import React from "react";
+import { useCallback } from "react";
+import { useSmoothScroll } from "../../hooks/useSmoothScroll";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 interface LinkButtonProps {
   href: string;
@@ -16,18 +15,21 @@ export function LinkButton({
   className = "",
   onClick,
 }: LinkButtonProps) {
-  const router = useRouter();
+  const scrollToElement = useSmoothScroll();
 
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    if (onClick) {
-      onClick();
-    }
-    // Use a small delay to ensure the onClick function (like closing the menu) completes first
-    setTimeout(() => {
-      router.push(href);
-    }, 10);
-  };
+  const handleClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>) => {
+      e.preventDefault();
+      if (onClick) {
+        onClick();
+      }
+
+      const targetId = href.replace("#", "");
+      scrollToElement(targetId);
+    },
+    [href, onClick, scrollToElement]
+  );
+
   return (
     <Link
       href={href}

@@ -1,9 +1,9 @@
 "use client";
-import React from "react";
+import React, { useCallback } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useSmoothScroll } from "../../hooks/useSmoothScroll";
 
-interface LinkButtonProps {
+interface CTAButtonProps {
   href: string;
   children: React.ReactNode;
   className?: string;
@@ -15,25 +15,33 @@ export function CTAButton({
   children,
   className = "",
   onClick,
-}: LinkButtonProps) {
-  const router = useRouter();
+}: CTAButtonProps) {
+  const scrollToElement = useSmoothScroll();
 
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    if (onClick) {
-      onClick();
-    }
-    // Use a small delay to ensure the onClick function (like closing the menu) completes first
-    setTimeout(() => {
-      router.push(href);
-    }, 10);
-  };
+  const handleClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>) => {
+      e.preventDefault();
+      if (onClick) {
+        onClick();
+      }
+
+      if (href.startsWith("#")) {
+        const targetId = href.replace("#", "");
+        scrollToElement(targetId);
+      } else {
+        // For non-hash links, use the default Link behavior
+        window.location.href = href;
+      }
+    },
+    [href, onClick, scrollToElement]
+  );
+
   return (
     <Link
       href={href}
       onClick={handleClick}
       className={`
-        px-8 py-4 bg-primary text-primary-foreground
+        bg-primary text-primary-foreground
         group font-semibold
         relative flex justify-center items-center rounded-md
         overflow-hidden cursor-pointer border-none
@@ -42,17 +50,17 @@ export function CTAButton({
         after:transition-all after:duration-300 after:ease-in-out
         after:z-10
         hover:after:right-auto hover:after:left-0 hover:after:w-full
-        [&>a]:relative
-        [&>a]:w-full
-        [&>a]:text-center [&>a]:no-underline
-        [&>a]:px-6 [&>a]:py-4
-        [&>a]:text-foreground [&>a]:text-lg
-        [&>a]:transition-all [&>a]:duration-300
-        hover:[&>a]:text-foreground
         ${className}
       `}
     >
-      <span className="z-20">{children}</span>
+      <span
+        className="
+        relative w-full text-center text-primary-foreground transition-all duration-300 
+        hover:text-primary-foreground text-md z-20 px-12 py-2 lg:px-16 lg:py-3 lg:text-lg
+        "
+      >
+        {children}
+      </span>
     </Link>
   );
 }

@@ -16,14 +16,10 @@ export function About({}: Props) {
       </p>
       <p className="text-sm md:text-md lg:text-xl lg:px-2 mb-4 px-8">
         Driven by a passion for coding excellence, I thrive on pushing the
-        boundaries of what's possible in web development. I'm an active
-        contributor to the global software community, believing in the power of
-        collaboration to accelerate innovation.
-      </p>
-      <p className="text-sm md:text-md lg:text-xl lg:px-2 mb-4 px-8">
-        Always eager to embrace new technologies, I try to stay at the forefront
-        of web development trends to deliver state-of-the-art solutions for
-        clients and users alike.
+        boundaries of what's possible in web development. Always eager to
+        embrace new technologies, I try to stay at the forefront of web
+        development trends to deliver state-of-the-art solutions for clients and
+        users alike.
       </p>
     </Section>
   );

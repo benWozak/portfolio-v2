@@ -26,8 +26,8 @@ export function CTAButton({
       }
 
       if (href.startsWith("#")) {
-        const targetId = href.replace("#", "");
-        scrollToElement(targetId);
+        // const targetId = href.replace("#", "");
+        scrollToElement("#");
       } else {
         // For non-hash links, use the default Link behavior
         window.location.href = href;

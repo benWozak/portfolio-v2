@@ -61,7 +61,7 @@ export default function InitialAnimation({
         exit={{ opacity: 0 }}
         transition={{ duration: 0.7 }}
       >
-        <div className="text-4xl md:text-6xl font-bold font-mono">
+        <div className="text-3xl md:text-6xl font-bold font-mono">
           {currentText}
           <span
             className={`inline-block w-0.5 h-10 lg:h-16 ml-1 ${

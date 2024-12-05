@@ -28,7 +28,7 @@
     --secondary-200: 174 69% 80%;
     --secondary-300: 174 69% 70%;
     --secondary-400: 174 69% 60%;
-    --secondary-500: 174 69% 52%; /* Your original secondary color */
+    --secondary-500: 174 69% 52%; /* default secondary */
     --secondary-600: 174 69% 45%;
     --secondary-700: 174 69% 38%;
     --secondary-800: 174 69% 31%;
@@ -59,7 +59,7 @@
     --primary-950: 22 85% 15%;
 
     --primary-foreground: 0 0% 98%;
-    
+
     --secondary-50: 174 60% 95%;
     --secondary-100: 174 60% 90%;
     --secondary-200: 174 60% 80%;
@@ -84,24 +84,83 @@
   }
 }
 
+/* .headline h2 {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  width: 160px;
+  margin: auto;
+  white-space: nowrap;
+  padding-bottom: 13px;
+}
 
-.headline h2 {
-  font-size:26px; font-weight:700;  letter-spacing:1px; text-transform:uppercase; width:160px; margin:auto; white-space:nowrap; padding-bottom:13px;
-}
 .headline h2:before {
-    background-color: #c50000;
-    content: '';
-    display: block;
-    height: 3px;
-    width: 75px;
-    margin-bottom: 5px;
+  background-color: #c50000;
+  content: "";
+  display: block;
+  height: 3px;
+  width: 75px;
+  margin-bottom: 5px;
 }
+
 .headline h2:after {
-    background-color: #c50000;
-    content: '';
-    display: block;
-  position:absolute; right:0; bottom:0;
-    height: 3px;
-    width: 75px;
-    margin-bottom: 0.25em;
+  background-color: #c50000;
+  content: "";
+  display: block;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  width: 75px;
+  margin-bottom: 0.25em;
+} */
+
+/* New animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 1s ease-out forwards;
+}
+
+.animate-fade-up {
+  opacity: 0;
+  animation: fadeUp 0.5s ease-out forwards;
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 1s ease-out forwards;
+  }
+  .animate-fade-up {
+    opacity: 0;
+    animation: fadeUp 0.5s ease-out forwards;
+  }
+}
+
+body:not(.animation-complete) .animate-fade-up {
+  animation: none;
+  opacity: 0;
+}
+
+body.animation-complete .animate-fade-up {
+  animation-play-state: running;
 }

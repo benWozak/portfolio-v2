@@ -41,7 +41,7 @@ export function Hero() {
         className="w-full text-base md:text-lg lg:text-xl max-w-3xl font-bold text-center"
         variants={itemVariants}
       >
-        I am a
+        I&#39;m a
       </motion.h1>
       <motion.h1
         className="w-full text-3xl md:text-4xl lg:text-6xl max-w-3xl mt-2 lg:mt-6 font-bold text-center leading-8"

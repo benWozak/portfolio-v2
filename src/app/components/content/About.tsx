@@ -26,7 +26,7 @@ export function About() {
           </p>
           <p className="text-sm md:text-base lg:text-xl">
             Driven by a passion for coding excellence, I thrive on pushing the
-            boundaries of what&lsquo;s possible in web development. Always eager
+            boundaries of what&#39;s possible in web development. Always eager
             to embrace new technologies, I try to stay at the forefront of web
             development trends to deliver state-of-the-art solutions for clients
             and users alike.

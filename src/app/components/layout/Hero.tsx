@@ -36,7 +36,7 @@ export function Hero() {
       initial="hidden"
       animate="visible"
     >
-      <div className="absolute h-[20%] w-[20%] top-[20%] left-[50%] -translate-x-1/2 bg-primary rounded-full blur-[110px]"></div>
+      <div className="absolute h-[20%] w-[20%] top-[30%] left-[50%] -translate-x-1/2 bg-primary-600 dark:bg-primary rounded-full blur-[110px]"></div>
       <motion.h1
         className="w-full text-base md:text-lg lg:text-xl max-w-3xl font-bold text-center"
         variants={itemVariants}

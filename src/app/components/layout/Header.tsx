@@ -95,9 +95,9 @@ export function Header() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: "-100%" }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className={`fixed inset-0 z-50 bg-white/70 dark:bg-gray-900/70 backdrop-blur-md`}
+            className="fixed h-screen-dvh inset-0 z-50 bg-white/80 dark:bg-gray-900/90 backdrop-blur-md"
           >
-            <div className="flex h-full flex-col items-center justify-center">
+            <div className="flex min-h-full flex-col items-center justify-center pt-16">
               <button
                 onClick={toggleMobileMenu}
                 className="absolute top-4 right-4 p-2 text-gray-600 dark:text-gray-300"

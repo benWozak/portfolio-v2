@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { TechnologyShowcase } from "../content";
+import { TechnologyShowcase, Socials } from "../content";
 import { CTAButton } from "../ui";
 
 const containerVariants = {
@@ -36,33 +36,34 @@ export function Hero() {
       initial="hidden"
       animate="visible"
     >
-      <div className="absolute h-[20%] w-[20%] top-[30%] left-[50%] -translate-x-1/2 bg-primary-600 dark:bg-primary rounded-full blur-[110px]"></div>
+      <div className="absolute h-[20%] w-[20%] top-[20%] lg:top-[30%] left-[50%] -translate-x-1/2 bg-primary-600 dark:bg-primary rounded-full blur-[110px]"></div>
       <motion.h1
-        className="w-full text-base md:text-lg lg:text-xl max-w-3xl font-bold text-center"
-        variants={itemVariants}
-      >
-        I&#39;m a
-      </motion.h1>
-      <motion.h1
-        className="w-full text-3xl md:text-4xl lg:text-6xl max-w-3xl mt-2 lg:mt-6 font-bold text-center leading-8"
+        className="w-full text-3xl md:text-4xl lg:text-6xl max-w-3xl my-6 lg:mb-8 font-bold text-center leading-8"
         variants={itemVariants}
       >
         <span className="text-primary-500">Full-Stack</span> Software Developer
       </motion.h1>
 
       <motion.h1
-        className="w-full text-xl md:text-2xl lg:text-3xl max-w-3xl font-bold text-center mt-2 lg:mt-6 px-4 leading-6"
+        className="w-full text-xl md:text-2xl lg:text-3xl max-w-3xl font-bold text-center px-12 leading-6"
         variants={itemVariants}
       >
         Specializing in{" "}
-        <span className="text-primary-500 dark:text-secondary-400">
+        <span className="text-primary-500 dark:text-secondary-500">
           Frontend
         </span>{" "}
         Web Technologies
       </motion.h1>
 
-      <motion.div className="my-10 lg:my-12" variants={itemVariants}>
+      <motion.div className="mt-16 lg:mt-10" variants={itemVariants}>
         <CTAButton href="#contact">Get in Touch</CTAButton>
+      </motion.div>
+
+      <motion.div
+        className="mt-4 mb-8 lg:mb-16 lg:mt-6"
+        variants={itemVariants}
+      >
+        <Socials />
       </motion.div>
 
       <motion.div

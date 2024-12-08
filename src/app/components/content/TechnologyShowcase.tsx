@@ -37,10 +37,10 @@ export function TechnologyShowcase() {
 
   return (
     <div>
-      <div className="flex items-center justify-center gap-2 lg:gap-5 uppercase text-sm lg:text-md font-semibold mb-4">
-        <div className="w-6 lg:w-12 h-0.5 lg:h-1 rounded-full bg-primary"></div>
+      <div className="flex items-center justify-center gap-4 lg:gap-6 uppercase text-sm lg:text-md font-semibold mb-4">
+        <div className="w-16 lg:w-24 h-0.5 lg:h-1 rounded-full bg-primary"></div>
         Main Stack
-        <div className="w-6 lg:w-12 h-0.5 lg:h-1.5 rounded-full bg-primary"></div>
+        <div className="w-16 lg:w-24 h-0.5 lg:h-1 rounded-full bg-primary"></div>
       </div>
       <div className="flex flex-wrap gap-4 justify-center max-w-2xl">
         {primaryStack.map((tech) => (
@@ -48,10 +48,10 @@ export function TechnologyShowcase() {
         ))}
       </div>
 
-      <div className="flex items-center justify-center gap-2 lg:gap-5 uppercase text-sm lg:text-md font-semibold my-4">
-        <div className="w-6 lg:w-12 h-0.5 lg:h-1 rounded-full bg-primary"></div>
+      <div className="flex items-center justify-center gap-4 lg:gap-6 uppercase text-sm lg:text-md font-semibold my-4">
+        <div className="w-16 lg:w-24 h-0.5 lg:h-1 rounded-full bg-primary"></div>
         Supporting
-        <div className="w-6 lg:w-12 h-0.5 lg:h-1.5 rounded-full bg-primary"></div>
+        <div className="w-16 lg:w-24 h-0.5 lg:h-1 rounded-full bg-primary"></div>
       </div>
       <div className="flex flex-wrap gap-4 justify-center max-w-2xl">
         {secondaryStack.map((tech) => (

@@ -29,8 +29,67 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "My Portfolio",
-  description: "A showcase of my work as a Developer, Designer, and Freelancer",
+  metadataBase: new URL("https://v2-benwozak.vercel.app/"),
+  title: {
+    default: "Ben Wozak | Software Developer",
+    template: "%s | Ben Wozak",
+  },
+  description:
+    "Professional software developer specializing in React, Next.js, and modern web technologies. View my portfolio and get in touch for collaborations.",
+  keywords: [
+    "web developer",
+    "software developer",
+    "React",
+    "Next.js",
+    "TypeScript",
+    "portfolio",
+    "freelance",
+    "senior developer",
+    "intermediate developer",
+  ],
+  authors: [{ name: "Ben Wozak" }],
+  creator: "Ben Wozak",
+  publisher: "Ben Wozak",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://v2-benwozak.vercel.app/",
+    title: "Ben Wozak | Software Developer Portfolio",
+    description:
+      "Explore my projects. Specializing in React, Next.js, and modern web technologies.",
+    siteName: "Ben Wozaks Portfolio",
+    images: [
+      {
+        url: "https://v2-benwozak.vercel.app/BW_logo.svg",
+        width: 1200,
+        height: 630,
+        alt: "Ben Wozak - Software Developer",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Your Name | Web Developer & Designer",
+    description: "Check out my latest web development projects.",
+    creator: "@your_twitter_handle",
+    images: ["https://v2-benwozak.vercel.app/BW_logo.svg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export default function RootLayout({

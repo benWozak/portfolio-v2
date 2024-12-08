@@ -2,9 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { SiGithub, SiLinkedin } from "react-icons/si";
 
-type Props = {};
-
-export function Socials({}: Props) {
+export function Socials() {
   return (
     <div className="flex flex-wrap gap-4 justify-center max-w-2xl">
       <div className="w-6 h-6">

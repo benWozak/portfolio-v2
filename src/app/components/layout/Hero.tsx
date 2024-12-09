@@ -59,10 +59,7 @@ export function Hero() {
         <CTAButton href="#contact">Get in Touch</CTAButton>
       </motion.div>
 
-      <motion.div
-        className="mt-4 mb-8 lg:mb-16 lg:mt-6"
-        variants={itemVariants}
-      >
+      <motion.div className="mt-4 mb-12 lg:mt-6" variants={itemVariants}>
         <Socials />
       </motion.div>
 

@@ -109,8 +109,8 @@ export default function RootLayout({
               <main className="flex-1 flex items-center justify-center">
                 {children}
               </main>
-              <footer className="p-4 text-center text-sm text-secondary-foreground">
-                © 2024 My Portfolio. All rights reserved.
+              <footer className="p-4 text-center text-sm text-foreground">
+                © 2024 Ben Wozak. All rights reserved.
               </footer>
             </div>
           </AnimatedHome>

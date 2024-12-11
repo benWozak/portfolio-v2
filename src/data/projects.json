@@ -33,8 +33,8 @@
     "type": "native",
     "status": "Prototype",
     "description": "A brief description of Project Two",
-    "media": "",
-    "liveUrl": "",
+    "media": "/projects/ResumeBuilder.mov",
+    "liveUrl": "https://resume-template-viewer.vercel.app/",
     "githubUrl": "https://github.com/benWozak",
     "content": {
       "problem": "The problem Project solves...",

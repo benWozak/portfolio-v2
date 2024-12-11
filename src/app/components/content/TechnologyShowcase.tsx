@@ -12,6 +12,7 @@ import {
   SiPython,
   SiGraphql,
   SiDocker,
+  SiSqlite,
 } from "react-icons/si";
 
 import { FaAws } from "react-icons/fa";
@@ -31,6 +32,7 @@ export function TechnologyShowcase() {
     { name: "Laravel", icon: <SiLaravel className="w-6 h-6" /> },
     { name: "Python", icon: <SiPython className="w-6 h-6" /> },
     { name: "GraphQL", icon: <SiGraphql className="w-6 h-6" /> },
+    { name: "Sqlite", icon: <SiSqlite className="w-6 h-6" /> },
     { name: "AWS", icon: <FaAws className="w-6 h-6" /> },
     { name: "Docker", icon: <SiDocker className="w-6 h-6" /> },
   ];

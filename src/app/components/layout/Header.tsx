@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { usePathname } from "next/navigation";
 import Logo from "./Logo";
 import { ThemeToggle } from "./ThemeToggle";
 import { LinkButton } from "../ui/LinkButton";
@@ -9,6 +10,7 @@ import { LinkButton } from "../ui/LinkButton";
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,6 +24,21 @@ export function Header() {
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
+
+  const isProjectsPage = pathname.startsWith("/projects");
+
+  const navItems = isProjectsPage
+    ? [
+        { href: "/projects", label: "All Projects" },
+        { href: "/projects/web", label: "Web Projects" },
+        { href: "/projects/native", label: "Native Apps" },
+      ]
+    : [
+        { href: "#about", label: "About" },
+        { href: "#experience", label: "Experience" },
+        { href: "#projects", label: "Projects" },
+        { href: "#contact", label: "Contact" },
+      ];
 
   return (
     <header
@@ -40,18 +57,11 @@ export function Header() {
           <div className="md:flex md:items-center md:gap-12">
             <nav aria-label="Global" className="hidden md:block">
               <ul className="flex items-center gap-6 text-sm">
-                <li>
-                  <LinkButton href="#about">About</LinkButton>
-                </li>
-                <li>
-                  <LinkButton href="#experience">Experience</LinkButton>
-                </li>
-                <li>
-                  <LinkButton href="#projects">Projects</LinkButton>
-                </li>
-                <li>
-                  <LinkButton href="#contact">Contact</LinkButton>
-                </li>
+                {navItems.map((item) => (
+                  <li key={item.href}>
+                    <LinkButton href={item.href}>{item.label}</LinkButton>
+                  </li>
+                ))}
               </ul>
             </nav>
 
@@ -120,26 +130,13 @@ export function Header() {
               </button>
               <nav className="text-center">
                 <ul className="space-y-8">
-                  <li>
-                    <LinkButton href="#about" onClick={toggleMobileMenu}>
-                      About
-                    </LinkButton>
-                  </li>
-                  <li>
-                    <LinkButton href="#experience" onClick={toggleMobileMenu}>
-                      Experience
-                    </LinkButton>
-                  </li>
-                  <li>
-                    <LinkButton href="#projects" onClick={toggleMobileMenu}>
-                      Projects
-                    </LinkButton>
-                  </li>
-                  <li>
-                    <LinkButton href="#contact" onClick={toggleMobileMenu}>
-                      Contact
-                    </LinkButton>
-                  </li>
+                  {navItems.map((item) => (
+                    <li key={item.href}>
+                      <LinkButton href={item.href} onClick={toggleMobileMenu}>
+                        {item.label}
+                      </LinkButton>
+                    </li>
+                  ))}
                 </ul>
               </nav>
             </div>

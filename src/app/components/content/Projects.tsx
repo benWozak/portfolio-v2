@@ -1,5 +1,6 @@
 import React from "react";
 import Section from "../layout/section";
+import { CTAButton } from "../ui";
 
 export function Projects() {
   return (
@@ -18,6 +19,9 @@ export function Projects() {
             Soon
           </span>
         </h1>
+        <div className="mt-8">
+          <CTAButton href="/projects">See More</CTAButton>
+        </div>
       </div>
     </Section>
   );

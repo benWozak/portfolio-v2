@@ -1,6 +1,9 @@
+"use client";
+
 import { useCallback } from "react";
-import { useSmoothScroll } from "../../hooks/useSmoothScroll";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { useSmoothScroll } from "../../../utils/hooks/useSmoothScroll";
 
 interface LinkButtonProps {
   href: string;
@@ -16,18 +19,22 @@ export function LinkButton({
   onClick,
 }: LinkButtonProps) {
   const { scrollToElement } = useSmoothScroll();
+  const pathname = usePathname();
 
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>) => {
-      e.preventDefault();
       if (onClick) {
         onClick();
       }
 
-      const targetId = href.replace("#", "");
-      scrollToElement(targetId);
+      // check route for home page to activate smooth scroll
+      if (href.startsWith("#") && pathname === "/") {
+        e.preventDefault();
+        const targetId = href.replace("#", "");
+        scrollToElement(targetId);
+      }
     },
-    [href, onClick, scrollToElement]
+    [href, onClick, scrollToElement, pathname]
   );
 
   return (

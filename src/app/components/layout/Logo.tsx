@@ -1,13 +1,16 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useTheme } from "@/app/contexts/ThemeContext";
-import { useSmoothScroll } from "@/app/hooks/useSmoothScroll";
+import { useSmoothScroll } from "@/utils/hooks/useSmoothScroll";
 
 export default function Logo() {
   const { scrollToTop } = useSmoothScroll();
   const { theme } = useTheme();
   const [logoSrc, setLogoSrc] = useState("/BW_logo.svg");
+  const pathname = usePathname();
 
   useEffect(() => {
     const updateLogoSrc = () => {
@@ -29,8 +32,19 @@ export default function Logo() {
     return () => mediaQuery.removeListener(updateLogoSrc);
   }, [theme]);
 
+  const handleLogoClick = (e: React.MouseEvent) => {
+    if (pathname === "/") {
+      e.preventDefault();
+      scrollToTop();
+    }
+  };
+
   return (
-    <span className="block hover:cursor-pointer" onClick={scrollToTop}>
+    <Link
+      href="/"
+      className="block hover:cursor-pointer"
+      onClick={handleLogoClick}
+    >
       <Image
         src={logoSrc}
         alt="Brand Logo"
@@ -38,6 +52,6 @@ export default function Logo() {
         height={216}
         className="h-16 w-auto"
       />
-    </span>
+    </Link>
   );
 }

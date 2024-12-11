@@ -1,0 +1,45 @@
+[
+  {
+    "id": 1,
+    "name": "OurRecipes",
+    "type": "web",
+    "status": "Prototype",
+    "description": "A Simple tool to parse the recipe from websites without all the extra stuff.",
+    "media": "/projects/OurRecipes.mov",
+    "liveUrl": "https://recipes-v2-alpha.vercel.app/",
+    "githubUrl": "https://github.com/benWozak/recipes-v2",
+    "content": {
+      "problem": "The problem Project solves...",
+      "solution": "How Project One solves the problem..."
+    }
+  },
+  {
+    "id": 2,
+    "name": "Resume Builder",
+    "type": "web",
+    "status": "Prototype",
+    "description": "A tool I used to create my resume using LateX",
+    "media": "/projects/ResumeBuilder.mov",
+    "liveUrl": "https://resume-template-viewer.vercel.app/",
+    "githubUrl": "https://github.com/benWozak/resume-template-viewer",
+    "content": {
+      "problem": "The problem Project solves...",
+      "solution": "How Project solves the problem..."
+    }
+  },
+  {
+    "id": 3,
+    "name": "Tedana App",
+    "type": "native",
+    "status": "Prototype",
+    "description": "A brief description of Project Two",
+    "media": "",
+    "liveUrl": "",
+    "githubUrl": "https://github.com/benWozak",
+    "content": {
+      "problem": "The problem Project solves...",
+      "solution": "How Project solves the problem..."
+    }
+  }
+]
+

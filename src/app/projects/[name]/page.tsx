@@ -2,6 +2,9 @@ import { SectionHeading } from "@/app/components/layout/section/SectionHeading";
 import { getProjects, getProjectByName } from "@/utils/getProjects";
 import Image from "next/image";
 import Link from "next/link";
+import { Metadata } from "next";
+
+type Params = Promise<{ name: string }>;
 
 export async function generateStaticParams() {
   const projects = await getProjects();
@@ -10,12 +13,26 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function ProjectPage({
+export async function generateMetadata({
   params,
 }: {
-  params: { name: string };
-}) {
-  const projectName = params.name.replace(/-/g, " ");
+  params: Params;
+}): Promise<Metadata> {
+  const { name } = await params;
+  const projectName = name.replace(/-/g, " ");
+  const project = await getProjectByName(projectName);
+
+  return {
+    title: project ? `${project.name} | Projects` : "Project Not Found",
+    description: project
+      ? project.description
+      : "Project details not available",
+  };
+}
+
+export default async function ProjectPage({ params }: { params: Params }) {
+  const { name } = await params;
+  const projectName = name.replace(/-/g, " ");
   const project = await getProjectByName(projectName);
 
   if (!project) {
@@ -25,7 +42,6 @@ export default async function ProjectPage({
   return (
     <div className="container mx-auto px-4 py-8">
       <SectionHeading title="Projects" />
-      {/* <h1 className="text-4xl font-bold mb-8">{project.name}</h1> */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
           {project.media.endsWith(".mp4") ? (
@@ -46,6 +62,7 @@ export default async function ProjectPage({
           )}
         </div>
         <div>
+          <h1 className="text-3xl font-bold mb-4">{project.name}</h1>
           <h2 className="text-2xl font-semibold mb-4">Description</h2>
           <p className="text-gray-600 mb-6">{project.description}</p>
           <h2 className="text-2xl font-semibold mb-4">Problem</h2>

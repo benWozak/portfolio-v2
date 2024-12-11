@@ -15,6 +15,34 @@ const fallbackProjects: Project[] = [
       "problem": "The problem Project solves...",
       "solution": "How Project One solves the problem..."
     }
+  },
+  {
+    "id": 2,
+    "name": "Resume Builder",
+    "type": "web",
+    "status": "Prototype",
+    "description": "A tool I used to create my resume using LateX",
+    "media": "/projects/ResumeBuilder.mov",
+    "liveUrl": "https://resume-template-viewer.vercel.app/",
+    "githubUrl": "https://github.com/benWozak/resume-template-viewer",
+    "content": {
+      "problem": "The problem Project solves...",
+      "solution": "How Project solves the problem..."
+    }
+  },
+  {
+    "id": 3,
+    "name": "Tedana App",
+    "type": "native",
+    "status": "Prototype",
+    "description": "A brief description of Project Two",
+    "media": "/projects/ResumeBuilder.mov",
+    "liveUrl": "https://resume-template-viewer.vercel.app/",
+    "githubUrl": "https://github.com/benWozak",
+    "content": {
+      "problem": "The problem Project solves...",
+      "solution": "How Project solves the problem..."
+    }
   }
 ];
 

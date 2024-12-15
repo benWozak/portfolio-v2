@@ -7,17 +7,31 @@ const fallbackProjects: Project[] = [
     "name": "OurRecipes",
     "type": "web",
     "status": "Prototype",
-    "description": "A Simple tool to parse the recipe from websites without all the extra stuff.",
+    "description": "A Simple tool to parse the recipe from websites without all the extra stuff. Designed to be used primarily on mobile devices.",
     "media": "/projects/OurRecipes.mov",
     "liveUrl": "https://recipes-v2-alpha.vercel.app/",
     "githubUrl": "https://github.com/benWozak/recipes-v2",
     "content": {
-      "problem": "The problem Project solves...",
-      "solution": "How Project One solves the problem..."
+      "problem": "My wife and I spend a lot of time finding and using recipes on line. Recipe websites are often full of adds and sometimes jump the page when they refresh, causing you to lose your spot.",
+      "solution": "I wanted to create a simple solution to parse the recipe from the website to cut out all of the noise, so we could focus on making the recipe."
     }
   },
   {
     "id": 2,
+    "name": "Tedana App",
+    "type": "native",
+    "status": "Prototype",
+    "description": "A desktop application for Tedana - a program for multi-echo fMRI processing",
+    "media": "/projects/TedanaApp.mov",
+    "liveUrl": null,
+    "githubUrl": "https://github.com/benWozak/tedana-gui",
+    "content": {
+      "problem": "Multi-echo fMRI is a new concept in the world of neuroscience. It is not very well understood and not yet integrated into current data processing pipelines.",
+      "solution": "I sought to create a tool to make it easier to use Tedana, and used this as a medium to learn Tauri, a new framework for building modern desktop applications."
+    }
+  },
+  {
+    "id": 3,
     "name": "Resume Builder",
     "type": "web",
     "status": "Prototype",
@@ -26,24 +40,10 @@ const fallbackProjects: Project[] = [
     "liveUrl": "https://resume-template-viewer.vercel.app/",
     "githubUrl": "https://github.com/benWozak/resume-template-viewer",
     "content": {
-      "problem": "The problem Project solves...",
-      "solution": "How Project solves the problem..."
+      "problem": "Resume templates via word or other sources like canva are often bloated, difficult to modify, and don't work well with ATS parsing.",
+      "solution": "I decided to learn how to work with LateX using a clean resume format so that I could customize exactly the way I wanted, and I could be confident in its parsability. I then took it another step further and created a simple custom CMS to integrate with it."
     }
   },
-  {
-    "id": 3,
-    "name": "Tedana App",
-    "type": "native",
-    "status": "Prototype",
-    "description": "A brief description of Project Two",
-    "media": "/projects/ResumeBuilder.mov",
-    "liveUrl": "https://resume-template-viewer.vercel.app/",
-    "githubUrl": "https://github.com/benWozak",
-    "content": {
-      "problem": "The problem Project solves...",
-      "solution": "How Project solves the problem..."
-    }
-  }
 ];
 
 export async function getProjects(): Promise<Project[]> {

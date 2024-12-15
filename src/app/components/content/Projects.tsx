@@ -1,27 +1,26 @@
 import React from "react";
 import Section from "../layout/section";
+import { getProjects } from "@/utils/getProjects";
 import { CTAButton } from "../ui";
+import { ProjectCard } from "../content/projects/ProjectCard";
 
-export function Projects() {
+export async function Projects() {
+  const projects = await getProjects();
   return (
     <Section
       id="projects"
       title="Projects"
       className="flex items-center flex-1"
     >
-      <div className="flex flex-col w-max">
-        <h1 className="text-5xl font-extrabold text-center lg:text-7xl 2xl:text-8xl">
-          <span className="text-transparent bg-gradient-to-br bg-clip-text from-secondary-300 via-secondary-500 to-secondary-700 dark:from-secondary-200 dark:via-secondary-800 dark:to-secondary-300">
-            Coming{" "}
-          </span>
-
-          <span className="text-transparent bg-gradient-to-tr bg-clip-text from-secondary-500 via-primary-300 to-primary-700 dark:from-secondary-300 dark:via-primary-300 dark:to-primary-500">
-            Soon
-          </span>
-        </h1>
-        <div className="mt-8">
-          <CTAButton href="/projects">See More</CTAButton>
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-4 md:px-0">
+        {projects.slice(0, 2).map((project, index) => (
+          <ProjectCard key={index} index={index} project={project} />
+        ))}
+      </div>
+      <div className="mt-8 lg:mt-16 flex justify-center">
+        <CTAButton href="/projects" className="w-72">
+          See More
+        </CTAButton>
       </div>
     </Section>
   );

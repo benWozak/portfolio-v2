@@ -1,8 +1,8 @@
 import { SectionHeading } from "@/app/components/layout/section/SectionHeading";
 import { getProjects, getProjectByName } from "@/utils/getProjects";
-import Image from "next/image";
 import Link from "next/link";
 import { Metadata } from "next";
+import MediaContainer from "@/app/components/content/projects/MediaContainer";
 
 type Params = Promise<{ name: string }>;
 
@@ -40,49 +40,40 @@ export default async function ProjectPage({ params }: { params: Params }) {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-16 lg:pt-24">
       <SectionHeading title="Projects" />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div>
-          {project.media.endsWith(".mp4") ? (
-            <video
-              src={project.media}
-              className="w-full rounded-lg shadow-md"
-              controls
-              playsInline
-            />
-          ) : (
-            <Image
-              src={project.media}
-              alt={project.name}
-              width={800}
-              height={600}
-              className="rounded-lg shadow-md"
-            />
-          )}
-        </div>
+        <MediaContainer project={project} />
         <div>
           <h1 className="text-3xl font-bold mb-4">{project.name}</h1>
           <h2 className="text-2xl font-semibold mb-4">Description</h2>
-          <p className="text-gray-600 mb-6">{project.description}</p>
+          <p className="text-gray-600 dark:text-gray-300 mb-6">
+            {project.description}
+          </p>
           <h2 className="text-2xl font-semibold mb-4">Problem</h2>
-          <p className="text-gray-600 mb-6">{project.content.problem}</p>
+          <p className="text-gray-600 dark:text-gray-300 mb-6">
+            {project.content.problem}
+          </p>
           <h2 className="text-2xl font-semibold mb-4">Solution</h2>
-          <p className="text-gray-600 mb-6">{project.content.solution}</p>
+          <p className="text-gray-600 dark:text-gray-300 mb-6">
+            {project.content.solution}
+          </p>
           <div className="flex space-x-4">
-            <Link
-              href={project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-primary-500 text-white px-4 py-2 rounded-md hover:bg-primary-600 transition-colors"
-            >
-              Live Demo
-            </Link>
+            {!!project.liveUrl ? (
+              <Link
+                href={project.liveUrl || ""}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-primary-500 text-foreground px-4 py-2 rounded-md hover:bg-primary-600 transition-colors"
+              >
+                Live Demo
+              </Link>
+            ) : null}
             <Link
               href={project.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-secondary-800 text-white px-4 py-2 rounded-md hover:bg-secondary-900 transition-colors"
+              className="bg-secondary-800 text-foreground px-4 py-2 rounded-md hover:bg-secondary-900 transition-colors"
             >
               GitHub Repo
             </Link>

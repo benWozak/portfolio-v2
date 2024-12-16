@@ -8,7 +8,7 @@ const fallbackProjects: Project[] = [
     "type": "web",
     "status": "Prototype",
     "description": "A Simple tool to parse the recipe from websites without all the extra stuff. Designed to be used primarily on mobile devices.",
-    "media": "/projects/OurRecipes.mov",
+    "media": "https://ua4mmiw8i4jbla3y.public.blob.vercel-storage.com/OurRecipes-T4hv1q2TwNchNqirkV15paO4UZmSlB.mov",
     "liveUrl": "https://recipes-v2-alpha.vercel.app/",
     "githubUrl": "https://github.com/benWozak/recipes-v2",
     "content": {
@@ -22,7 +22,7 @@ const fallbackProjects: Project[] = [
     "type": "native",
     "status": "Prototype",
     "description": "A desktop application for Tedana - a program for multi-echo fMRI processing",
-    "media": "/projects/TedanaApp.mov",
+    "media": "https://ua4mmiw8i4jbla3y.public.blob.vercel-storage.com/TedanaApp-71fvLOCahSSxyzvgKNJj7vTKHwGOhw.mov",
     "liveUrl": null,
     "githubUrl": "https://github.com/benWozak/tedana-gui",
     "content": {
@@ -36,7 +36,7 @@ const fallbackProjects: Project[] = [
     "type": "web",
     "status": "Prototype",
     "description": "A tool I used to create my resume using LateX",
-    "media": "/projects/ResumeBuilder.mov",
+    "media": "https://ua4mmiw8i4jbla3y.public.blob.vercel-storage.com/ResumeBuilder-7bvXctc9Zs0UcOId9Qe1aONx8lQnhQ.mov",
     "liveUrl": "https://resume-template-viewer.vercel.app/",
     "githubUrl": "https://github.com/benWozak/resume-template-viewer",
     "content": {

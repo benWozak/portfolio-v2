@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Project } from "@/types";
@@ -14,16 +14,19 @@ type Props = {
 
 export function ProjectCard({ index, project }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
-  const handleMouseEnter = () => {
+  const handleInteraction = () => {
     if (videoRef.current) {
-      videoRef.current.play();
-    }
-  };
-
-  const handleMouseLeave = () => {
-    if (videoRef.current) {
-      videoRef.current.pause();
+      if (!isPlaying) {
+        videoRef.current
+          .play()
+          .then(() => setIsPlaying(true))
+          .catch((error) => console.log("Playback failed:", error));
+      } else {
+        videoRef.current.pause();
+        setIsPlaying(false);
+      }
     }
   };
 
@@ -34,11 +37,13 @@ export function ProjectCard({ index, project }: Props) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       className="bg-secondary-bg rounded-lg shadow-md overflow-hidden"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      onClick={handleInteraction}
+      onMouseEnter={() => !("ontouchstart" in window) && handleInteraction()}
+      onMouseLeave={() => !("ontouchstart" in window) && handleInteraction()}
     >
       <Link
         href={`/projects/${project.name.toLowerCase().replace(/\s+/g, "-")}`}
+        onClick={(e) => e.stopPropagation()} // Prevent link navigation when clicking to play/pause
       >
         <div className="relative h-56 bg-gradient-to-br from-secondary-300 via-secondary-500 to-secondary-700">
           {project.media.endsWith(".mp4") || project.media.endsWith(".mov") ? (
@@ -49,6 +54,8 @@ export function ProjectCard({ index, project }: Props) {
               muted
               loop
               playsInline
+              controls={false}
+              preload="metadata"
             />
           ) : (
             <Image

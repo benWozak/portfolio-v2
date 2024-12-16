@@ -36,7 +36,7 @@ export default function ContactForm() {
   return (
     <motion.form
       action={handleSubmit}
-      className="container w-full max-w-2xl p-8 mx-auto space-y-6 rounded-md border"
+      className="w-full max-w-2xl p-8 mx-auto space-y-6 rounded-md border"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}

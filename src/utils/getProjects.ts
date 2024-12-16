@@ -21,7 +21,7 @@ const fallbackProjects: Project[] = [
     "name": "Tedana App",
     "type": "native",
     "status": "Prototype",
-    "description": "A desktop application for Tedana - a program for multi-echo fMRI processing",
+    "description": "A desktop application for Tedana - a program for multi-echo fMRI processing using Tauri, Rust and React.",
     "media": "https://ua4mmiw8i4jbla3y.public.blob.vercel-storage.com/TedanaApp-71fvLOCahSSxyzvgKNJj7vTKHwGOhw.mov",
     "liveUrl": null,
     "githubUrl": "https://github.com/benWozak/tedana-gui",

@@ -1,12 +1,18 @@
+"use client";
 import React from "react";
 import Section from "../layout/section";
 import Image from "next/image";
+import {
+  AnimatedSection,
+  itemVariants,
+} from "../layout/section/AnimatedSection";
+import { motion } from "framer-motion";
 
 export function About() {
   return (
     <Section id="about" title="About Me">
-      <div className="flex gap-12 flex-col lg:flex-row lg:px-2 mb-4 px-8">
-        <div className="">
+      <AnimatedSection className="flex gap-12 flex-col lg:flex-row lg:px-2 mb-4 px-8">
+        <motion.div variants={itemVariants}>
           <Image
             src="/Pastel_Ben.jpg"
             alt="photo of Ben Wozak"
@@ -14,8 +20,8 @@ export function About() {
             height={300}
             className="rounded-2xl"
           />
-        </div>
-        <div className="max-w-xl">
+        </motion.div>
+        <motion.div className="max-w-xl" variants={itemVariants}>
           <p className="text-sm md:text-base lg:text-xl mb-4">
             I am a Software Developer with 6 years of professional experience
             crafting user-interfaces for B2B SaaS product and high traffic
@@ -27,8 +33,8 @@ export function About() {
             the forefront of web development trends to deliver state-of-the-art
             solutions for clients, businesses and users alike.
           </p>
-        </div>
-      </div>
+        </motion.div>
+      </AnimatedSection>
     </Section>
   );
 }

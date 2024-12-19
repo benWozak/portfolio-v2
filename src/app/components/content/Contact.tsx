@@ -14,12 +14,16 @@ export function Contact() {
     <Section id="contact" title="Contact">
       <AnimatedSection className="w-full flex flex-col items-center">
         <motion.div
-          className="text-sm md:text-md lg:text-xl lg:px-2 mb-8 px-8 max-w-2xl"
+          className="text-sm md:text-md lg:text-xl lg:px-2 mb-8 px-8 max-w-2xl text-gray-700 dark:text-gray-300"
           variants={itemVariants}
         >
-          Whether you have a project in mind or just want to chat about tech,
-          I&#39;m always eager to collaborate. Also feel free to check out my
-          GitHub or LinkedIn: <Socials />
+          I&#39;m currently open to new opportunities and would love to discuss
+          how my skills and experience could benefit your team. Feel free to
+          reach out through the form below, or connect with me on GitHub or
+          LinkedIn
+          <br />
+          <br />
+          <Socials size="xl" />
         </motion.div>
 
         <motion.div className="w-full px-4 lg:px-0" variants={itemVariants}>

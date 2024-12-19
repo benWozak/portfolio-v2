@@ -2,7 +2,19 @@ import React from "react";
 import Link from "next/link";
 import { SiGithub, SiLinkedin } from "react-icons/si";
 
-export function Socials() {
+type Props = {
+  size: "sm" | "md" | "lg" | "xl";
+};
+
+const SIZE_VARIANTS = {
+  sm: 16,
+  md: 24,
+  lg: 32,
+  xl: 48,
+};
+
+export function Socials({ size }: Props) {
+  console.log(SIZE_VARIANTS[size]);
   return (
     <div className="flex flex-wrap gap-4 justify-center max-w-2xl">
       <div className="w-6 h-6">
@@ -12,7 +24,7 @@ export function Socials() {
           aria-label="github"
         >
           <SiGithub
-            size={24}
+            size={size ? SIZE_VARIANTS[size] : 24}
             className="text-foreground/70 hover:text-secondary-500 transition-all"
           />
         </Link>
@@ -24,7 +36,7 @@ export function Socials() {
           aria-label="linkedin"
         >
           <SiLinkedin
-            size={24}
+            size={size ? SIZE_VARIANTS[size] : 24}
             className="text-foreground/70 hover:text-secondary-500 transition-all"
           />
         </Link>

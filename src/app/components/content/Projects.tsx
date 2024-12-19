@@ -30,6 +30,21 @@ export function Projects() {
       className="flex items-center flex-1"
     >
       <AnimatedSection>
+        <motion.p
+          variants={itemVariants}
+          className="mb-4 lg:text-lg text-gray-700 dark:text-gray-300"
+        >
+          This collection features my side projects where I explore different
+          web technologies and concepts outside of my day job.
+        </motion.p>
+        <motion.p
+          variants={itemVariants}
+          className="mb-4 lg:text-lg text-gray-700 dark:text-gray-300"
+        >
+          Through these prototypes, I satisfy my curiosity and expand my web
+          development skills through hands-on experimentation with technical
+          challenges and emerging tools.
+        </motion.p>
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 gap-6 px-4 md:px-0"
           variants={itemVariants}

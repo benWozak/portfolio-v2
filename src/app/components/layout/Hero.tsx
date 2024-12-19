@@ -60,7 +60,7 @@ export function Hero() {
       </motion.div>
 
       <motion.div className="mt-4 mb-12 lg:mt-6" variants={itemVariants}>
-        <Socials />
+        <Socials size="lg" />
       </motion.div>
 
       <motion.div

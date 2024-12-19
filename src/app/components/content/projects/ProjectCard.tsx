@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Project } from "@/types";
@@ -15,8 +15,19 @@ type Props = {
 export function ProjectCard({ index, project }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768); // md breakpoint
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const handleInteraction = () => {
+    if (isMobile) return;
     if (videoRef.current) {
       if (!isPlaying) {
         videoRef.current
@@ -38,8 +49,8 @@ export function ProjectCard({ index, project }: Props) {
       transition={{ duration: 0.5, delay: index * 0.1 }}
       className="bg-secondary-bg rounded-lg shadow-md overflow-hidden"
       onClick={handleInteraction}
-      onMouseEnter={() => !("ontouchstart" in window) && handleInteraction()}
-      onMouseLeave={() => !("ontouchstart" in window) && handleInteraction()}
+      onMouseEnter={() => !isMobile && handleInteraction()}
+      onMouseLeave={() => !isMobile && handleInteraction()}
     >
       <Link
         href={`/projects/${project.name.toLowerCase().replace(/\s+/g, "-")}`}
@@ -47,16 +58,25 @@ export function ProjectCard({ index, project }: Props) {
       >
         <div className="relative h-56 bg-gradient-to-br from-secondary-300 via-secondary-500 to-secondary-700">
           {project.media.endsWith(".mp4") || project.media.endsWith(".mov") ? (
-            <video
-              ref={videoRef}
-              src={project.media}
-              className="w-full h-full object-fit"
-              muted
-              loop
-              playsInline
-              controls={false}
-              preload="metadata"
-            />
+            <>
+              <video
+                ref={videoRef}
+                src={project.media}
+                className="w-full h-full object-fit hidden md:block"
+                muted
+                loop
+                playsInline
+                controls={false}
+                preload="metadata"
+              />
+              <Image
+                src={project.staticImage}
+                alt={project.name}
+                layout="fill"
+                objectFit="cover"
+                className="md:hidden"
+              />
+            </>
           ) : (
             <Image
               src={project.media}

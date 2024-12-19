@@ -8,6 +8,7 @@ export interface Project {
   status: ProjectStatus;
   description: string;
   media: string;
+  staticImage: string;
   liveUrl: string | null;
   githubUrl: string;
   content: {

@@ -29,7 +29,7 @@ export function Projects() {
       title="Projects"
       className="flex items-center flex-1"
     >
-      <AnimatedSection>
+      <AnimatedSection className="px-8">
         <motion.p
           variants={itemVariants}
           className="mb-4 lg:text-lg text-gray-700 dark:text-gray-300"

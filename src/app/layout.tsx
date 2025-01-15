@@ -108,7 +108,7 @@ export default function RootLayout({
               {children}
             </main>
             <footer className="p-4 text-center text-sm text-foreground">
-              © 2024 Ben Wozak. All rights reserved.
+              © {new Date().getFullYear()} Ben Wozak. All rights reserved.
             </footer>
           </div>
         </ThemeProvider>

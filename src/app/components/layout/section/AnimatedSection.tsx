@@ -6,7 +6,7 @@ import { useRef, ReactNode } from "react";
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
-    opacity: 0.7,
+    opacity: 1,
     transition: {
       duration: 1,
       staggerChildren: 0.2,

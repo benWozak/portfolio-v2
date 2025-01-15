@@ -13,7 +13,7 @@ const fallbackProjects: Project[] = [
     "liveUrl": "https://recipes-v2-alpha.vercel.app/",
     "githubUrl": "https://github.com/benWozak/recipes-v2",
     "content": {
-      "problem": "My wife and I spend a lot of time finding and using recipes on line. Recipe websites are often full of adds and sometimes jump the page when they refresh, causing you to lose your spot.",
+      "concept": "My wife and I spend a lot of time finding and using recipes on line. Recipe websites are often full of adds and sometimes jump the page when they refresh, causing you to lose your spot.",
       "solution": "I wanted to create a simple solution to parse the recipe from the website to cut out all of the noise, so we could focus on making the recipe."
     }
   },
@@ -28,7 +28,7 @@ const fallbackProjects: Project[] = [
     "liveUrl": null,
     "githubUrl": "https://github.com/benWozak/tedana-gui",
     "content": {
-      "problem": "Multi-echo fMRI is a new concept in the world of neuroscience. It is not very well understood and not yet integrated into current data processing pipelines.",
+      "concept": "Multi-echo fMRI is a new concept in the world of neuroscience. It is not very well understood and not yet integrated into current data processing pipelines.",
       "solution": "I sought to create a tool to make it easier to use Tedana, and used this as a medium to learn Tauri, a new framework for building modern desktop applications."
     }
   },
@@ -43,7 +43,7 @@ const fallbackProjects: Project[] = [
     "liveUrl": "https://resume-template-viewer.vercel.app/",
     "githubUrl": "https://github.com/benWozak/resume-template-viewer",
     "content": {
-      "problem": "Resume templates via word or other sources like canva are often bloated, difficult to modify, and don't work well with ATS parsing.",
+      "concept": "Resume templates via word or other sources like canva are often bloated, difficult to modify, and don't work well with ATS parsing.",
       "solution": "I decided to learn how to work with LateX using a clean resume format so that I could customize exactly the way I wanted, and I could be confident in its parsability. I then took it another step further and created a simple custom CMS to integrate with it."
     }
   }

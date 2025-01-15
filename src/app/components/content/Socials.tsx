@@ -14,7 +14,6 @@ const SIZE_VARIANTS = {
 };
 
 export function Socials({ size }: Props) {
-  console.log(SIZE_VARIANTS[size]);
   return (
     <div className="flex flex-wrap gap-4 justify-center max-w-2xl">
       <div className="w-6 h-6">

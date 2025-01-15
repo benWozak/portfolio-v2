@@ -44,9 +44,9 @@ export function ProjectCard({ index, project }: Props) {
   return (
     <motion.div
       key={project.id}
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.2 }}
+      transition={{ duration: 0.7, delay: index * 0.3 }}
       className="bg-secondary-bg rounded-lg shadow-md overflow-hidden"
       onClick={handleInteraction}
       onMouseEnter={() => !isMobile && handleInteraction()}
@@ -92,7 +92,7 @@ export function ProjectCard({ index, project }: Props) {
         <div className="p-4">
           <h2 className="text-xl font-semibold ">{project.name}</h2>
           <Badge status={project.type} />
-          <p className="text-gray-600 dark:text-gray-300 mt-4">
+          <p className="text-gray-600 dark:text-gray-200 mt-4">
             {project.description}
           </p>
         </div>

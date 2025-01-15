@@ -51,7 +51,7 @@ function TimeBlock({ time, company, role, description }: TimeBlockProps) {
         {"@"}
         {company}
       </h3>
-      <p className="mb-4 text-sm lg:text-base font-normal text-gray-600 dark:text-gray-300">
+      <p className="mb-4 text-sm lg:text-base font-normal text-gray-600 dark:text-gray-200">
         {description}
       </p>
     </motion.li>

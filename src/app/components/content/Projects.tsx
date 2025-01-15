@@ -32,14 +32,14 @@ export function Projects() {
       <AnimatedSection className="px-8">
         <motion.p
           variants={itemVariants}
-          className="mb-4 lg:text-lg text-gray-700 dark:text-gray-300"
+          className="mb-4 lg:text-lg text-gray-800 dark:text-gray-200"
         >
           This collection features my side projects where I explore different
           web technologies and concepts outside of my day job.
         </motion.p>
         <motion.p
           variants={itemVariants}
-          className="mb-4 lg:text-lg text-gray-700 dark:text-gray-300"
+          className="mb-4 lg:text-lg text-gray-800 dark:text-gray-200"
         >
           Through these prototypes, I satisfy my curiosity and expand my web
           development skills through hands-on experimentation with technical

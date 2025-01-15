@@ -47,15 +47,15 @@ export default async function ProjectPage({ params }: { params: Params }) {
         <div>
           <h1 className="text-3xl font-bold mb-4">{project.name}</h1>
           <h2 className="text-2xl font-semibold mb-4">Description</h2>
-          <p className="text-gray-600 dark:text-gray-300 mb-6">
+          <p className="text-gray-600 dark:text-gray-200 mb-6">
             {project.description}
           </p>
-          <h2 className="text-2xl font-semibold mb-4">Problem</h2>
-          <p className="text-gray-600 dark:text-gray-300 mb-6">
-            {project.content.problem}
+          <h2 className="text-2xl font-semibold mb-4">Concept</h2>
+          <p className="text-gray-600 dark:text-gray-200 mb-6">
+            {project.content.concept}
           </p>
           <h2 className="text-2xl font-semibold mb-4">Solution</h2>
-          <p className="text-gray-600 dark:text-gray-300 mb-6">
+          <p className="text-gray-600 dark:text-gray-200 mb-6">
             {project.content.solution}
           </p>
           <div className="flex space-x-4">
@@ -64,7 +64,7 @@ export default async function ProjectPage({ params }: { params: Params }) {
                 href={project.liveUrl || ""}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-primary-500 text-foreground px-4 py-2 rounded-md hover:bg-primary-600 transition-colors"
+                className="bg-primary-500 text-primary-foreground px-4 py-2 rounded-md hover:bg-primary-600 transition-colors"
               >
                 Live Demo
               </Link>
@@ -73,7 +73,7 @@ export default async function ProjectPage({ params }: { params: Params }) {
               href={project.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-secondary-800 text-foreground px-4 py-2 rounded-md hover:bg-secondary-900 transition-colors"
+              className="bg-secondary-400 dark:bg-secondary-600 text-foreground px-4 py-2 rounded-md hover:bg-secondary-600 hover:dark:bg-secondary-800 transition-colors"
             >
               GitHub Repo
             </Link>

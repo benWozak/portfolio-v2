@@ -1,32 +1,59 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { submitContactForm } from "../../actions/contact";
+import emailjs from "@emailjs/browser";
 
 export default function ContactForm() {
+  const form = useRef<HTMLFormElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [errors, setErrors] = useState<Record<string, string[]>>({});
 
-  async function handleSubmit(formData: FormData) {
+  useEffect(() => {
+    emailjs.init(process.env.NEXT_PUBLIC_KEY!);
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setIsSubmitting(true);
     setErrors({});
-    const result = await submitContactForm(formData);
-    setIsSubmitting(false);
-    if (result.success) {
+    try {
+      if (!form.current) {
+        throw new Error("Form reference is null");
+      }
+
+      const serviceId = process.env.NEXT_PUBLIC_SERVICE_ID;
+      const templateId = process.env.NEXT_PUBLIC_TEMPLATE_ID;
+      const publicKey = process.env.NEXT_PUBLIC_KEY;
+
+      if (!serviceId || !templateId || !publicKey) {
+        throw new Error("Missing environment variables");
+      }
+
+      const result = await emailjs.sendForm(
+        serviceId,
+        templateId,
+        form.current,
+        publicKey
+      );
       setSubmitSuccess(true);
-    } else {
-      setErrors(result.errors || {});
+    } catch (error: any) {
+      // console.error("EmailJS Error:", error);
+      setErrors({
+        form: ["Failed to send message. Please try again.", error],
+      });
+    } finally {
+      setIsSubmitting(false);
     }
-  }
+  };
 
   if (submitSuccess) {
     return (
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center text-green-600"
+        className="text-center text-green-600 py-28 text-xl lg:text-2xl"
       >
         Thank you for your message! I&#39;ll get back to you soon.
       </motion.div>
@@ -35,7 +62,8 @@ export default function ContactForm() {
 
   return (
     <motion.form
-      action={handleSubmit}
+      ref={form}
+      onSubmit={handleSubmit}
       className="w-full max-w-2xl p-8 mx-auto space-y-6 rounded-md border"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -43,7 +71,7 @@ export default function ContactForm() {
     >
       <div>
         <label
-          htmlFor="name"
+          htmlFor="from_name"
           className="block mb-1 ml-1 text-sm md:text-md lg:text-xl"
         >
           Name
@@ -51,8 +79,8 @@ export default function ContactForm() {
         <motion.input
           whileFocus={{ scale: 1.02 }}
           type="text"
-          name="name"
-          id="name"
+          name="from_name"
+          id="from_name"
           required
           className="block w-full p-2 rounded border focus:outline-none focus:ring focus:ring-opacity-25 focus:dark:ring-secondary-700 dark:bg-secondary-bg"
         />
@@ -62,7 +90,7 @@ export default function ContactForm() {
       </div>
       <div>
         <label
-          htmlFor="email"
+          htmlFor="user_email"
           className="block mb-1 ml-1 text-sm md:text-md lg:text-xl"
         >
           Email
@@ -70,8 +98,8 @@ export default function ContactForm() {
         <motion.input
           whileFocus={{ scale: 1.02 }}
           type="email"
-          name="email"
-          id="email"
+          name="user_email"
+          id="user_email"
           required
           className="block w-full p-2 rounded border focus:outline-none focus:ring focus:ring-opacity-25 focus:dark:ring-secondary-700 dark:bg-secondary-bg"
         />

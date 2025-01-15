@@ -12,7 +12,7 @@ export interface Project {
   liveUrl: string | null;
   githubUrl: string;
   content: {
-    problem: string;
+    concept: string;
     solution: string;
   };
 }

@@ -72,7 +72,7 @@ export function Header() {
 
               <div className="block md:hidden">
                 <button
-                  className="rounded bg-gray-100 p-2 text-gray-600 transition hover:text-gray-600/75 dark:bg-gray-800 dark:text-gray-300"
+                  className="rounded bg-gray-100 p-2 text-gray-600 transition hover:text-gray-600/75 dark:bg-gray-800 dark:text-gray-200"
                   onClick={toggleMobileMenu}
                   aria-expanded={isMobileMenuOpen}
                   aria-label="Toggle mobile menu"
@@ -110,7 +110,7 @@ export function Header() {
             <div className="flex min-h-full flex-col items-center justify-center pt-16">
               <button
                 onClick={toggleMobileMenu}
-                className="absolute top-4 right-4 p-2 text-gray-600 dark:text-gray-300"
+                className="absolute top-4 right-4 p-2 text-gray-600 dark:text-gray-200"
                 aria-label="Close mobile menu"
               >
                 <svg

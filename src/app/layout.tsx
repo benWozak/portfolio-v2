@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://v2-benwozak.vercel.app/",
-    title: "Ben Wozak | Software Developer Portfolio",
+    title: "Ben Wozak | Software Developer",
     description:
       "Explore my projects. Specializing in React, Next.js, and modern web technologies.",
     siteName: "Ben Wozaks Portfolio",
@@ -73,7 +73,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Your Name | Web Developer & Designer",
+    title: "Ben Wozak | Software Developer",
     description: "Check out my latest web development projects.",
     creator: "@your_twitter_handle",
     images: ["https://v2-benwozak.vercel.app/BW_logo.svg"],

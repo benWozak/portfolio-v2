@@ -131,7 +131,7 @@ export default function ContactForm() {
         whileTap={{ scale: 0.95 }}
         type="submit"
         disabled={isSubmitting}
-        className="w-full inline-flex justify-center rounded-md border bg-primary-500 py-2 px-4 text-sm lg:text-base font-medium text-primary-foreground shadow-sm hover:bg-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+        className="w-full inline-flex justify-center rounded-md border border-none bg-primary-500 py-2 px-4 text-sm lg:text-base font-medium text-primary-foreground shadow-sm hover:bg-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
       >
         {isSubmitting ? "Sending..." : "Send Message"}
       </motion.button>

@@ -22,7 +22,6 @@ export function Contact() {
           reach out through the form below, or connect with me on GitHub or
           LinkedIn
           <br />
-          <br />
           <Socials size="xl" />
         </motion.div>
 

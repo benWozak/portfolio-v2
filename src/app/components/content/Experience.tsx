@@ -17,6 +17,13 @@ interface TimeBlockProps {
 
 const experiences: TimeBlockProps[] = [
   {
+    time: "January, 2025 - Present",
+    company: "Cognitive3D",
+    role: "Software Engineer",
+    description:
+      "A SaaS startup that providing spacial analytics in the VR/AR/XR space through direct SDK integrations.",
+  },
+  {
     time: "Nov, 2023 - July, 2024",
     company: "Flipp Advertising",
     role: "Senior Web Developer",

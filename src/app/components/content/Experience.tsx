@@ -21,7 +21,7 @@ const experiences: TimeBlockProps[] = [
     company: "Cognitive3D",
     role: "Software Engineer",
     description:
-      "A SaaS startup that providing spacial analytics in the VR/AR/XR space through direct SDK integrations.",
+      "A SaaS startup that provides spatial analytics for VR/AR/XR through SDK integrations, enabling businesses to visualize user behavior in immersive environments and make data-driven design decisions.",
   },
   {
     time: "Nov, 2023 - July, 2024",
@@ -50,12 +50,11 @@ function TimeBlock({ time, company, role, description }: TimeBlockProps) {
   return (
     <motion.li className="mb-8 ms-8 lg:mb-20 lg:ms-12" variants={itemVariants}>
       <div className="absolute w-3 h-3 bg-secondary-700 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-secondary-500"></div>
-      <time className="mb-1 text-sm lg:text-base font-normal leading-none text-secondary-800 dark:text-secondary-500/70">
+      <time className="mb-1 text-sm lg:text-base font-normal leading-none text-secondary-800 dark:text-secondary-500">
         {time}
       </time>
       <h3 className="text-lg lg:text-xl font-semibold text-gray-900 dark:text-white">
-        <span className="text-primary dark:text-secondary-500">{role}</span>{" "}
-        {"@"}
+        <span className="text-primary dark:text-primary-500">{role}</span> {"@"}
         {company}
       </h3>
       <p className="mb-4 text-sm lg:text-base font-normal text-gray-600 dark:text-gray-200">

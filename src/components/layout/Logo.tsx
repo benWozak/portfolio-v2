@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useTheme } from "@/app/contexts/ThemeContext";
+import { useTheme } from "@/contexts/ThemeContext";
 import { useSmoothScroll } from "@/utils/hooks/useSmoothScroll";
 
 export default function Logo() {

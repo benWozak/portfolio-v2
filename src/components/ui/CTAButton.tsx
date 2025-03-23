@@ -1,7 +1,7 @@
 "use client";
 import React, { useCallback } from "react";
 import Link from "next/link";
-import { useSmoothScroll } from "../../../utils/hooks/useSmoothScroll";
+import { useSmoothScroll } from "../../utils/hooks/useSmoothScroll";
 
 interface CTAButtonProps {
   href: string;

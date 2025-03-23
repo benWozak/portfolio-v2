@@ -1,6 +1,6 @@
 import { getProjects } from "@/utils/getProjects";
-import { ProjectCard } from "@/app/components/content/projects/ProjectCard";
-import { SectionHeading } from "@/app/components/layout/section/SectionHeading";
+import { ProjectCard } from "@/components/content/projects/ProjectCard";
+import { SectionHeading } from "@/components/layout/section/SectionHeading";
 
 export default async function MobileProjectsPage() {
   const allProjects = await getProjects();

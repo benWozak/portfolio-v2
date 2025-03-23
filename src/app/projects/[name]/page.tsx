@@ -1,8 +1,8 @@
-import { SectionHeading } from "@/app/components/layout/section/SectionHeading";
+import { SectionHeading } from "@/components/layout/section/SectionHeading";
 import { getProjects, getProjectByName } from "@/utils/getProjects";
 import Link from "next/link";
 import { Metadata } from "next";
-import MediaContainer from "@/app/components/content/projects/MediaContainer";
+import MediaContainer from "@/components/content/projects/MediaContainer";
 
 type Params = Promise<{ name: string }>;
 

@@ -1,6 +1,6 @@
-import AnimatedHome from "./components/layout/AnimatedHome";
-import { Hero } from "./components/layout";
-import { About, Projects, Contact, Experience } from "./components/content";
+import AnimatedHome from "@/components/layout/AnimatedHome";
+import { Hero } from "@/components/layout";
+import { About, Projects, Contact, Experience } from "@/components/content";
 
 export default function Home() {
   return (

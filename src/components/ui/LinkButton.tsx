@@ -3,7 +3,7 @@
 import { useCallback } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { useSmoothScroll } from "../../../utils/hooks/useSmoothScroll";
+import { useSmoothScroll } from "../../utils/hooks/useSmoothScroll";
 
 interface LinkButtonProps {
   href: string;

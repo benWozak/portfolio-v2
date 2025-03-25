@@ -41,14 +41,14 @@ const Resume: React.FC<ResumeProps> = ({
       >
         {/* Header */}
         <header className="text-center mb-6">
-          <h1 className="text-3xl font-bold uppercase mb-2">
+          <h1 className="text-3xl font-bold uppercase mb-2 text-gray-900">
             {data.full_name}
           </h1>
           <div className="flex justify-center gap-4 text-sm mb-2">
-            <span className="flex items-center gap-1">
+            <span className="flex items-center gap-1 text-gray-900">
               <FaPhone className="text-gray-600" /> {data.phone}
             </span>
-            <span className="flex items-center gap-1">
+            <span className="flex items-center gap-1 text-gray-900">
               <FaEnvelope className="text-gray-600" /> {data.email}
             </span>
           </div>
@@ -83,7 +83,7 @@ const Resume: React.FC<ResumeProps> = ({
         </header>
 
         {/* Summary Section */}
-        <section className="mb-6">
+        <section className="mb-6 text-gray-900">
           <h2 className="text-xl font-bold uppercase mb-2 pb-1 border-b border-gray-300">
             Summary
           </h2>
@@ -91,7 +91,7 @@ const Resume: React.FC<ResumeProps> = ({
         </section>
 
         {/* Experience Section */}
-        <section className="mb-6">
+        <section className="mb-6 text-gray-900">
           <h2 className="text-xl font-bold uppercase mb-2 pb-1 border-b border-gray-300">
             Experience
           </h2>
@@ -119,7 +119,7 @@ const Resume: React.FC<ResumeProps> = ({
         </section>
 
         {/* Technical Strengths Section */}
-        <section className="mb-6">
+        <section className="mb-6 text-gray-900">
           <h2 className="text-xl font-bold uppercase mb-2 pb-1 border-b border-gray-300">
             Technical Strengths
           </h2>
@@ -138,7 +138,7 @@ const Resume: React.FC<ResumeProps> = ({
         </section>
 
         {/* Education Section */}
-        <section className="mb-6">
+        <section className="mb-6 text-gray-900">
           <h2 className="text-xl font-bold uppercase mb-2 pb-1 border-b border-gray-300">
             Education
           </h2>

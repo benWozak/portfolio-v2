@@ -55,10 +55,7 @@ const ResumePage: React.FC = () => {
     if (!element) return;
 
     toast.loading("Generating PDF from HTML...");
-    const filename = `${resumeData?.full_name.replace(
-      /\s+/g,
-      "_"
-    )}_Resume_HTML.pdf`;
+    const filename = `${resumeData?.full_name.replace(/\s+/g, "_")}_Resume.pdf`;
 
     const options = {
       margin: [0.5, 0.5, 0.5, 0.5],
@@ -91,9 +88,9 @@ const ResumePage: React.FC = () => {
             className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full"
             role="status"
           >
-            <span className="visually-hidden">Loading...</span>
+            <span className="visually-hidden"></span>
           </div>
-          <p className="mt-2">Loading resume data...</p>
+          <p className="mt-2">Loading...</p>
         </div>
       </div>
     );

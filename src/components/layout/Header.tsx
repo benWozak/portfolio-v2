@@ -26,6 +26,7 @@ export function Header() {
   };
 
   const isProjectsPage = pathname.startsWith("/projects");
+  const isResumePage = pathname.startsWith("/resume");
 
   const navItems = isProjectsPage
     ? [
@@ -34,10 +35,13 @@ export function Header() {
         { href: "/projects/native", label: "Native Apps" },
       ]
     : [
-        { href: "#about", label: "About" },
-        { href: "#experience", label: "Experience" },
-        { href: "#projects", label: "Projects" },
-        { href: "#contact", label: "Contact" },
+        { href: isResumePage ? "/#about" : "#about", label: "About" },
+        {
+          href: isResumePage ? "/#experience" : "#experience",
+          label: "Experience",
+        },
+        { href: isResumePage ? "/#projects" : "#projects", label: "Projects" },
+        { href: isResumePage ? "/#contact" : "#contact", label: "Contact" },
       ];
 
   return (

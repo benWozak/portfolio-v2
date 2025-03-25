@@ -6,9 +6,10 @@ import {
   FaPhone,
   FaEnvelope,
   FaDownload,
-  FaFileAlt,
+  FaAddressCard,
 } from "react-icons/fa";
 import { ResumeData } from "../../types/resume";
+import Link from "next/link";
 
 interface ResumeProps {
   data: ResumeData;
@@ -27,11 +28,17 @@ const Resume: React.FC<ResumeProps> = ({
       <div className="absolute top-8 right-4 print:hidden flex gap-2">
         <button
           onClick={onExportPDF}
-          className="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded shadow transition-colors flex items-center gap-2"
+          className="bg-primary hover:bg-primary/80 text-white px-4 py-2 rounded shadow transition-colors flex items-center gap-2"
           disabled={isGeneratingPDF}
         >
           <FaDownload /> Download PDF
         </button>
+        <Link
+          href="/#contact"
+          className="bg-secondary-bg hover:bg-primary/80 hover:dark:bg-secondary-bg/80 border-neutral-800 text-foreground px-4 py-2 rounded shadow transition-colors flex items-center gap-2"
+        >
+          <FaAddressCard /> Contact Me
+        </Link>
       </div>
 
       {/* Resume Container */}

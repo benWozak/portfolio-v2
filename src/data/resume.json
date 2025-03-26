@@ -43,8 +43,8 @@
         "endDate": "Nov 2023"
       },
       "description": [
-        "Led two 4-person teams: one developing an internal ML model configuration web app, another creating AutoQL suite with chat interface, dashboard, and notification system",
-        "Developed 2 API portals and Microsoft Teams extension, serving hundreds of users across multiple SaaS platforms",
+        "Led two 4-person teams: one developing an internal tool for language model configuration, another creating AutoQL suite with chat interface, dashboard, and notification system",
+        "Developed 2 API management portals and Microsoft Teams extension, serving hundreds of users across multiple SaaS platforms",
         "Spearheaded company-wide TypeScript adoption and group code-reviews through dev guild leadership."
       ]
     }

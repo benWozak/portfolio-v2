@@ -50,7 +50,7 @@ const Resume: React.FC<ResumeProps> = ({
       >
         {/* Header */}
         <header className="text-center mb-4">
-          <h1 className="text-2xl font-bold uppercase mb-1 text-gray-900">
+          <h1 className="text-3xl font-bold uppercase mb-2 text-gray-900">
             {data.full_name}
           </h1>
           <div className="flex justify-center gap-4 text-sm mb-1">
@@ -99,7 +99,7 @@ const Resume: React.FC<ResumeProps> = ({
 
         {/* Summary Section */}
         <section className="mb-4 text-gray-900">
-          <h2 className="font-bold uppercase mb-1 pb-2 border-b border-gray-300">
+          <h2 className="font-bold uppercase mb-2 pb-1 border-b border-gray-300">
             Summary
           </h2>
           <p className="mt-1 text-sm">{data.summary}</p>{" "}
@@ -107,11 +107,11 @@ const Resume: React.FC<ResumeProps> = ({
 
         {/* Experience Section */}
         <section className="mb-4 text-gray-900">
-          <h2 className="font-bold uppercase mb-1 pb-2 border-b border-gray-300">
+          <h2 className="font-bold uppercase mb-2 pb-1 border-b border-gray-300">
             Experience
           </h2>
           {data.experience.map((exp, index) => (
-            <div key={index} className="mb-3">
+            <div key={index} className="mb-2">
               <div className="flex justify-between items-baseline">
                 <h3 className="text-lg font-bold">{exp.company}</h3>
                 <span className="text-gray-600 italic">
@@ -123,7 +123,7 @@ const Resume: React.FC<ResumeProps> = ({
               </div>
               <ul className="list-disc ml-5 text-sm">
                 {exp.description.map((item, i) => (
-                  <li key={i} className="mb-1">
+                  <li key={i} className="">
                     {item}
                   </li>
                 ))}
@@ -134,7 +134,7 @@ const Resume: React.FC<ResumeProps> = ({
 
         {/* Technical Strengths Section */}
         <section className="mb-4 text-gray-900">
-          <h2 className="font-bold uppercase mb-1 pb-2 border-b border-gray-300">
+          <h2 className="font-bold uppercase mb-2 pb-1 border-b border-gray-300">
             Technical Strengths
           </h2>
           <table className="w-full">
@@ -153,7 +153,7 @@ const Resume: React.FC<ResumeProps> = ({
 
         {/* Education Section */}
         <section className="mb-2 text-gray-900">
-          <h2 className="font-bold uppercase mb-1 pb-2 border-b border-gray-300">
+          <h2 className="font-bold uppercase mb-2 pb-1 border-b border-gray-300">
             Education
           </h2>
           <div className="flex justify-between items-baseline">

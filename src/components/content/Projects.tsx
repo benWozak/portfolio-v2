@@ -59,7 +59,7 @@ export function Projects() {
           className="mt-8 lg:mt-16 flex justify-center"
           variants={itemVariants}
         >
-          <CTAButton href="/projects" className="w-72">
+          <CTAButton type="secondary" href="/projects" className="w-72">
             See More
           </CTAButton>
         </motion.div>

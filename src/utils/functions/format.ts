@@ -98,3 +98,15 @@ export function formatSnakeCase(input: string): string {
     .replace(/[^\w\s-]/g, '') // Remove all non-word chars except spaces and hyphens
     .replace(/[\s-]+/g, '_'); // Replace spaces and hyphens with single underscore
 }
+
+/**
+ * Cleans a URL by removing 'https://', 'www.' and trailing '/'
+ * @param url - The URL to clean
+ * @returns The cleaned URL string
+ */
+export function cleanUrl(url: string): string {
+  if (!url) return '';
+  
+  // Using regex to remove https://, www. and trailing slash
+  return url.replace(/^(https?:\/\/)?(www\.)?/, '').replace(/\/$/, '');
+}

@@ -49,34 +49,27 @@ const Resume: React.FC<ResumeProps> = ({
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const handleExportPDF = (e: any) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (typeof onExportPDF === "function") {
-      onExportPDF();
-    }
-  };
-
   return (
-    <div className="relative w-full min-w-[320px] mx-auto pt-4 mt-12 md:mt-8 font-[helvetica]">
-      {/* Export Buttons */}
-      <div className="absolute top-[-0.5rem] right-4 sm:top-0 xl:right-52 print:hidden flex flex-row gap-2">
-        <button
-          onClick={handleExportPDF}
-          className="bg-primary hover:bg-primary/80 text-white px-4 py-2 rounded shadow transition-colors flex items-center gap-2 text-sm"
-          disabled={isGeneratingPDF}
-          type="button"
-        >
-          <FaDownload /> Download PDF
-        </button>
-        <Link
-          href="/#contact"
-          className="bg-secondary-bg hover:bg-primary/80 hover:dark:bg-secondary-bg/80 border-neutral-800 text-foreground px-4 py-2 rounded shadow transition-colors flex items-center gap-2 text-sm"
-          onClick={(e) => e.stopPropagation()} // Prevent event bubbling
-        >
-          <FaAddressCard /> Contact Me
-        </Link>
+    <div className="relative w-full min-w-[320px] mx-auto pt-4 mt-12 md:mt-16 font-[helvetica]">
+      <div className="w-full max-w-4xl mx-auto mb-4 flex justify-end print:hidden">
+        <div className="flex flex-row gap-2">
+          <button
+            onClick={() => onExportPDF()}
+            className="bg-primary hover:bg-primary/80 text-white px-4 py-2 rounded shadow transition-colors flex items-center gap-2 text-sm"
+            disabled={isGeneratingPDF}
+            type="button"
+          >
+            <FaDownload /> Download PDF
+          </button>
+          <Link
+            href="/#contact"
+            className="bg-secondary-bg hover:bg-primary/80 hover:dark:bg-secondary-bg/80 border-neutral-800 text-foreground px-4 py-2 rounded shadow transition-colors flex items-center gap-2 text-sm"
+          >
+            <FaAddressCard /> Contact Me
+          </Link>
+        </div>
       </div>
+
       {/* Resume Container */}
       <div
         id="resume-container"
@@ -111,7 +104,6 @@ const Resume: React.FC<ResumeProps> = ({
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1 text-blue-700 hover:underline"
-              onClick={(e) => e.stopPropagation()} // Prevent event bubbling
             >
               <FaLinkedin /> {cleanUrl(data.socials.linkedin_url)}
             </a>
@@ -121,7 +113,6 @@ const Resume: React.FC<ResumeProps> = ({
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1 text-blue-700 hover:underline"
-              onClick={(e) => e.stopPropagation()} // Prevent event bubbling
             >
               <FaGithub /> {cleanUrl(data.socials.github_url)}
             </a>
@@ -131,7 +122,6 @@ const Resume: React.FC<ResumeProps> = ({
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1 text-blue-700 hover:underline"
-              onClick={(e) => e.stopPropagation()} // Prevent event bubbling
             >
               <FaGlobe /> {cleanUrl(data.socials.portfolio_url)}
             </a>

@@ -49,7 +49,6 @@ const Resume: React.FC<ResumeProps> = ({
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Handler function for the PDF export button
   const handleExportPDF = (e: any) => {
     e.preventDefault();
     e.stopPropagation();

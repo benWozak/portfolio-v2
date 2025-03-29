@@ -25,7 +25,6 @@ const Resume: React.FC<ResumeProps> = ({
   isGeneratingPDF = false,
   hideContactInfo = true,
 }) => {
-  // Add effect to handle zooming for small screens
   useEffect(() => {
     const handleResize = () => {
       const viewport = document.querySelector('meta[name="viewport"]');
@@ -43,21 +42,17 @@ const Resume: React.FC<ResumeProps> = ({
         );
       }
     };
-
-    // Call it once on mount
     handleResize();
 
-    // Set up event listener
     window.addEventListener("resize", handleResize);
 
-    // Clean up
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
     <div className="relative w-full min-w-[320px] mx-auto pt-4 mt-12 md:mt-8 font-[helvetica]">
       {/* Export Buttons */}
-      <div className="absolute top-[-0.5rem] sm:top-0 right-4 print:hidden flex flex-row gap-2">
+      <div className="absolute top-[-0.5rem] right-4 sm:top-0 xl:right-52 print:hidden flex flex-row gap-2">
         <button
           onClick={onExportPDF}
           className="bg-primary hover:bg-primary/80 text-white px-4 py-2 rounded shadow transition-colors flex items-center gap-2 text-sm"
@@ -85,13 +80,17 @@ const Resume: React.FC<ResumeProps> = ({
           <div className="flex flex-wrap justify-center gap-2 sm:gap-4 text-xs sm:text-sm mb-1">
             <span className="flex items-center gap-1 text-gray-900">
               <FaPhone className="text-gray-600" />
-              <span className="phone-display">
+              <span
+                className={`phone-display ${hideContactInfo ? "blur-sm" : ""}`}
+              >
                 {hideContactInfo ? "(555) 555-5555" : data.phone}
               </span>
             </span>
             <span className="flex items-center gap-1 text-gray-900">
               <FaEnvelope className="text-gray-600" />
-              <span className="email-display">
+              <span
+                className={`email-display ${hideContactInfo ? "blur-sm" : ""}`}
+              >
                 {hideContactInfo ? "redacted@email.com" : data.email}
               </span>
             </span>

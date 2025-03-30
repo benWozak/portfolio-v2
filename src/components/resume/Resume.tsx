@@ -64,9 +64,17 @@ const Resume: React.FC<ResumeProps> = ({
         <div className="flex flex-row gap-2">
           <button
             onClick={() => onExportPDF()}
-            className="bg-primary hover:bg-primary/80 text-white px-4 py-2 rounded shadow transition-colors flex items-center gap-2 text-sm"
+            className={`px-4 py-2 rounded shadow flex items-center gap-2 text-sm transition-colors
+                      ${
+                        isGeneratingPDF || isSafari
+                          ? "bg-primary text-primary-foreground cursor-not-allowed opacity-50"
+                          : "bg-primary hover:bg-primary/80 text-primary-foreground"
+                      }`}
             disabled={isGeneratingPDF || isSafari}
             type="button"
+            aria-label={
+              isSafari ? "PDF download not available on Safari" : "Download PDF"
+            }
           >
             <FaDownload /> Download PDF
           </button>

@@ -7,7 +7,6 @@ import {
   FaEnvelope,
   FaDownload,
   FaAddressCard,
-  FaInfoCircle,
 } from "react-icons/fa";
 import { ResumeData } from "../../types/resume";
 import Link from "next/link";

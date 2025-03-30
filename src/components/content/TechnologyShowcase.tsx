@@ -59,7 +59,7 @@ export function TechnologyShowcase() {
         Main Stack
         <div className="w-16 lg:w-24 h-0.5 lg:h-1 rounded-full bg-primary"></div>
       </div>
-      <div className="flex flex-wrap gap-4 justify-center max-w-2xl">
+      <div className="flex flex-wrap gap-2 lg:gap-4 justify-center max-w-2xl">
         {primaryStack.map((tech) => (
           <WebTechnology key={tech.name} name={tech.name} icon={tech.icon} />
         ))}
@@ -70,7 +70,7 @@ export function TechnologyShowcase() {
         Supporting
         <div className="w-16 lg:w-24 h-0.5 lg:h-1 rounded-full bg-primary"></div>
       </div>
-      <div className="flex flex-wrap gap-4 justify-center max-w-2xl">
+      <div className="flex flex-wrap gap-2 lg:gap-4 justify-center max-w-2xl">
         {secondaryStack.map((tech) => (
           <WebTechnology key={tech.name} name={tech.name} icon={tech.icon} />
         ))}

@@ -72,7 +72,7 @@ export function CTAButton({
       <span
         className="
         relative w-full text-center transition-all duration-300 
-        hover:text-primary-foreground hover:border-primary-foreground text-md z-20 px-12 py-2 lg:px-16 lg:py-2 lg:text-lg
+        hover:text-primary-foreground hover:border-primary-foreground text-md z-20 px-8 py-2 lg:px-16 lg:py-2 lg:text-lg
         "
       >
         {children}

@@ -19,22 +19,37 @@ import { FaAws } from "react-icons/fa";
 
 export function TechnologyShowcase() {
   const primaryStack = [
-    { name: "Tailwind", icon: <SiTailwindcss className="w-6 h-6" /> },
-    { name: "TypeScript", icon: <SiTypescript className="w-6 h-6" /> },
-    { name: "React", icon: <SiReact className="w-6 h-6" /> },
-    { name: "Next.js", icon: <SiNextdotjs className="w-6 h-6" /> },
-    { name: "Postgres", icon: <SiPostgresql className="w-6 h-6" /> },
+    {
+      name: "Tailwind",
+      icon: <SiTailwindcss className="w-4 h-4 lg:w-6 lg:h-6" />,
+    },
+    {
+      name: "TypeScript",
+      icon: <SiTypescript className="w-4 h-4 lg:w-6 lg:h-6" />,
+    },
+    { name: "React", icon: <SiReact className="w-4 h-4 lg:w-6 lg:h-6" /> },
+    {
+      name: "Next.js",
+      icon: <SiNextdotjs className="w-4 h-4 lg:w-6 lg:h-6" />,
+    },
+    {
+      name: "Postgres",
+      icon: <SiPostgresql className="w-4 h-4 lg:w-6 lg:h-6" />,
+    },
   ];
   const secondaryStack = [
-    { name: "Vue", icon: <SiVuedotjs className="w-6 h-6" /> },
-    { name: "Sass", icon: <SiSass className="w-6 h-6" /> },
-    { name: "Node.js", icon: <SiNodedotjs className="w-6 h-6" /> },
-    { name: "Laravel", icon: <SiLaravel className="w-6 h-6" /> },
-    { name: "Python", icon: <SiPython className="w-6 h-6" /> },
-    { name: "GraphQL", icon: <SiGraphql className="w-6 h-6" /> },
-    { name: "Sqlite", icon: <SiSqlite className="w-6 h-6" /> },
-    { name: "AWS", icon: <FaAws className="w-6 h-6" /> },
-    { name: "Docker", icon: <SiDocker className="w-6 h-6" /> },
+    { name: "Vue", icon: <SiVuedotjs className="w-4 h-4 lg:w-6 lg:h-6" /> },
+    { name: "Sass", icon: <SiSass className="w-4 h-4 lg:w-6 lg:h-6" /> },
+    {
+      name: "Node.js",
+      icon: <SiNodedotjs className="w-4 h-4 lg:w-6 lg:h-6" />,
+    },
+    { name: "Laravel", icon: <SiLaravel className="w-4 h-4 lg:w-6 lg:h-6" /> },
+    { name: "Python", icon: <SiPython className="w-4 h-4 lg:w-6 lg:h-6" /> },
+    { name: "GraphQL", icon: <SiGraphql className="w-4 h-4 lg:w-6 lg:h-6" /> },
+    { name: "Sqlite", icon: <SiSqlite className="w-4 h-4 lg:w-6 lg:h-6" /> },
+    { name: "AWS", icon: <FaAws className="w-4 h-4 lg:w-6 lg:h-6" /> },
+    { name: "Docker", icon: <SiDocker className="w-4 h-4 lg:w-6 lg:h-6" /> },
   ];
 
   return (

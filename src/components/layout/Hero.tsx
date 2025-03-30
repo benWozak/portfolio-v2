@@ -55,17 +55,14 @@ export function Hero() {
         Web Technologies
       </motion.h1>
 
-      <motion.div
-        className="mt-16 lg:mt-10 flex gap-2 md:gap-4"
-        variants={itemVariants}
-      >
+      <motion.div className="mt-8 lg:mt-10 flex gap-4" variants={itemVariants}>
         <CTAButton href="#contact">Get in Touch</CTAButton>
         <CTAButton type="secondary" href="/resume">
           View CV
         </CTAButton>
       </motion.div>
 
-      <motion.div className="mt-4 mb-12 lg:mt-6" variants={itemVariants}>
+      <motion.div className="mt-4 mb-8 lg:mt-6" variants={itemVariants}>
         <Socials size="lg" />
       </motion.div>
 

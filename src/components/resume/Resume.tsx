@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaLinkedin,
   FaGithub,
@@ -7,6 +7,7 @@ import {
   FaEnvelope,
   FaDownload,
   FaAddressCard,
+  FaInfoCircle,
 } from "react-icons/fa";
 import { ResumeData } from "../../types/resume";
 import Link from "next/link";
@@ -25,7 +26,15 @@ const Resume: React.FC<ResumeProps> = ({
   isGeneratingPDF = false,
   hideContactInfo = true,
 }) => {
+  const [isSafari, setIsSafari] = useState(false);
+
   useEffect(() => {
+    // Detect Safari browser
+    const userAgent = navigator.userAgent.toLowerCase();
+    const isSafariBrowser = /^((?!chrome|android).)*safari/i.test(userAgent);
+    const isIOS = /iphone|ipad|ipod/.test(userAgent);
+    setIsSafari(isSafariBrowser || isIOS);
+
     const handleResize = () => {
       const viewport = document.querySelector('meta[name="viewport"]');
       if (window.innerWidth < 768) {
@@ -49,12 +58,20 @@ const Resume: React.FC<ResumeProps> = ({
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const handleSafariDownload = () => {
+    alert(
+      "To download the PDF on iOS Safari, please tap and hold on the PDF when it opens, then select 'Download' or 'Save to Files'"
+    );
+
+    onExportPDF();
+  };
+
   return (
     <div className="relative w-full min-w-[320px] mx-auto pt-4 mt-12 md:mt-16 font-[helvetica]">
       <div className="w-full max-w-4xl mx-auto mb-4 flex justify-end print:hidden">
         <div className="flex flex-row gap-2">
           <button
-            onClick={() => onExportPDF()}
+            onClick={() => (isSafari ? handleSafariDownload() : onExportPDF())}
             className="bg-primary hover:bg-primary/80 text-white px-4 py-2 rounded shadow transition-colors flex items-center gap-2 text-sm"
             disabled={isGeneratingPDF}
             type="button"

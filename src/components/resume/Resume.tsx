@@ -9,7 +9,7 @@ import {
   FaAddressCard,
 } from "react-icons/fa";
 import { ResumeData } from "../../types/resume";
-import Link from "next/link";
+import Button from "../ui/Button";
 import { cleanUrl } from "../../utils/functions/format";
 
 interface ResumeProps {
@@ -61,28 +61,22 @@ const Resume: React.FC<ResumeProps> = ({
     <div className="relative w-full min-w-[320px] mx-auto pt-4 mt-12 md:mt-16 font-[helvetica]">
       <div className="w-full max-w-4xl mx-auto mb-4 flex justify-end print:hidden">
         <div className="flex flex-row gap-2">
-          <button
-            onClick={() => onExportPDF()}
-            className={`px-4 py-2 rounded shadow flex items-center gap-2 text-sm transition-colors
-                      ${
-                        isGeneratingPDF || isSafari
-                          ? "bg-primary text-primary-foreground cursor-not-allowed opacity-50"
-                          : "bg-primary hover:bg-primary/80 text-primary-foreground"
-                      }`}
+          <Button
+            icon={<FaDownload />}
+            label="Download PDF"
+            onClick={onExportPDF}
             disabled={isGeneratingPDF || isSafari}
-            type="button"
-            aria-label={
+            disabledReason={
               isSafari ? "PDF download not available on Safari" : "Download PDF"
             }
-          >
-            <FaDownload /> Download PDF
-          </button>
-          <Link
+            variant="primary"
+          />
+          <Button
+            icon={<FaAddressCard />}
+            label="Contact Me"
             href="/#contact"
-            className="bg-secondary-bg hover:bg-primary/80 hover:dark:bg-secondary-bg/80 border-neutral-800 text-foreground px-4 py-2 rounded shadow transition-colors flex items-center gap-2 text-sm"
-          >
-            <FaAddressCard /> Contact Me
-          </Link>
+            variant="secondary"
+          />
         </div>
       </div>
 

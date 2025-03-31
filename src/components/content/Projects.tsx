@@ -32,7 +32,7 @@ export function Projects() {
       <AnimatedSection className="px-8">
         <motion.p
           variants={itemVariants}
-          className="mb-4 lg:text-lg text-gray-800 dark:text-gray-200"
+          className="mb-4 text-sm lg:text-base text-gray-800 dark:text-gray-200"
         >
           This collection features my side projects where I explore different
           web technologies and concepts outside of my day job.
@@ -46,7 +46,7 @@ export function Projects() {
           challenges and emerging tools.
         </motion.p>
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 gap-6 px-4 md:px-0"
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 px-4 md:px-0 pt-8"
           variants={itemVariants}
         >
           {projects.map((project, index) => (

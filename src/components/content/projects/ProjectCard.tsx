@@ -47,7 +47,8 @@ export function ProjectCard({ index, project }: Props) {
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, delay: index * 0.3 }}
-      className="bg-secondary-bg rounded-lg shadow-md overflow-hidden"
+      className="bg-secondary-bg rounded-lg shadow-md overflow-hidden hover:shadow-md hover:shadow-slate-300 hover:dark:shadow-slate-500 transition-all 
+        duration-300"
       onClick={handleInteraction}
       onMouseEnter={() => !isMobile && handleInteraction()}
       onMouseLeave={() => !isMobile && handleInteraction()}

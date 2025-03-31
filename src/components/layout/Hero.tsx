@@ -31,7 +31,7 @@ const itemVariants = {
 export function Hero() {
   return (
     <motion.section
-      className="relative h-auto w-full flex flex-col items-center pt-28 lg:pt-32 mb-32"
+      className="relative h-auto w-full flex flex-col items-center pt-16 md:pt-24 lg:pt-32 mb-32"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
@@ -55,7 +55,7 @@ export function Hero() {
         Web Technologies
       </motion.h1>
 
-      <motion.div className="mt-8 lg:mt-10 flex gap-4" variants={itemVariants}>
+      <motion.div className="mt-6 lg:mt-10 flex gap-4" variants={itemVariants}>
         <CTAButton href="#contact">Get in Touch</CTAButton>
         <CTAButton type="secondary" href="/resume">
           View CV

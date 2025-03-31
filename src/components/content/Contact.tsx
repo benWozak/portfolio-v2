@@ -17,10 +17,9 @@ export function Contact() {
           className="lg:text-xl lg:px-2 mb-8 px-8 max-w-2xl text-gray-800 dark:text-gray-200"
           variants={itemVariants}
         >
-          I&#39;m currently open to new opportunities and would love to discuss
-          how my skills and experience could benefit your team. Feel free to
-          reach out through the form below, or connect with me on GitHub or
-          LinkedIn
+          I&#39;m always open to new opportunities and would love to discuss how
+          my skills and experience could benefit your team. Feel free to reach
+          out through the form below, or connect with me on GitHub or LinkedIn.
           <br />
           <Socials size="xl" />
         </motion.div>

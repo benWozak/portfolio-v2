@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
+import Button from "../ui/Button";
 
 export default function ContactForm() {
   const form = useRef<HTMLFormElement>(null);
@@ -126,15 +127,13 @@ export default function ContactForm() {
           <p className="mt-1 text-sm text-red-600">{errors.message[0]}</p>
         )}
       </div>
-      <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        type="submit"
+      <Button
+        className="w-full lg:text-base text-sm"
+        label={isSubmitting ? "Sending..." : "Send Message"}
         disabled={isSubmitting}
-        className="w-full inline-flex justify-center rounded-md border border-none bg-primary-500 py-2 px-4 text-sm lg:text-base font-medium text-primary-foreground shadow-sm hover:bg-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
-      >
-        {isSubmitting ? "Sending..." : "Send Message"}
-      </motion.button>
+        variant="primary"
+        onClick={() => form.current?.requestSubmit()}
+      />
     </motion.form>
   );
 }

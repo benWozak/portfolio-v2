@@ -2,12 +2,12 @@
 import React from "react";
 import Section from "../layout/section";
 import ContactForm from "./ContactForm";
-import { Socials } from "./Socials";
 import {
   AnimatedSection,
   itemVariants,
 } from "../layout/section/AnimatedSection";
 import { motion } from "framer-motion";
+import { LinkButton } from "../ui";
 
 export function Contact() {
   return (
@@ -19,9 +19,23 @@ export function Contact() {
         >
           I&#39;m always open to new opportunities and would love to discuss how
           my skills and experience could benefit your team. Feel free to reach
-          out through the form below, or connect with me on GitHub or LinkedIn.
-          <br />
-          <Socials size="xl" />
+          out through the form below, check out my{" "}
+          <LinkButton
+            href="https://github.com/benWozak"
+            className="lg:text-xl text-secondary-600 dark:text-secondary-500"
+            target="_blank"
+          >
+            GitHub
+          </LinkButton>{" "}
+          or{" "}
+          <LinkButton
+            href="https://linkedin.com/in/ben-wozak"
+            className="lg:text-xl text-secondary-600 dark:text-secondary-500"
+            target="_blank"
+          >
+            LinkedIn
+          </LinkButton>
+          .
         </motion.div>
 
         <motion.div className="w-full px-4 lg:px-0" variants={itemVariants}>

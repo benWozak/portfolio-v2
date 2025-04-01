@@ -9,6 +9,7 @@ interface LinkButtonProps {
   href: string;
   children: React.ReactNode;
   className?: string;
+  target?: string;
   onClick?: () => void;
 }
 
@@ -16,6 +17,7 @@ export function LinkButton({
   href,
   children,
   className = "",
+  target,
   onClick,
 }: LinkButtonProps) {
   const { scrollToElement } = useSmoothScroll();
@@ -41,6 +43,7 @@ export function LinkButton({
     <Link
       href={href}
       onClick={handleClick}
+      target={target}
       className={`
         relative pb-2 tracking-wider text-sm
         after:content-[''] after:absolute after:w-full

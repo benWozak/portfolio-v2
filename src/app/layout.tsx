@@ -4,7 +4,7 @@ import { ThemeProvider } from "../contexts/ThemeContext";
 import localFont from "next/font/local";
 import "./globals.css";
 import "../styles/normalization.css";
-import { Header } from "@/components/layout";
+import { Header, Footer } from "@/components/layout";
 
 const geistSans = localFont({
   src: [
@@ -108,9 +108,10 @@ export default function RootLayout({
             <main className="flex-1 flex items-center justify-center">
               {children}
             </main>
-            <footer className="p-4 text-center text-sm text-foreground">
+            <Footer />
+            {/* <footer className="p-4 text-center text-sm text-foreground">
               © {new Date().getFullYear()} Ben Wozak. All rights reserved.
-            </footer>
+            </footer> */}
           </div>
         </ThemeProvider>
         <Analytics />

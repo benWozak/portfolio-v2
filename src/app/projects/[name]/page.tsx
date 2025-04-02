@@ -69,14 +69,16 @@ export default async function ProjectPage({ params }: { params: Params }) {
                 Live Demo
               </Link>
             ) : null}
-            <Link
-              href={project.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-secondary-400 dark:bg-secondary-600 text-foreground px-4 py-2 rounded-md hover:bg-secondary-600 hover:dark:bg-secondary-800 transition-colors"
-            >
-              GitHub Repo
-            </Link>
+            {project.githubUrl ? (
+              <Link
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-secondary-400 dark:bg-secondary-600 text-foreground px-4 py-2 rounded-md hover:bg-secondary-600 hover:dark:bg-secondary-800 transition-colors"
+              >
+                GitHub Repo
+              </Link>
+            ) : null}
           </div>
         </div>
       </div>

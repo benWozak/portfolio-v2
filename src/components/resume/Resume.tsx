@@ -59,11 +59,11 @@ const Resume: React.FC<ResumeProps> = ({
 
   return (
     <div className="relative w-full min-w-[320px] mx-auto pt-4 mt-12 md:mt-16 font-[helvetica]">
-      <div className="w-full max-w-4xl mx-auto mb-4 flex justify-between gap-4 print:hidden">
+      <div className="w-full max-w-4xl mx-auto mb-4 flex flex-col md:flex-row justify-between gap-4 print:hidden">
         <div>
           <Announcement />
         </div>
-        <div className="flex flex-row gap-2">
+        <div className="flex flex-row justify-end gap-2">
           <Button
             icon={<FaDownload />}
             label="Download PDF"

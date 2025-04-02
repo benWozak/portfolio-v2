@@ -112,6 +112,12 @@ export function Header() {
             className="fixed h-screen-dvh inset-0 z-50 bg-white/80 dark:bg-gray-900/90 backdrop-blur-md"
           >
             <div className="flex min-h-full flex-col items-center justify-center pt-16">
+              <span
+                className="absolute top-2 left-4"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <Logo />
+              </span>
               <button
                 onClick={toggleMobileMenu}
                 className="absolute top-4 right-4 p-2 text-gray-600 dark:text-gray-200"

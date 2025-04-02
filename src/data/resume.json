@@ -11,9 +11,9 @@
   "experience": [
     {
       "company": "Cognitive 3D",
-      "position": "Senior Frontend Software Engineer",
+      "position": "Frontend Software Engineer",
       "duration": {
-        "startDate": "Jan 2021",
+        "startDate": "Jan 2025",
         "endDate": null
       },
       "description": [
@@ -36,7 +36,7 @@
       ]
     },
     {
-      "company": "Chata Technologies inc.",
+      "company": "Chata.ai",
       "position": "Team Lead/Frontend Software Engineer",
       "duration": {
         "startDate": "Sept 2019",
@@ -46,6 +46,19 @@
         "Led two 4-person teams: one developing an internal tool for language model configuration, another creating AutoQL suite with chat interface, dashboard, and notification system",
         "Developed 2 API management portals and Microsoft Teams extension, serving hundreds of users across multiple SaaS platforms",
         "Spearheaded company-wide TypeScript adoption and group code-reviews through dev guild leadership."
+      ]
+    },
+    {
+      "company": "KRD Consulting",
+      "position": "Junior Web Developer",
+      "duration": {
+        "startDate": "April 2019",
+        "endDate": "Nov 2019"
+      },
+      "description": [
+        "Modernized a database management system, integrating custom reporting and form creation tools.",
+        "Created network visualization tool for enhancing non-profit collaboration.",
+        "Managed and optimized custom DrupalCMS client site."
       ]
     }
   ],

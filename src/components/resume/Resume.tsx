@@ -9,7 +9,7 @@ import {
   FaAddressCard,
 } from "react-icons/fa";
 import { ResumeData } from "../../types/resume";
-import Button from "../ui/Button";
+import { Button, Announcement } from "../ui";
 import { cleanUrl } from "../../utils/functions/format";
 
 interface ResumeProps {
@@ -59,15 +59,19 @@ const Resume: React.FC<ResumeProps> = ({
 
   return (
     <div className="relative w-full min-w-[320px] mx-auto pt-4 mt-12 md:mt-16 font-[helvetica]">
-      <div className="w-full max-w-4xl mx-auto mb-4 flex justify-end print:hidden">
+      <div className="w-full max-w-4xl mx-auto mb-4 flex justify-between gap-4 print:hidden">
+        <div>
+          <Announcement />
+        </div>
         <div className="flex flex-row gap-2">
           <Button
             icon={<FaDownload />}
             label="Download PDF"
             onClick={onExportPDF}
-            disabled={isGeneratingPDF || isSafari}
+            // disabled={isGeneratingPDF || isSafari}
+            disabled={true}
             disabledReason={
-              isSafari ? "PDF download not available on Safari" : "Download PDF"
+              isSafari ? "PDF download not available on mobile" : "Download PDF"
             }
             variant="primary"
           />

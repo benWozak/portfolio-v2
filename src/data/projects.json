@@ -1,6 +1,21 @@
 [
   {
     "id": 1,
+    "name": "Calgary Folk Fest",
+    "type": "web",
+    "status": "Professional",
+    "description": "A website for a local music festival with well over 40 years of rich history in the heart of downtown Calgary, AB.",
+    "media": "https://ua4mmiw8i4jbla3y.public.blob.vercel-storage.com/CFMF-xJzGh6j0tM4nfGWVzi1fsgdAq9In7M.mov",
+    "staticImage": "https://ua4mmiw8i4jbla3y.public.blob.vercel-storage.com/CFMF-andRlosHHaG0BXZ6k1oi10W7k0nt8q.png",
+    "liveUrl": "https://calgaryfolkfest.com/",
+    "githubUrl": null,
+    "content": {
+      "concept": "Calgary Folk Fest is a local music festival that has been running for over 40 years. They  needed a digital refresh to match its cultural significance. Their outdated website contained extensive content that required re-imagining.",
+      "solution": "As part of a small team, we built them a brand new solution from the ground up with Next.js, StrapiCMS and MySQL - hosted on AWS. on top of developing the frontend, I was also largely responsible for architecture and infrastructure."
+    }
+  },
+  {
+    "id": 2,
     "name": "OurRecipes",
     "type": "web",
     "status": "Prototype",
@@ -15,7 +30,7 @@
     }
   },
   {
-    "id": 2,
+    "id": 3,
     "name": "Tedana App",
     "type": "native",
     "status": "Prototype",
@@ -30,7 +45,7 @@
     }
   },
   {
-    "id": 3,
+    "id": 4,
     "name": "Resume Builder",
     "type": "web",
     "status": "Prototype",

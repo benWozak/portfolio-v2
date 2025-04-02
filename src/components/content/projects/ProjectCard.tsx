@@ -4,7 +4,6 @@ import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Project } from "@/types";
-import { motion } from "framer-motion";
 import { Badge } from "../../ui/Badge";
 
 type Props = {
@@ -42,13 +41,8 @@ export function ProjectCard({ index, project }: Props) {
   };
 
   return (
-    <motion.div
-      key={project.id}
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, delay: index * 0.3 }}
-      className="bg-secondary-bg rounded-lg shadow-md overflow-hidden hover:shadow-md hover:shadow-slate-300 hover:dark:shadow-slate-500 transition-all 
-        duration-300"
+    <div
+      className="bg-secondary-bg rounded-lg shadow-md overflow-hidden hover:shadow-md hover:shadow-slate-300 hover:dark:shadow-slate-500 transition-all duration-300"
       onClick={handleInteraction}
       onMouseEnter={() => !isMobile && handleInteraction()}
       onMouseLeave={() => !isMobile && handleInteraction()}
@@ -58,7 +52,8 @@ export function ProjectCard({ index, project }: Props) {
         onClick={(e) => e.stopPropagation()} // Prevent link navigation when clicking to play/pause
       >
         <div className="relative h-56 bg-gradient-to-br from-secondary-300 via-secondary-500 to-secondary-700">
-          {project.media.endsWith(".mp4") || project.media.endsWith(".mov") ? (
+          {(!!project.media && project.media?.endsWith(".mp4")) ||
+          project.media?.endsWith(".mov") ? (
             <>
               <video
                 ref={videoRef}
@@ -80,7 +75,7 @@ export function ProjectCard({ index, project }: Props) {
             </>
           ) : (
             <Image
-              src={project.media}
+              src={project.staticImage}
               alt={project.name}
               layout="fill"
               objectFit="cover"
@@ -98,6 +93,6 @@ export function ProjectCard({ index, project }: Props) {
           </p>
         </div>
       </Link>
-    </motion.div>
+    </div>
   );
 }

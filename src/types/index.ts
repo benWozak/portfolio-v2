@@ -1,4 +1,4 @@
-export type ProjectStatus = 'In Progress' | 'Prototype' | 'Complete';
+export type ProjectStatus = 'In Progress' | 'Prototype' | 'Professional';
 export type ProjectType = 'web' | 'native';
 
 export interface Project {

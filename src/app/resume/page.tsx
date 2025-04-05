@@ -66,7 +66,7 @@ const ResumePage: React.FC = () => {
       emails: Array.from(emailElements).map((el) => el.textContent),
     };
 
-    // Replace with actual values for PDF
+    // Redact sensitive information
     phoneElements.forEach((el) => {
       el.textContent = resumeData!.phone;
     });

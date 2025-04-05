@@ -76,7 +76,7 @@ export default async function ProjectPage({ params }: { params: Params }) {
                 rel="noopener noreferrer"
                 className="bg-secondary-400 dark:bg-secondary-600 text-foreground px-4 py-2 rounded-md hover:bg-secondary-600 hover:dark:bg-secondary-800 transition-colors"
               >
-                GitHub Repo
+                View Code
               </Link>
             ) : null}
           </div>

@@ -30,7 +30,7 @@ export function Projects() {
       className="flex items-center flex-1"
     >
       <AnimatedSection>
-        <motion.div variants={itemVariants} className="mb-8">
+        {/* <motion.div variants={itemVariants} className="mb-8">
           <p className="mb-4 text-sm md:text-base lg:text-xl text-gray-800 dark:text-gray-200">
             This collection features my side projects where I explore different
             web technologies and concepts outside of my day job.
@@ -40,7 +40,7 @@ export function Projects() {
             development skills through hands-on experimentation with technical
             challenges and emerging tools.
           </p>
-        </motion.div>
+        </motion.div> */}
 
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 gap-6 px-4 md:px-0 pt-4"

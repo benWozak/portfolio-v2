@@ -10,6 +10,7 @@ interface ButtonProps {
   disabledReason?: string;
   variant?: "primary" | "secondary";
   className?: string;
+  noreferrer?: boolean;
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -21,6 +22,7 @@ export const Button: React.FC<ButtonProps> = ({
   disabledReason,
   variant = "primary",
   className,
+  noreferrer = false,
 }) => {
   const baseClasses = `px-4 py-2 rounded shadow flex items-center justify-center gap-2 text-sm transition-colors`;
 
@@ -37,7 +39,12 @@ export const Button: React.FC<ButtonProps> = ({
 
   if (href && !disabled) {
     return (
-      <Link href={href} className={buttonClasses} aria-label={label}>
+      <Link
+        href={href}
+        className={buttonClasses}
+        aria-label={label}
+        rel={noreferrer ? "noreferrer noopener" : undefined}
+      >
         {icon} {label}
       </Link>
     );

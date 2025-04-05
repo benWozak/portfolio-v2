@@ -24,7 +24,7 @@ export function About() {
         <motion.div className="max-w-xl" variants={itemVariants}>
           <p className="text-sm md:text-base lg:text-xl mb-4">
             I am a Software Developer with 6 years of professional experience
-            crafting user-interfaces for B2B SaaS product and high traffic
+            crafting user-interfaces for B2B SaaS products and high traffic
             client-facing websites. I am specialized in all things JavaScript,
             creating elegant user experiences with complex software solutions.
           </p>

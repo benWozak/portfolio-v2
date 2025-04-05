@@ -47,7 +47,7 @@ export function CTAButton({
       : `
       bg-transparent border border-neutral-800 text-neutral-800
       dark:border-neutral-200 dark:text-neutral-200
-      after:bg-primary
+      after:bg-secondary-700
       transition-colors duration-300
       hover:border-transparent
     `;

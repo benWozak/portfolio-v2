@@ -1,6 +1,12 @@
 import AnimatedHome from "@/components/layout/AnimatedHome";
 import { Hero } from "@/components/layout";
-import { About, Projects, Contact, Experience } from "@/components/content";
+import {
+  About,
+  Services,
+  Projects,
+  Contact,
+  Experience,
+} from "@/components/content";
 
 export default function Home() {
   return (
@@ -8,6 +14,7 @@ export default function Home() {
       <div className="flex min-h-screen flex-col items-center justify-center">
         <Hero />
         <About />
+        <Services />
         <Experience />
         <Projects />
         <Contact />

@@ -41,15 +41,13 @@ export function Projects() {
             challenges and emerging tools.
           </p>
         </motion.div> */}
-
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 gap-6 px-4 md:px-0 pt-4"
-          variants={itemVariants}
-        >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-4 md:px-0 pt-4">
           {projects.map((project, index) => (
-            <ProjectCard key={index} index={index} project={project} />
+            <motion.div variants={itemVariants} key={index}>
+              <ProjectCard index={index} project={project} />
+            </motion.div>
           ))}
-        </motion.div>
+        </div>
 
         <motion.div
           className="mt-8 lg:mt-12 flex justify-center"

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import ReactDOM from "react-dom";
 import Resume from "@/components/resume/Resume";
 import { ResumeData } from "@/types/resume";
 import resumeData from "@/data/resume.json";

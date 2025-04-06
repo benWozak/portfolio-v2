@@ -68,11 +68,11 @@ export function Experience() {
   return (
     <Section id="experience" title="Experience">
       <AnimatedSection className="relative border-s border-primary-500 dark:border-primary-500 py-10 mx-8 lg:mx-0">
-        <motion.ol variants={itemVariants}>
-          {experiences.map((exp, index) => (
-            <TimeBlock key={index} {...exp} />
-          ))}
-        </motion.ol>
+        {experiences.map((exp, index) => (
+          <motion.ol key={index} variants={itemVariants}>
+            <TimeBlock {...exp} />
+          </motion.ol>
+        ))}
       </AnimatedSection>
     </Section>
   );

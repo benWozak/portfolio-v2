@@ -1,17 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
 import Logo from "./Logo";
 import { LinkButton } from "../ui/LinkButton";
 import { Socials } from "../content";
+import { useNavigation } from "@/utils/hooks";
 
 type Props = {};
 
 export function Footer({}: Props) {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const pathname = usePathname();
+  const navItems = useNavigation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,32 +20,6 @@ export function Footer({}: Props) {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
-  const isProjectsPage = pathname.startsWith("/projects");
-  const isResumePage = pathname.startsWith("/resume");
-
-  const navItems = [
-    {
-      href: isResumePage || isProjectsPage ? "/#about" : "#about",
-      label: "About",
-    },
-    {
-      href: isResumePage || isProjectsPage ? "/#experience" : "#experience",
-      label: "Experience",
-    },
-    {
-      href: isResumePage || isProjectsPage ? "/#projects" : "#projects",
-      label: "Projects",
-    },
-    {
-      href: isResumePage || isProjectsPage ? "/#contact" : "#contact",
-      label: "Contact",
-    },
-  ];
 
   return (
     <footer className="text-sm text-foreground">

@@ -2,15 +2,15 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { usePathname } from "next/navigation";
 import Logo from "./Logo";
 import { ThemeToggle } from "./ThemeToggle";
 import { LinkButton } from "../ui/LinkButton";
+import { useNavigation } from "@/utils/hooks";
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const pathname = usePathname();
+  const navItems = useNavigation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,35 +24,6 @@ export function Header() {
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
-
-  const isProjectsPage = pathname.startsWith("/projects");
-  const isResumePage = pathname.startsWith("/resume");
-  const isContactPage = pathname.startsWith("/contact");
-
-  const navItems = isProjectsPage
-    ? [
-        { href: "/projects", label: "All Projects" },
-        { href: "/projects/web", label: "Web Projects" },
-        { href: "/projects/native", label: "Native Apps" },
-      ]
-    : [
-        {
-          href: isResumePage || isContactPage ? "/#about" : "#about",
-          label: "About",
-        },
-        {
-          href: isResumePage || isContactPage ? "/#experience" : "#experience",
-          label: "Experience",
-        },
-        {
-          href: isResumePage || isContactPage ? "/#projects" : "#projects",
-          label: "Projects",
-        },
-        {
-          href: isResumePage || isContactPage ? "/#contact" : "#contact",
-          label: "Contact",
-        },
-      ];
 
   return (
     <header

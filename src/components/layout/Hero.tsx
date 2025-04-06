@@ -56,7 +56,7 @@ export function Hero() {
       </motion.h1>
 
       <motion.div className="mt-6 lg:mt-10 flex gap-4" variants={itemVariants}>
-        <CTAButton href="#contact">Get in Touch</CTAButton>
+        <CTAButton href="/contact">Get in Touch</CTAButton>
         <CTAButton type="secondary" href="/resume">
           View CV
         </CTAButton>

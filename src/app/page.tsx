@@ -1,12 +1,6 @@
 import AnimatedHome from "@/components/layout/AnimatedHome";
 import { Hero } from "@/components/layout";
-import {
-  About,
-  Services,
-  Projects,
-  Contact,
-  Experience,
-} from "@/components/content";
+import { About, Services, Projects, Experience } from "@/components/content";
 
 export default function Home() {
   return (
@@ -17,7 +11,6 @@ export default function Home() {
         <Services />
         <Experience />
         <Projects />
-        <Contact />
       </div>
     </AnimatedHome>
   );

@@ -35,36 +35,32 @@ export default function MobileProjectsPage() {
   }, [isReady, controls]);
 
   return (
-    <div className="container mx-auto my-16 px-4 py-16 lg:py-8">
-      <SectionHeading title="Native Apps" />
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[25rem]">
-        {projects.map((project, index) => (
-          <motion.div
-            key={project.id}
-            custom={index}
-            initial="hidden"
-            animate={controls}
-            variants={{
-              hidden: {
-                opacity: 0,
-                y: 40,
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[25rem]">
+      {projects.map((project, index) => (
+        <motion.div
+          key={project.id}
+          custom={index}
+          initial="hidden"
+          animate={controls}
+          variants={{
+            hidden: {
+              opacity: 0,
+              y: 40,
+            },
+            visible: (i) => ({
+              opacity: 1,
+              y: 0,
+              transition: {
+                delay: calculateWaterfallDelay(i),
+                duration: 1.1,
+                ease: [0.16, 0.1, 0.3, 1],
               },
-              visible: (i) => ({
-                opacity: 1,
-                y: 0,
-                transition: {
-                  delay: calculateWaterfallDelay(i),
-                  duration: 1.1,
-                  ease: [0.16, 0.1, 0.3, 1],
-                },
-              }),
-            }}
-          >
-            <ProjectCard index={index} project={project} />
-          </motion.div>
-        ))}
-      </div>
+            }),
+          }}
+        >
+          <ProjectCard index={index} project={project} />
+        </motion.div>
+      ))}
     </div>
   );
 }

@@ -27,7 +27,7 @@ export function useNavigation(): NavItem[] {
       label: "Experience",
     },
     {
-      href: isHomePage ? "#projects" : "/#projects",
+      href: "/projects",
       label: "Projects",
     },
     {

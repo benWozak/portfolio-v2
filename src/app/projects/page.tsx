@@ -32,36 +32,32 @@ export default function ProjectsPage() {
   }, [isReady, controls]);
 
   return (
-    <article className="container mx-auto my-16 px-4 py-16 lg:py-8">
-      <SectionHeading title="All Projects" />
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 min-h-[25rem]">
-        {projects.map((project, index) => (
-          <motion.div
-            key={index}
-            custom={index}
-            initial="hidden"
-            animate={controls}
-            variants={{
-              hidden: {
-                opacity: 0,
-                y: 40,
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 min-h-[25rem]">
+      {projects.map((project, index) => (
+        <motion.div
+          key={index}
+          custom={index}
+          initial="hidden"
+          animate={controls}
+          variants={{
+            hidden: {
+              opacity: 0,
+              y: 40,
+            },
+            visible: (i) => ({
+              opacity: 1,
+              y: 0,
+              transition: {
+                delay: calculateWaterfallDelay(i),
+                duration: 1.1,
+                ease: [0.16, 0.1, 0.3, 1], // Custom easing for smooth waterfall
               },
-              visible: (i) => ({
-                opacity: 1,
-                y: 0,
-                transition: {
-                  delay: calculateWaterfallDelay(i),
-                  duration: 1.1,
-                  ease: [0.16, 0.1, 0.3, 1], // Custom easing for smooth waterfall
-                },
-              }),
-            }}
-          >
-            <ProjectCard index={index} project={project} />
-          </motion.div>
-        ))}
-      </div>
-    </article>
+            }),
+          }}
+        >
+          <ProjectCard index={index} project={project} />
+        </motion.div>
+      ))}
+    </div>
   );
 }

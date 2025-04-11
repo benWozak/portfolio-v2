@@ -28,12 +28,12 @@ export function Footer({}: Props) {
           <Logo />
         </div>
 
-        <p className="mx-auto mt-6 max-w-md text-center leading-relaxed text-gray-500">
+        {/* <p className="mx-auto mt-6 max-w-md text-center leading-relaxed text-gray-500">
           Your vision, expertly developed - from concept to completion.
           Transforming innovative ideas into impactful digital experiences.
-        </p>
+        </p> */}
 
-        <ul className="mt-12 flex flex-wrap justify-center gap-6 md:gap-8 lg:gap-12">
+        <ul className="mt-8 flex flex-wrap justify-center gap-6 md:gap-8 lg:gap-12">
           {navItems.map((item) => {
             return (
               <li key={item.href}>
@@ -48,7 +48,7 @@ export function Footer({}: Props) {
           })}
         </ul>
 
-        <div className="mt-12 flex justify-center gap-6 md:gap-8">
+        <div className="mt-8 flex justify-center gap-6 md:gap-8">
           <Socials size="md" />
         </div>
       </div>

@@ -24,7 +24,7 @@ export function Socials({ size }: Props) {
         >
           <SiGithub
             size={size ? SIZE_VARIANTS[size] : 24}
-            className="text-foreground/70 hover:text-secondary-500 transition-all"
+            className="text-foreground/70 hover:text-primary-500 transition-all"
           />
         </Link>
       </div>
@@ -36,7 +36,7 @@ export function Socials({ size }: Props) {
         >
           <SiLinkedin
             size={size ? SIZE_VARIANTS[size] : 24}
-            className="text-foreground/70 hover:text-secondary-500 transition-all"
+            className="text-foreground/70 hover:text-primary-500 transition-all"
           />
         </Link>
       </div>

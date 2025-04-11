@@ -6,6 +6,7 @@ import Logo from "./Logo";
 import { ThemeToggle } from "./ThemeToggle";
 import { LinkButton } from "../ui/LinkButton";
 import { useNavigation } from "@/utils/hooks";
+import { Socials } from "../content";
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -51,6 +52,10 @@ export function Header() {
             </nav>
 
             <div className="flex items-center gap-4">
+              <div className="hidden md:block">
+                <Socials size="md" />
+              </div>
+
               <div className="sm:flex sm:gap-4">
                 <ThemeToggle />
               </div>
@@ -129,6 +134,9 @@ export function Header() {
                     </li>
                   ))}
                 </ul>
+                <div className="mt-16">
+                  <Socials size="md" />
+                </div>
               </nav>
             </div>
           </motion.div>

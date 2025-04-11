@@ -26,7 +26,7 @@ export function Projects() {
   return (
     <Section
       id="projects"
-      title="Projects"
+      title="Recent Work"
       className="flex items-center flex-1"
     >
       <AnimatedSection>

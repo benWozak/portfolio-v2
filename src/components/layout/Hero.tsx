@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { TechnologyShowcase, Socials } from "../content";
+import { TechnologyShowcase } from "../content";
 import { CTAButton } from "../ui";
 
 const containerVariants = {
@@ -55,15 +55,11 @@ export function Hero() {
         Web Technologies
       </motion.h1>
 
-      <motion.div className="mt-6 lg:mt-10 flex gap-4" variants={itemVariants}>
+      <motion.div className="my-6 lg:my-10 flex gap-4" variants={itemVariants}>
         <CTAButton href="/contact">Get in Touch</CTAButton>
-        <CTAButton type="secondary" href="/resume">
-          View CV
+        <CTAButton type="secondary" href="/about">
+          Learn More
         </CTAButton>
-      </motion.div>
-
-      <motion.div className="mt-4 mb-8 lg:mt-6" variants={itemVariants}>
-        <Socials size="lg" />
       </motion.div>
 
       <motion.div

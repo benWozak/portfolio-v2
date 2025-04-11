@@ -33,7 +33,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               "pb-2 px-4 text-sm font-medium",
               pathname === tab.href
                 ? "border-b-2 border-primary-500 text-primary-500"
-                : "text-primary-foreground"
+                : ""
             )}
           >
             {tab.name}

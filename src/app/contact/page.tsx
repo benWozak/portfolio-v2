@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Section from "../../components/layout/section";
-import ContactForm from "../../components/content/ContactForm";
+import ContactForm from "../../components/content/contact/ContactForm";
 import {
   AnimatedSection,
   itemVariants,

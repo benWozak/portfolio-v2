@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
-import { Button } from "../ui";
+import { Button } from "../../ui";
 
 export default function ContactForm() {
   const form = useRef<HTMLFormElement>(null);

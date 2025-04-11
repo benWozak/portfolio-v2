@@ -1,5 +1,5 @@
 "use client";
-import React, { use } from "react";
+import React from "react";
 import Section from "../layout/section";
 import {
   AnimatedSection,

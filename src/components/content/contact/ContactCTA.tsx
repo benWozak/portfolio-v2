@@ -18,7 +18,7 @@ function ContactCTA({}: Props) {
           Transforming innovative ideas into impactful digital experiences.
         </p>
 
-        <div className="inline-flex w-full mt-6 sm:w-auto">
+        <div className="inline-flex mt-6 w-auto">
           <CTAButton href="/contact">Get In Touch</CTAButton>
         </div>
       </div>

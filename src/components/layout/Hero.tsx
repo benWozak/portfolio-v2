@@ -31,7 +31,7 @@ const itemVariants = {
 export function Hero() {
   return (
     <motion.section
-      className="relative h-auto w-full flex flex-col items-center pt-16 md:pt-24 lg:pt-32 mb-64"
+      className="relative h-auto w-full flex flex-col items-center pt-16 md:pt-24 lg:pt-32 mb-16 lg:mb-64"
       variants={containerVariants}
       initial="hidden"
       animate="visible"

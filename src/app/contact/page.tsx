@@ -17,9 +17,13 @@ export default function Contact() {
           className="text-sm md:text-base lg:text-xl lg:px-2 mb-8 px-8 max-w-2xl text-gray-800 dark:text-gray-200"
           variants={itemVariants}
         >
-          I&#39;m always open to new opportunities and would love to discuss how
-          my skills and experience could benefit your team. Feel free to reach
-          out through the form below, check out my{" "}
+          <span className="text-primary-500 font-bold">
+            I'm currently available for freelance work
+          </span>{" "}
+          — whether you need help shipping a feature, building a full app, or
+          just want a second set of eyes on your code, let's chat.
+          <br />
+          Feel free to reach out using the form below, or connect with me on{" "}
           <LinkButton
             href="https://github.com/benWozak"
             className="text-sm md:text-base lg:text-xl text-secondary-600 dark:text-secondary-500"

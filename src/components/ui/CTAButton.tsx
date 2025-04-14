@@ -20,23 +20,23 @@ export function CTAButton({
 }: CTAButtonProps) {
   const { scrollToElement } = useSmoothScroll();
 
-  const handleClick = useCallback(
-    (e: React.MouseEvent<HTMLAnchorElement>) => {
-      e.preventDefault();
-      if (onClick) {
-        onClick();
-      }
+  // const handleClick = useCallback(
+  //   (e: React.MouseEvent<HTMLAnchorElement>) => {
+  //     e.preventDefault();
+  //     if (onClick) {
+  //       onClick();
+  //     }
 
-      if (href.startsWith("#")) {
-        const targetId = href.replace("#", "");
-        scrollToElement(targetId);
-      } else {
-        // For non-hash links, use the default Link behavior
-        window.location.href = href;
-      }
-    },
-    [href, onClick, scrollToElement]
-  );
+  //     if (href.startsWith("#")) {
+  //       const targetId = href.replace("#", "");
+  //       scrollToElement(targetId);
+  //     } else {
+  //       // For non-hash links, use the default Link behavior
+  //       window.location.href = href;
+  //     }
+  //   },
+  //   [href, onClick, scrollToElement]
+  // );
 
   const buttonStyles =
     type === "primary"
@@ -55,7 +55,7 @@ export function CTAButton({
   return (
     <Link
       href={href}
-      onClick={handleClick}
+      // onClick={handleClick}
       className={`
         group font-semibold
         relative flex justify-center items-center rounded-md

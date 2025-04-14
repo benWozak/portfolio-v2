@@ -7,6 +7,7 @@ import {
   itemVariants,
 } from "../layout/section/AnimatedSection";
 import { motion } from "framer-motion";
+import { CTAButton } from "../ui";
 
 interface TimeBlockProps {
   time: string;
@@ -87,6 +88,14 @@ export function Experience() {
             <TimeBlock {...exp} />
           </motion.ol>
         ))}
+        <motion.div
+          variants={itemVariants}
+          className="mt-8 lg:mt-12 flex justify-center"
+        >
+          <CTAButton type="secondary" href="/resume" className="w-72">
+            View My CV
+          </CTAButton>
+        </motion.div>
       </AnimatedSection>
     </Section>
   );

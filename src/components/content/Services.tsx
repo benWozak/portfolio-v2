@@ -16,22 +16,22 @@ const serviceItems: ServiceItemProps[] = [
   {
     title: "Custom Website",
     description:
-      "Tailored web solutions designed specifically for your brand and business needs, with attention to detail and modern aesthetics.",
+      "Modern, responsive websites built with Next.js—tailored to your brand, goals, and business needs. Every project is crafted with performance, usability, and visual polish in mind.",
   },
   {
     title: "E-commerce Solutions",
     description:
-      "Complete online store implementation with secure payment processing, inventory management, and a seamless shopping experience.",
+      "Fully featured online stores with custom design, secure payment processing, inventory management, and a frictionless shopping experience that scales with your business.",
   },
   {
     title: "Flexible Content Management",
     description:
-      "Easy-to-use systems that put you in control of your content, allowing updates without technical knowledge or developer assistance.",
+      "Empower your team with Payload CMS—an intuitive, headless content management system that gives you complete control over your content without needing a developer.",
   },
   {
     title: "Affordability",
     description:
-      "Competitive rates with flexible payment options tailored to your budget, ensuring high-quality results without breaking the bank.",
+      "High-quality results at competitive rates, with flexible payment options that respect your budget and the unique scope of your project.",
   },
   {
     title: "Professional Support",
@@ -76,7 +76,7 @@ export function Services() {
     <Section id="services" title="Freelance Services">
       <AnimatedSection>
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-          <dl className="mt-12 space-y-10 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 lg:grid-cols-3 lg:gap-x-8">
+          <dl className="px-4 mt-12 space-y-10 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 lg:grid-cols-3 lg:gap-x-8">
             {serviceItems.map((service, index) => (
               <motion.div key={index} variants={itemVariants}>
                 <ServiceItem

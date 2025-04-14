@@ -27,12 +27,10 @@ export function Footer({}: Props) {
         <div className="flex justify-center">
           <Logo />
         </div>
-
         {/* <p className="mx-auto mt-6 max-w-md text-center leading-relaxed text-gray-500">
           Your vision, expertly developed - from concept to completion.
           Transforming innovative ideas into impactful digital experiences.
         </p> */}
-
         <ul className="mt-8 flex flex-wrap justify-center gap-6 md:gap-8 lg:gap-12">
           {navItems.map((item) => {
             return (
@@ -47,9 +45,11 @@ export function Footer({}: Props) {
             );
           })}
         </ul>
-
         <div className="mt-8 flex justify-center gap-6 md:gap-8">
           <Socials size="md" />
+        </div>
+        <div className="flex justify-center">
+          © {new Date().getFullYear()} Ben Wozak. All rights reserved.
         </div>
       </div>
     </footer>

@@ -49,21 +49,22 @@ export function HeroFreelance({}: Props) {
         <div className="lg:max-w-2xl">
           <motion.h1
             variants={itemVariants}
-            className="text-3xl font-semibold tracking-wide text-gray-800 dark:text-white md:text-4xl lg:text-6xl"
+            className="text-3xl font-bold tracking-wide text-gray-800 dark:text-white md:text-4xl lg:text-6xl"
           >
-            <i className="text-primary-500">Your Vision</i>
+            <span className="text-primary-500">Your Vision</span>
             <br />
-            <i>Expertly Developed</i>
+            Expertly Developed
           </motion.h1>
           <motion.p
             variants={itemVariants}
-            className="mt-4 text-lg lg:text-2xl text-gray-600 dark:text-gray-300"
+            className="mt-4 font-semibold text-lg lg:text-2xl text-gray-600 dark:text-gray-300"
           >
             From concept to completion -{" "}
-            <span className="text-secondary-500">
-              Transforming innovative ideas
-            </span>{" "}
-            into impactful digital experiences.
+            {/* <span className="text-primary-500"> */}
+            Transforming innovative ideas
+            {/* </span>{" "} */}
+            into impactful{" "}
+            <span className="text-primary-500">digital experiences.</span>
           </motion.p>
           <div className="grid gap-2 mt-8 sm:grid-cols-2">
             {items.map((item, index) => (

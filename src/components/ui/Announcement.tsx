@@ -8,8 +8,8 @@ export function Announcement({}: Props) {
       <span> </span>
 
       <i className="text-sm font-medium px-8">
-        Resume download is currently disabled. Please contact me directly for a
-        copy.
+        Resume download is currently disabled –– Please contact me directly for
+        a copy.
       </i>
     </div>
   );

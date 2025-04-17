@@ -15,8 +15,8 @@ export function About() {
       <AnimatedSection className="flex gap-12 flex-col lg:flex-row lg:px-2 mb-4 px-8">
         <motion.div variants={itemVariants}>
           <Image
-            src="/Ben_Black-white.jpg"
-            alt="photo of Ben Wozak"
+            src="/Ben_Black-White.jpg"
+            alt="Photo of Ben Wozak"
             width={500}
             height={300}
             className="rounded-2xl"

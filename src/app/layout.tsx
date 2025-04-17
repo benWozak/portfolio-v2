@@ -29,7 +29,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://v2-benwozak.vercel.app/"),
+  metadataBase: new URL("https://benwozak.dev/"),
   title: {
     default: "Ben Wozak | Software Developer",
     template: "%s | Ben Wozak",
@@ -58,14 +58,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://v2-benwozak.vercel.app/",
+    url: "https://benwozak.dev/",
     title: "Ben Wozak | Software Developer",
     description:
       "Explore my projects. Specializing in React, Next.js, and modern web technologies.",
     siteName: "Ben Wozaks Portfolio",
     images: [
       {
-        url: "https://v2-benwozak.vercel.app/BW_logo.svg",
+        url: "https://benwozak.dev/BW_logo.svg",
         width: 1200,
         height: 630,
         alt: "Ben Wozak - Software Developer",
@@ -77,7 +77,7 @@ export const metadata: Metadata = {
     title: "Ben Wozak | Software Developer",
     description: "Check out my latest web development projects.",
     creator: "@your_twitter_handle",
-    images: ["https://v2-benwozak.vercel.app/BW_logo.svg"],
+    images: ["https://benwozak.dev/BW_logo.svg"],
   },
   robots: {
     index: true,

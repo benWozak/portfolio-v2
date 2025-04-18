@@ -14,34 +14,34 @@ type ServiceItemProps = {
 
 const serviceItems: ServiceItemProps[] = [
   {
-    title: "Custom Website",
+    title: "Custom Websites",
     description:
-      "Modern, responsive websites built with Next.js—tailored to your brand, goals, and business needs. Every project is crafted with performance, usability, and visual polish in mind.",
+      "Modern, responsive websites built with Next.js that are tailored to your brand, goals, and business needs. Designed for performance, usability, and visual polish.",
   },
   {
     title: "E-commerce Solutions",
     description:
-      "Fully featured online stores with custom design, secure payment processing, inventory management, and a frictionless shopping experience that scales with your business.",
+      "Custom online stores with secure payments, inventory management, and seamless shopping experiences that scale with your business.",
   },
   {
-    title: "Flexible Content Management",
+    title: "Content Management",
     description:
-      "Empower your team with Payload CMS—an intuitive, headless content management system that gives you complete control over your content without needing a developer.",
+      "Empower your team with Payload CMS; an intuitive, feature rich and developer-friendly system that gives you full control over your content without extra overhead you might see with other solutions.",
   },
   {
-    title: "Affordability",
+    title: "Flexible Pricing",
     description:
-      "High-quality results at competitive rates, with flexible payment options that respect your budget and the unique scope of your project.",
+      "High-quality results at competitive rates, with payment structures that respect your budget and the unique needs of your project.",
   },
   {
-    title: "Professional Support",
+    title: "Ongoing Support",
     description:
-      "Ongoing & reliable technical assistance, timely maintenance, and expert advice whenever you need it for your digital properties.",
+      "Reliable maintenance, technical assistance, and expert guidance that is available when you need it, for the long run.",
   },
   {
-    title: "Flexible Hosting Options",
+    title: "Scalable Hosting",
     description:
-      "Scalable hosting solutions that grow with your business, from shared environments to dedicated infrastructure with managed services.",
+      "Hosting options that grow with your business, from shared environments to fully managed and dedicated infrastructure.",
   },
 ];
 

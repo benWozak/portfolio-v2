@@ -13,27 +13,27 @@ type Props = {};
 export function Pitch({}: Props) {
   const features = [
     {
-      title: "Startup-Proven Engineer",
+      title: "Startup-Proven Engineering",
       description:
-        "Seasoned in fast-moving startup environments with a passion for building efficient, scalable solutions. I bring a wealth of experience to every project.",
+        "Seasoned in fast-moving startup environments with a passion for building & improving efficient, scalable applications. I bring a wealth of experience to every project.",
       icon: Rocket,
     },
     {
-      title: "Tech Stack Fluent",
+      title: "Reliable Judgment",
       description:
-        "Comfortable across the stack — especially sharp in frontend ecosystems. I have the tools and intuition to bring any feature to life.",
+        "I’ve seen what works and what doesn’t. I bring sound judgment to every decision, helping you avoid dead ends, pick the right tools, and build only what matters.",
       icon: Cpu,
     },
     {
-      title: "Systems Thinker",
+      title: "Systematic Thinking",
       description:
-        "I think in systems — designing intuitive interfaces while accounting for backend architecture, performance, and scalability.",
+        "I think in systems; designing intuitive interfaces while accounting for backend architecture, performance, and scalability.",
       icon: Blocks,
     },
     {
-      title: "Client-Centered Developer",
+      title: "Collaboration by Design",
       description:
-        "I listen first, code second — ensuring every line I write aligns with your goals and gives you full control over features and content.",
+        "Good software starts with clarity. I take time to understand your goals so I can deliver solutions that are not just functional, but truly useful; and fully under your control.",
       icon: UserIcon,
     },
   ];

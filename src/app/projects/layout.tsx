@@ -18,6 +18,14 @@ function getTitle(pathname: string): string {
   return "All Projects";
 }
 
+function isProjectPath(pathname: string): boolean {
+  return (
+    pathname !== "/projects/web" &&
+    pathname !== "/projects/native" &&
+    pathname !== "/projects"
+  );
+}
+
 export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const currentTitle = getTitle(pathname);
@@ -25,22 +33,23 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <article className="container mx-auto my-16 px-4 py-16 lg:py-8">
       <nav className="mb-8 flex space-x-4">
-        {tabs.map((tab) => (
-          <LinkButton
-            key={tab.name}
-            href={tab.href}
-            className={clsx(
-              "pb-2 px-4 text-sm font-medium",
-              pathname === tab.href
-                ? "border-b-2 border-primary-500 text-primary-500"
-                : ""
-            )}
-          >
-            {tab.name}
-          </LinkButton>
-        ))}
+        {!isProjectPath(pathname) &&
+          tabs.map((tab) => (
+            <LinkButton
+              key={tab.name}
+              href={tab.href}
+              className={clsx(
+                "pb-2 px-4 text-sm font-medium",
+                pathname === tab.href
+                  ? "border-b-2 border-primary-500 text-primary-500"
+                  : ""
+              )}
+            >
+              {tab.name}
+            </LinkButton>
+          ))}
       </nav>
-      <SectionHeading title={currentTitle} />
+      {!isProjectPath(pathname) && <SectionHeading title={currentTitle} />}
       {children}
     </article>
   );

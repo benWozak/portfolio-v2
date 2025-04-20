@@ -41,11 +41,11 @@ export default async function ProjectPage({ params }: { params: Params }) {
 
   return (
     <div className="container mx-auto px-4 py-16 lg:pt-24">
-      <SectionHeading title="Projects" />
+      <SectionHeading title={project.name} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <MediaContainer project={project} />
         <div>
-          <h1 className="text-3xl font-bold mb-4">{project.name}</h1>
+          {/* <h1 className="text-3xl font-bold mb-4">{project.name}</h1> */}
           <h2 className="text-2xl font-semibold mb-4">Description</h2>
           <p className="text-gray-600 dark:text-gray-200 mb-6">
             {project.description}
@@ -58,6 +58,11 @@ export default async function ProjectPage({ params }: { params: Params }) {
           <p className="text-gray-600 dark:text-gray-200 mb-6">
             {project.content.solution}
           </p>
+          {!project?.githubUrl && (
+            <i className="text-sm font-medium text-gray-500 dark:text-gray-400">
+              I do not own the rights to the code for this project.
+            </i>
+          )}
           <div className="flex space-x-4">
             {!!project.liveUrl ? (
               <Link

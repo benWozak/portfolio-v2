@@ -14,7 +14,7 @@ export default function Contact() {
     <Section id="contact" title="Contact" className="pt-32">
       <AnimatedSection className="w-full flex flex-col items-center">
         <motion.div
-          className="text-sm md:text-base lg:text-xl lg:px-2 mb-8 px-8 max-w-2xl text-gray-800 dark:text-gray-200"
+          className="md:text-lg lg:text-xl lg:px-2 mb-4 px-8 max-w-2xl text-gray-800 dark:text-gray-200"
           variants={itemVariants}
         >
           <span className="text-primary-500 font-bold">
@@ -23,10 +23,11 @@ export default function Contact() {
           — whether you need help shipping a feature, building a full app, or
           just want a second set of eyes on your code, let's chat.
           <br />
+          <br />
           Feel free to reach out using the form below, or connect with me on{" "}
           <LinkButton
             href="https://github.com/benWozak"
-            className="text-sm md:text-base lg:text-xl text-secondary-600 dark:text-secondary-500"
+            className="md:text-lg lg:text-xl text-secondary-600 dark:text-secondary-500"
             target="_blank"
           >
             GitHub
@@ -34,7 +35,7 @@ export default function Contact() {
           or{" "}
           <LinkButton
             href="https://linkedin.com/in/ben-wozak"
-            className="text-sm md:text-base lg:text-xl text-secondary-600 dark:text-secondary-500"
+            className="md:text-lg lg:text-xl text-secondary-600 dark:text-secondary-500"
             target="_blank"
           >
             LinkedIn

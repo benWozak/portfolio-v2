@@ -109,9 +109,6 @@ export default function RootLayout({
               {children}
             </main>
             <Footer />
-            {/* <footer className="p-4 text-center text-sm text-foreground">
-              © {new Date().getFullYear()} Ben Wozak. All rights reserved.
-            </footer> */}
           </div>
         </ThemeProvider>
         <Analytics />

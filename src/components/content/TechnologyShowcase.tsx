@@ -68,11 +68,6 @@ export function TechnologyShowcase() {
   return (
     <Section id="tech" title="Technology Stack">
       <AnimatedSection className="flex flex-col items-center justify-center gap-4 lg:gap-8 px-4 lg:px-0">
-        {/* <div className="flex items-center justify-center gap-4 lg:gap-6 uppercase text-sm lg:text-md font-semibold mb-4">
-          <div className="w-16 lg:w-24 h-0.5 lg:h-1 rounded-full bg-primary"></div>
-          Main Stack
-          <div className="w-16 lg:w-24 h-0.5 lg:h-1 rounded-full bg-primary"></div>
-        </div> */}
         <motion.div
           variants={itemVariants}
           className="flex flex-wrap gap-2 lg:gap-4 justify-center max-w-3xl"
@@ -84,8 +79,6 @@ export function TechnologyShowcase() {
 
         <div className="flex items-center justify-center uppercase text-sm lg:text-md font-semibold my-4">
           <div className="w-24 lg:w-64 h-0.5 lg:h-[2px] rounded-full bg-primary"></div>
-
-          {/* <div className="w-16 lg:w-24 h-0.5 lg:h-1 rounded-full bg-primary"></div> */}
         </div>
         <motion.div
           variants={itemVariants}

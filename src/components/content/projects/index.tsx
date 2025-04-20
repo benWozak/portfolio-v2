@@ -31,11 +31,11 @@ export function Projects() {
     >
       <AnimatedSection>
         {/* <motion.div variants={itemVariants} className="mb-8">
-          <p className="mb-4 text-sm md:text-base lg:text-xl text-gray-800 dark:text-gray-200">
+          <p className="mb-4 md:text-lg lg:text-xl text-gray-800 dark:text-gray-200">
             This collection features my side projects where I explore different
             web technologies and concepts outside of my day job.
           </p>
-          <p className="text-sm md:text-base lg:text-xl text-gray-800 dark:text-gray-200">
+          <p className="md:text-lg lg:text-xl text-gray-800 dark:text-gray-200">
             Through these prototypes, I satisfy my curiosity and expand my web
             development skills through hands-on experimentation with technical
             challenges and emerging tools.

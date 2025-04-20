@@ -65,7 +65,7 @@ export default function ContactForm() {
     <motion.form
       ref={form}
       onSubmit={handleSubmit}
-      className="w-full max-w-2xl mx-auto space-y-4"
+      className="w-full max-w-2xl mx-auto space-y-2"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -120,7 +120,7 @@ export default function ContactForm() {
           name="message"
           id="message"
           required
-          rows={5}
+          rows={4}
           className="block w-full p-2 rounded border focus:outline-none focus:ring focus:ring-opacity-25 focus:dark:ring-secondary-700 dark:bg-secondary-bg"
         />
         {errors.message && (

@@ -23,7 +23,7 @@ export function About() {
           />
         </motion.div>
         <motion.div className="max-w-xl" variants={itemVariants}>
-          <p className="text-sm md:text-base lg:text-xl mb-4">
+          <p className="md:text-lg lg:text-xl mb-4">
             Backed by years of industry experience building polished UIs for B2B
             SaaS platforms and high-traffic consumer websites, I help businesses
             turn complex ideas into intuitive, scalable software. Specializing
@@ -31,11 +31,11 @@ export function About() {
             responsive interfaces that elevate user experience and drive
             results.
           </p>
-          <p className="text-sm md:text-base lg:text-xl">
+          <p className="md:text-lg lg:text-xl">
             I build custom websites using{" "}
             <LinkButton
               href="https://nextjs.org/"
-              className="text-sm md:text-base lg:text-xl text-secondary-600 dark:text-secondary-500"
+              className="md:text-lg lg:text-xl text-secondary-600 dark:text-secondary-500"
               target="_blank"
             >
               Next.js
@@ -43,7 +43,7 @@ export function About() {
             and{" "}
             <LinkButton
               href="https://payloadcms.com/compare/wordpressk"
-              className="text-sm md:text-base lg:text-xl text-secondary-600 dark:text-secondary-500"
+              className="md:text-lg lg:text-xl text-secondary-600 dark:text-secondary-500"
               target="_blank"
             >
               Payload CMS

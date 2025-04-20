@@ -42,7 +42,7 @@ export function Pitch({}: Props) {
     <Section id="services" title="Value Proposition">
       <AnimatedSection className="px-4">
         <motion.div
-          className="text-sm md:text-base lg:text-xl lg:px-2 mb-8 max-w-3xl text-gray-800 dark:text-gray-200"
+          className="md:text-lg lg:text-xl lg:px-2 mb-8 max-w-3xl text-gray-800 dark:text-gray-200"
           variants={itemVariants}
         >
           Currently available for freelance projects — I partner with
@@ -62,7 +62,7 @@ export function Pitch({}: Props) {
                 {feature.title}
               </h1>
 
-              <p className="mt-2 text-sm md:text-base lg:text-lg">
+              <p className="mt-2 md:text-lg lg:text-lg">
                 {feature.description}
               </p>
             </motion.div>

@@ -1,5 +1,20 @@
 [
   {
+    "id": 3,
+    "name": "Tedana App",
+    "type": "native",
+    "status": "Prototype",
+    "description": "A desktop application for Tedana - a program for multi-echo fMRI processing using Tauri, Rust and React.",
+    "media": "https://ua4mmiw8i4jbla3y.public.blob.vercel-storage.com/TedanaApp-71fvLOCahSSxyzvgKNJj7vTKHwGOhw.mov",
+    "staticImage": "https://ua4mmiw8i4jbla3y.public.blob.vercel-storage.com/TedanaApp-8Gpg6wj8lu88AwQPAaoKHt88E50IoO.png",
+    "liveUrl": null,
+    "githubUrl": "https://github.com/benWozak/tedana-gui",
+    "content": {
+      "concept": "Multi-echo fMRI is a relatively new concept in the world of neuroscience. It is not very well understood and not yet integrated into current data processing pipelines.",
+      "solution": "I sought to create a tool to make it easier to use Tedana, and used this as a medium to develop with Tauri, a new framework for building modern desktop applications."
+    }
+  },
+  {
     "id": 1,
     "name": "Calgary Folk Fest",
     "type": "web",
@@ -27,21 +42,6 @@
     "content": {
       "concept": "Vista Crossing is a newly developed residential community in Crossfield, AB. This website is part of a larger suite of developments by Dream Homes.",
       "solution": "As part of a small team, we built them a modern digital new solution from the ground up with Wordpress, Laravel(PHP), jQuery, Sass and MySQL - hosted on AWS."
-    }
-  },
-  {
-    "id": 3,
-    "name": "Tedana App",
-    "type": "native",
-    "status": "Prototype",
-    "description": "A desktop application for Tedana - a program for multi-echo fMRI processing using Tauri, Rust and React.",
-    "media": "https://ua4mmiw8i4jbla3y.public.blob.vercel-storage.com/TedanaApp-71fvLOCahSSxyzvgKNJj7vTKHwGOhw.mov",
-    "staticImage": "https://ua4mmiw8i4jbla3y.public.blob.vercel-storage.com/TedanaApp-8Gpg6wj8lu88AwQPAaoKHt88E50IoO.png",
-    "liveUrl": null,
-    "githubUrl": "https://github.com/benWozak/tedana-gui",
-    "content": {
-      "concept": "Multi-echo fMRI is a relatively new concept in the world of neuroscience. It is not very well understood and not yet integrated into current data processing pipelines.",
-      "solution": "I sought to create a tool to make it easier to use Tedana, and used this as a medium to develop with Tauri, a new framework for building modern desktop applications."
     }
   }
 ]

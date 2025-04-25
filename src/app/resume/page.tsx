@@ -5,6 +5,11 @@ import Resume from "@/components/resume/Resume";
 import { ResumeData } from "@/types/resume";
 import resumeData from "@/data/resume.json";
 import { toast } from "react-hot-toast";
+import {
+  AnimatedSection,
+  itemVariants,
+} from "@/components/layout/section/AnimatedSection";
+import { motion } from "framer-motion";
 
 const loadResumeData = async (): Promise<ResumeData> => {
   try {
@@ -165,14 +170,16 @@ const ResumePage: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <Resume
-        data={resumeData}
-        onExportPDF={handleExportHTMLPDF}
-        isGeneratingPDF={isGeneratingPDF}
-        hideContactInfo={true}
-      />
-    </div>
+    <AnimatedSection className="container mx-auto px-4 py-8">
+      <motion.div variants={itemVariants}>
+        <Resume
+          data={resumeData}
+          onExportPDF={handleExportHTMLPDF}
+          isGeneratingPDF={isGeneratingPDF}
+          hideContactInfo={true}
+        />
+      </motion.div>
+    </AnimatedSection>
   );
 };
 

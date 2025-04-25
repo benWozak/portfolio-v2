@@ -45,7 +45,7 @@ export default function WebProjectsPage() {
           variants={{
             hidden: {
               opacity: 0,
-              y: 40,
+              y: 20,
             },
             visible: (i) => ({
               opacity: 1,

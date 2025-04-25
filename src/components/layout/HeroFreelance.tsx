@@ -3,6 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { CTAButton } from "../ui";
+import { itemVariants } from "./section/AnimatedSection";
 
 type Props = {};
 
@@ -18,17 +19,17 @@ const containerVariants = {
   },
 };
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 1,
-      ease: "easeOut",
-    },
-  },
-};
+// const itemVariants = {
+//   hidden: { opacity: 0, y: 20 },
+//   visible: {
+//     opacity: 1,
+//     y: 0,
+//     transition: {
+//       duration: 1,
+//       ease: "easeOut",
+//     },
+//   },
+// };
 
 export function HeroFreelance({}: Props) {
   const items: string[] = [

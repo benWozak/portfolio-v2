@@ -46,13 +46,13 @@ export function Dropdown({ options, value, onChange }: DropdownProps) {
       >
         <span className="flex items-center">
           {selectedOption?.icon}
-          <span className="ml-2">{selectedOption?.label}</span>
+          {/* <span className="ml-2">{selectedOption?.label}</span> */}
         </span>
         <ChevronDown className="w-5 h-5 ml-2" />
       </button>
       {isOpen && (
         <ul
-          className="absolute z-10 w-full py-1 mt-1 overflow-auto text-base bg-secondary-bg rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+          className="absolute z-10 w-full min-w-28 py-1 mt-1 overflow-auto text-base bg-secondary-bg rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
           role="listbox"
         >
           {options.map((option) => (
@@ -62,7 +62,7 @@ export function Dropdown({ options, value, onChange }: DropdownProps) {
                 option.value === value
                   ? "text-primary bg-primary/10"
                   : "text-foreground"
-              } cursor-default select-none relative py-2 pl-3 pr-9 hover:bg-primary/10`}
+              } cursor-default select-none relative py-2 pl-3 hover:bg-primary/10`}
               role="option"
               aria-selected={option.value === value}
               onClick={() => handleSelect(option.value)}

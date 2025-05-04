@@ -33,10 +33,10 @@ const containerVariants = {
 
 export function HeroFreelance({}: Props) {
   const items: string[] = [
-    "Custom Website",
-    "Product Store",
-    "Online Service",
-    "Community Hub",
+    "Custom Websites",
+    "Product Stores",
+    "Online Services",
+    "Custom Solutions",
   ];
 
   return (
@@ -60,11 +60,8 @@ export function HeroFreelance({}: Props) {
             variants={itemVariants}
             className="mt-4 font-semibold text-lg lg:text-2xl text-gray-600 dark:text-gray-300"
           >
-            From concept to completion -{" "}
-            {/* <span className="text-primary-500"> */}
-            Transforming innovative ideas
-            {/* </span>{" "} */}
-            into impactful{" "}
+            From concept to completion - Transforming innovative ideas into
+            impactful{" "}
             <span className="text-primary-500">digital experiences.</span>
           </motion.p>
           <div className="grid gap-2 mt-8 sm:grid-cols-2">

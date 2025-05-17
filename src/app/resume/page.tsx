@@ -70,6 +70,9 @@ const ResumePage: React.FC = () => {
       emails: Array.from(emailElements).map((el) => el.textContent),
     };
 
+    // Add a temporary class to the document during PDF generation
+    document.body.classList.add("generating-pdf");
+
     // Redact sensitive information
     phoneElements.forEach((el) => {
       el.textContent = resumeData!.phone;
@@ -97,9 +100,9 @@ const ResumePage: React.FC = () => {
         format: "letter",
         orientation: "portrait",
         compress: true,
-        precision: 16, // Higher precision for positioning
+        precision: 16,
       },
-      pagebreak: { mode: ["avoid-all"] }, // To prevent text from being cut between pages
+      pagebreak: { mode: "avoid-all", before: "#page2el" },
     };
 
     html2pdfLib()
@@ -118,6 +121,13 @@ const ResumePage: React.FC = () => {
           el.textContent = originalValues.emails[i];
         });
 
+        // Remove temporary class
+        document.body.classList.remove("generating-pdf");
+
+        // Remove temporary styles
+        const tempStyles = document.getElementById("pdf-export-styles");
+        if (tempStyles) tempStyles.remove();
+
         setIsGeneratingPDF(false);
       })
       .catch((error: any) => {
@@ -132,6 +142,13 @@ const ResumePage: React.FC = () => {
         emailElements.forEach((el, i) => {
           el.textContent = originalValues.emails[i];
         });
+
+        // Remove temporary class
+        document.body.classList.remove("generating-pdf");
+
+        // Remove temporary styles
+        const tempStyles = document.getElementById("pdf-export-styles");
+        if (tempStyles) tempStyles.remove();
 
         setIsGeneratingPDF(false);
       });

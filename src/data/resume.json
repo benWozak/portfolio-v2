@@ -17,9 +17,9 @@
         "endDate": null
       },
       "description": [
-        "Drastically improved dashboard performance metrics by updating legacy code to use the latest version of React and supporting libraries",
-        "Implemented architectural and design implementations for an embedded 3D viewer using Three.js, allowing the company to scale significantly",
-        "Mentored junior developers and conducted code reviews to maintain high code quality standards across the team"
+        "Drastically improved dashboard performance metrics by updating legacy code to use modern React and supporting web practices.",
+        "Implemented architectural and design documentation for an embedded 3D viewer using Three.js, allowing the company to scale significantly.",
+        "Mentored junior developers and established comprehensive code review protocols to maintain higher quality standards across the team."
       ]
     },
     {
@@ -30,9 +30,9 @@
         "endDate": "July 2024"
       },
       "description": [
-        "Led the development of a high-traffic commercial website using Next.js and TypeScript, supporting over 50,000 peak users each year",
-        "Collaborating with UX designers to Build and maintained client websites using HTML, CSS, JavaScript, and WordPress",
-        "Optimized website performance and SEO, significantly improving load times and search rankings"
+        "Led the development of a high-traffic commercial website using Next.js and TypeScript, supporting over 50,000 peak users each year.",
+        "Collaborating with UX designers to Build and maintained client websites using HTML, CSS, JavaScript, and WordPress.",
+        "Optimized website performance and SEO, significantly improving load times and search rankings."
       ]
     },
     {
@@ -43,8 +43,8 @@
         "endDate": "Nov 2023"
       },
       "description": [
-        "Led two 4-person teams: one developing an internal tool for language model configuration, another creating AutoQL suite with chat interface, dashboard, and notification system",
-        "Developed 2 API management portals and Microsoft Teams extension, serving hundreds of users across multiple SaaS platforms",
+        "Led two 4-person teams: one developing an internal tool for language model configuration, another creating AutoQL suite with chat interface, dashboard, and notification system.",
+        "Developed 2 API management portals and Microsoft Teams extension, serving hundreds of users across multiple SaaS platforms.",
         "Spearheaded company-wide TypeScript adoption and group code-reviews through dev guild leadership."
       ]
     },
@@ -69,7 +69,7 @@
     },
     {
       "skill_title": "Frameworks & Libraries",
-      "skill_items": "React, NextJS, express/node.js, SASS/tailwind, Vue.js, Laravel, framer-motion"
+      "skill_items": "React, NextJS, express/node.js, SASS/tailwind, Vue.js, Laravel, motion, gsap"
     },
     {
       "skill_title": "Databases",

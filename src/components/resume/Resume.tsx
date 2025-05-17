@@ -11,6 +11,13 @@ import {
 import { ResumeData } from "../../types/resume";
 import { Button, Announcement } from "../ui";
 import { cleanUrl } from "../../utils/functions/format";
+import { Nunito } from "next/font/google";
+
+export const nunito = Nunito({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-nunito",
+});
 
 interface ResumeProps {
   data: ResumeData;
@@ -58,7 +65,9 @@ const Resume: React.FC<ResumeProps> = ({
   }, []);
 
   return (
-    <div className="relative w-full min-w-[320px] mx-auto pt-4 mt-12 md:mt-16 font-[helvetica]">
+    <div
+      className={`relative w-full min-w-[320px] mx-auto pt-4 mt-12 md:mt-16`}
+    >
       <div className="w-full max-w-4xl mx-auto mb-4 flex flex-col md:flex-row justify-between gap-4 print:hidden">
         <div>
           <Announcement />
@@ -68,8 +77,7 @@ const Resume: React.FC<ResumeProps> = ({
             icon={<FaDownload />}
             label="Download PDF"
             onClick={onExportPDF}
-            // disabled={isGeneratingPDF || isSafari}
-            disabled={true}
+            disabled={isGeneratingPDF || isSafari}
             disabledReason={
               isSafari ? "PDF download not available on mobile" : "Download PDF"
             }
@@ -87,7 +95,7 @@ const Resume: React.FC<ResumeProps> = ({
       {/* Resume Container */}
       <div
         id="resume-container"
-        className="bg-white shadow-lg p-4 sm:p-8 max-w-4xl mx-auto rounded overflow-x-auto"
+        className={`${nunito.className} bg-white shadow-lg p-4 sm:p-8 max-w-4xl mx-auto rounded overflow-x-auto`}
       >
         {/* Header */}
         <header className="text-center mb-4">
@@ -95,49 +103,63 @@ const Resume: React.FC<ResumeProps> = ({
             {data.full_name}
           </h1>
           <div className="flex flex-wrap justify-center gap-2 sm:gap-4 text-xs sm:text-sm mb-1">
-            <span className="flex items-center gap-1 text-gray-900">
-              <FaPhone className="text-gray-600" />
+            <span className="text-gray-900">
+              {!isGeneratingPDF && (
+                <FaPhone className="text-gray-600 w-3 h-3 inline-block mr-1" />
+              )}
               <span
                 className={`phone-display ${hideContactInfo ? "blur-sm" : ""}`}
               >
                 {hideContactInfo ? "(555) 555-5555" : data.phone}
               </span>
             </span>
-            <span className="flex items-center gap-1 text-gray-900">
-              <FaEnvelope className="text-gray-600" />
+            <span className="text-gray-900">
+              {!isGeneratingPDF && (
+                <FaEnvelope className="text-gray-600 w-3 h-3 inline-block mr-1" />
+              )}
+
               <span
-                className={`email-display ${hideContactInfo ? "blur-sm" : ""}`}
+                className={`email-display ${hideContactInfo ? "blur-sm" : "s"}`}
               >
                 {hideContactInfo ? "redacted@email.com" : data.email}
               </span>
             </span>
           </div>
-          <div className="flex flex-wrap justify-center gap-2 sm:gap-4 text-xs sm:text-sm">
+          <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-4 text-xs sm:text-sm mt-2">
             <a
               href={data.socials.linkedin_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1 text-blue-700 hover:underline"
+              className="text-blue-700 hover:underline"
             >
-              <FaLinkedin /> {cleanUrl(data.socials.linkedin_url)}
+              {!isGeneratingPDF && (
+                <FaLinkedin className="text-gray-600 w-4 h-4 inline-block mr-1" />
+              )}
+              {cleanUrl(data.socials.linkedin_url)}
             </a>
             <span className="text-gray-400 hidden sm:inline">◆</span>
             <a
               href={data.socials.github_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1 text-blue-700 hover:underline"
+              className="flex items-center text-blue-700 hover:underline"
             >
-              <FaGithub /> {cleanUrl(data.socials.github_url)}
+              {!isGeneratingPDF && (
+                <FaGithub className="text-gray-600 w-4 h-4 inline-block mr-1" />
+              )}
+              {cleanUrl(data.socials.github_url)}
             </a>
             <span className="text-gray-400 hidden sm:inline">◆</span>
             <a
               href={data.socials.portfolio_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1 text-blue-700 hover:underline"
+              className="flex items-center text-blue-700 hover:underline"
             >
-              <FaGlobe /> {cleanUrl(data.socials.portfolio_url)}
+              {!isGeneratingPDF && (
+                <FaGlobe className="text-gray-600 w-4 h-4 inline-block mr-1" />
+              )}
+              {cleanUrl(data.socials.portfolio_url)}
             </a>
           </div>
         </header>
@@ -156,11 +178,13 @@ const Resume: React.FC<ResumeProps> = ({
             Experience
           </h2>
           {data.experience.map((exp, index) => (
-            <div key={index} className="mb-2">
+            <div
+              id={index === 3 ? "page2el" : undefined}
+              key={index}
+              className="mb-1"
+            >
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline">
-                <h3 className="text-base sm:text-lg font-bold">
-                  {exp.company}
-                </h3>
+                <h3 className="text-base font-bold">{exp.company}</h3>
                 <span className="text-gray-600 italic text-xs sm:text-sm">
                   {exp.duration.startDate} - {exp.duration.endDate || "Present"}
                 </span>
@@ -168,9 +192,9 @@ const Resume: React.FC<ResumeProps> = ({
               <div className="flex justify-between items-baseline mb-1">
                 <p className="italic text-sm">{exp.position}</p>
               </div>
-              <ul className="list-disc ml-5 text-xs sm:text-sm">
+              <ul className="resume-list text-xs sm:text-sm sm:leading-4">
                 {exp.description.map((item, i) => (
-                  <li key={i} className="">
+                  <li key={i} className="list-none">
                     {item}
                   </li>
                 ))}

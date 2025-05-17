@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -138,4 +140,89 @@ body:not(.animation-complete) .animate-fade-up {
 
 body.animation-complete .animate-fade-up {
   animation-play-state: running;
+}
+
+/* Fix for bullet points */
+.resume-list {
+  list-style-type: disc !important;
+  margin-left: 1.5rem !important;
+  padding-left: 0 !important;
+}
+
+.resume-list li {
+  display: list-item !important;
+  list-style-position: outside !important;
+  margin-bottom: 0.35rem !important;
+  padding-left: 0 !important;
+}
+
+/* Fix for icons alignment */
+.text-gray-600.inline-flex,
+.text-gray-600.inline-block {
+  display: inline !important;
+  vertical-align: text-bottom !important;
+  margin-right: 0.25rem !important;
+}
+
+/* PDF-specific fixes */
+@media print {
+  /* Font embedding for PDF */
+  body {
+    font-family: 'Nunito', Arial, sans-serif !important;
+  }
+
+  /* Force bullet points to display */
+  .resume-list {
+    list-style-type: none !important;
+    margin-left: 1.5rem !important;
+    padding-left: 0 !important;
+  }
+  
+  .resume-list li {
+    display: list-item !important;
+    list-style-position: outside !important;
+    list-style-type: none !important;
+    margin-bottom: 0.35rem !important;
+    text-indent: 0 !important;
+    padding-left: 0.25rem !important;
+  }
+  
+  /* Fix icon alignment */
+  svg {
+    display: inline !important;
+    vertical-align: text-bottom !important;
+    height: 1em !important;
+    width: 1em !important;
+    margin-right: 0.25rem !important;
+  }
+  
+  /* Contact info alignment */
+  .flex.items-center.gap-1 {
+    display: flex !important;
+    align-items: center !important;
+  }
+}
+
+/* For PDF generation only */
+.generating-pdf {
+  /* Additional styles specific to PDF generation */
+  --print-bullet-size: 6px;
+}
+
+.generating-pdf .resume-list li::before {
+  content: "-";
+  display: inline-block;
+  width: var(--print-bullet-size);
+  height: var(--print-bullet-size);
+  margin-right: 0.5rem;
+  margin-left: -1rem;
+}
+
+.resume-list li::before {
+  content: "-";
+  display: inline-block;
+  width: var(--print-bullet-size);
+  height: var(--print-bullet-size);
+  margin-right: 0.5rem;
+  margin-left: -1rem;
 }

@@ -30,10 +30,10 @@ export function About() {
             Backed by years of industry experience building polished UIs for B2B
             SaaS platforms and high-traffic consumer websites, I help businesses
             turn complex ideas into intuitive, scalable software. Specializing
-            in <span className="text-primary-500">TypeScript</span> and modern
-            frontend frameworks like{" "}
-            <span className="text-primary-500">React</span>, I deliver clean,
-            responsive interfaces that elevate user experience and drive
+            in <span className="text-primary-500 font-bold">TypeScript</span>{" "}
+            and modern frontend frameworks like{" "}
+            <span className="text-primary-500 font-bold">React</span>, I deliver
+            clean, responsive interfaces that elevate user experience and drive
             results.
           </p>
           <h3 className="text-xl md:text-2xl lg:text-3xl font-bold mb-2">
@@ -43,7 +43,7 @@ export function About() {
             I build custom websites using{" "}
             <LinkButton
               href="https://nextjs.org/"
-              className="md:text-lg lg:text-xl text-secondary-600 dark:text-secondary-500"
+              className="md:text-lg lg:text-xl text-secondary-600 dark:text-secondary-500 font-bold"
               target="_blank"
             >
               Next.js
@@ -51,7 +51,7 @@ export function About() {
             and{" "}
             <LinkButton
               href="https://payloadcms.com/compare/wordpress"
-              className="md:text-lg lg:text-xl text-secondary-600 dark:text-secondary-500"
+              className="md:text-lg lg:text-xl text-secondary-600 dark:text-secondary-500 font-bold"
               target="_blank"
             >
               Payload CMS

@@ -1,8 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { TechnologyShowcase } from "../content";
-import { CTAButton } from "../ui";
+import { TechnologyShowcase } from "../../content";
+import { CTAButton } from "../../ui";
 
 const containerVariants = {
   hidden: { opacity: 0 },

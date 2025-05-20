@@ -1,5 +1,5 @@
-export { Hero } from "./Hero";
+export { Hero } from "./hero/Hero";
 export { ThemeToggle } from "./ThemeToggle";
 export { Header } from "./Header";
 export { Footer } from "./Footer";
-export { HeroFreelance } from "./HeroFreelance";
+export { HeroFreelance } from "./hero/HeroFreelance";

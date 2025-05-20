@@ -2,10 +2,9 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { CTAButton } from "../ui";
-import { itemVariants } from "./section/AnimatedSection";
-import { OrbitingCircles } from "../magicui/orbiting-circles";
-import { File, Settings, Search } from "lucide-react";
+import { CTAButton } from "../../ui";
+import { itemVariants } from "../section/AnimatedSection";
+import { TechOrbit } from "./TechOrbit";
 
 type Props = {};
 
@@ -36,7 +35,7 @@ export function HeroFreelance({}: Props) {
       animate="visible"
       className="relative h-auto w-full flex flex-col px-4 mb-16 mx-auto my-32 lg:h-[32rem] lg:flex-row lg:items-center"
     >
-      <div className="w-full lg:max-w-3xl">
+      <div className="w-full">
         <motion.h1
           variants={itemVariants}
           className="text-3xl font-bold tracking-wide text-gray-800 dark:text-white md:text-4xl lg:text-6xl"
@@ -92,26 +91,14 @@ export function HeroFreelance({}: Props) {
 
       <motion.div
         variants={itemVariants}
-        className="flex items-center justify-center w-full h-96 lg:w-1/2"
+        className="flex items-center justify-center w-full h-96 lg:w-2/3"
       >
         {/* <img
           className="object-cover w-full h-full max-w-2xl rounded-md invert dark:invert-0"
           src="/hero-bg.svg"
           alt="glasses photo"
         /> */}
-        <div className="relative overflow-hidden h-[500px] w-full">
-          <OrbitingCircles>
-            <File />
-            <Settings />
-            <File />
-          </OrbitingCircles>
-          <OrbitingCircles radius={100} reverse>
-            <File />
-            <Settings />
-            <File />
-            <Search />
-          </OrbitingCircles>
-        </div>
+        <TechOrbit />
       </motion.div>
     </motion.section>
   );

@@ -30,12 +30,12 @@ export function About() {
           <h3 className="text-xl md:text-2xl lg:text-3xl font-bold mb-2">
             For Industry Recruiters:
           </h3>
-          <p className="md:text-lg lg:text-xl mb-8">
+          <p className="lg:text-lg mb-8">
             Backed by years of industry experience building polished UIs for B2B
             SaaS platforms and high-traffic consumer websites, I help businesses
             turn complex ideas into intuitive, scalable software. Specializing
             in <span className="text-primary-500 font-bold">TypeScript</span>{" "}
-            and modern frontend frameworks like{" "}
+            and modern frontend technologies like{" "}
             <span className="text-primary-500 font-bold">React</span>, I deliver
             clean, responsive interfaces that elevate user experience and drive
             results.
@@ -43,11 +43,11 @@ export function About() {
           <h3 className="text-xl md:text-2xl lg:text-3xl font-bold mb-2">
             For Contract Roles:
           </h3>
-          <p className="md:text-lg lg:text-xl">
-            I build custom websites using{" "}
+          <p className="lg:text-lg">
+            I build custom websites and applications using{" "}
             <LinkButton
               href="https://nextjs.org/"
-              className="md:text-lg lg:text-xl text-secondary-600 dark:text-secondary-500 font-bold"
+              className="lg:text-lg text-secondary-600 dark:text-secondary-500 font-bold"
               target="_blank"
             >
               Next.js
@@ -55,7 +55,7 @@ export function About() {
             and{" "}
             <LinkButton
               href="https://payloadcms.com/compare/wordpress"
-              className="md:text-lg lg:text-xl text-secondary-600 dark:text-secondary-500 font-bold"
+              className="lg:text-lg text-secondary-600 dark:text-secondary-500 font-bold"
               target="_blank"
             >
               Payload CMS

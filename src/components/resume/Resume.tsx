@@ -77,10 +77,12 @@ const Resume: React.FC<ResumeProps> = ({
             icon={<FaDownload />}
             label="Download PDF"
             onClick={onExportPDF}
-            disabled={isGeneratingPDF || isSafari}
-            disabledReason={
-              isSafari ? "PDF download not available on mobile" : "Download PDF"
-            }
+            disabled={true}
+            disabledReason="PDF download is locked"
+            // disabled={isGeneratingPDF || isSafari}
+            // disabledReason={
+            //   isSafari ? "PDF download not available on mobile" : "Download PDF"
+            // }
             variant="primary"
           />
           <Button

@@ -9,7 +9,7 @@ export default function Page() {
   return (
     <article>
       <About />
-      <TechnologyShowcase />
+      {/* <TechnologyShowcase /> */}
       <Services />
       <Experience />
     </article>

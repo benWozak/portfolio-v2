@@ -8,19 +8,23 @@ import {
 } from "../layout/section/AnimatedSection";
 import { motion } from "framer-motion";
 import { LinkButton } from "../ui";
+import { Globe } from "../magicui/globe";
 
 export function About() {
   return (
     <Section id="about" title="About Me">
       <AnimatedSection className="flex gap-12 flex-col lg:flex-row lg:px-2 mb-4 px-8">
         <motion.div variants={itemVariants}>
-          <Image
+          {/* <Image
             src="/Ben_Black-White.jpg"
             alt="Photo of Ben Wozak"
             width={500}
             height={300}
             className="rounded-2xl"
-          />
+          /> */}
+          <div className="relative flex size-full max-w-lg items-center justify-center overflow-hidden px-40 py-44 md:pt-8 md:pb-60">
+            <Globe className="top-0 md:top-28 dark:invert" />
+          </div>
         </motion.div>
         <motion.div className="max-w-xl" variants={itemVariants}>
           <h3 className="text-xl md:text-2xl lg:text-3xl font-bold mb-2">

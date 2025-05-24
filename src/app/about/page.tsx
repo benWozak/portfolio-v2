@@ -1,15 +1,9 @@
-import {
-  About,
-  Services,
-  Experience,
-  TechnologyShowcase,
-} from "@/components/content";
+import { About, Services, Experience } from "@/components/content";
 
 export default function Page() {
   return (
-    <article>
+    <article className="mt-8 md:mt-16">
       <About />
-      {/* <TechnologyShowcase /> */}
       <Services />
       <Experience />
     </article>

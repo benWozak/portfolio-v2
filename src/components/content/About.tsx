@@ -13,7 +13,7 @@ import { Globe } from "../magicui/globe";
 export function About() {
   return (
     <Section id="about" title="About Me">
-      <AnimatedSection className="flex gap-12 flex-col lg:flex-row lg:px-2 mb-4 px-8">
+      <AnimatedSection className="flex gap-12 flex-col lg:flex-row mb-4 px-4 lg:px-2">
         <motion.div variants={itemVariants}>
           {/* <Image
             src="/Ben_Black-White.jpg"

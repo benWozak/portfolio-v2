@@ -51,6 +51,7 @@ export default function Logo() {
         width={187.8}
         height={216}
         className="h-16 w-auto"
+        priority
       />
     </Link>
   );

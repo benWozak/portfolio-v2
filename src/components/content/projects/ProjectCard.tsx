@@ -68,8 +68,9 @@ export function ProjectCard({ index, project }: Props) {
               <Image
                 src={project.staticImage}
                 alt={project.name}
-                layout="fill"
-                objectFit="cover"
+                fill
+                style={{ objectFit: "cover" }}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="md:hidden"
               />
             </>
@@ -77,8 +78,9 @@ export function ProjectCard({ index, project }: Props) {
             <Image
               src={project.staticImage}
               alt={project.name}
-              layout="fill"
-              objectFit="cover"
+              fill
+              style={{ objectFit: "cover" }}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           )}
           <div className="absolute top-2 right-2">

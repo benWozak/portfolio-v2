@@ -1,13 +1,13 @@
 "use client";
 import React from "react";
-import Section from "../../components/layout/section";
-import ContactForm from "../../components/content/contact/ContactForm";
+import Section from "../../../components/layout/section";
+import ContactForm from "../../../components/content/contact/ContactForm";
 import {
   AnimatedSection,
   itemVariants,
-} from "../../components/layout/section/AnimatedSection";
+} from "../../../components/layout/section/AnimatedSection";
 import { motion } from "framer-motion";
-import { LinkButton } from "../../components/ui";
+import { LinkButton } from "../../../components/ui";
 
 export default function Contact() {
   return (

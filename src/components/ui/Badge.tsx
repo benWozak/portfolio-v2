@@ -2,7 +2,7 @@ import React from "react";
 import { ProjectStatus, ProjectType } from "@/types";
 
 type BadgeProps = {
-  status: ProjectStatus | ProjectType;
+  status: ProjectStatus | ProjectType | string;
   className?: string;
 };
 
@@ -19,8 +19,10 @@ export function Badge({ status, className }: BadgeProps) {
         return "bg-primary-500 text-primary-foreground";
       case "native":
         return "bg-secondary-700 text-primary-foreground";
+      case "Featured":
+        return "bg-primary-500 text-primary-foreground";
       default:
-        return "bg-gray-100 text-gray-800";
+        return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100";
     }
   };
 

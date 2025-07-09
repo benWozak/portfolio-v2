@@ -6,7 +6,7 @@ import { CTAButton } from "../../ui";
 import { itemVariants } from "../section/AnimatedSection";
 import { TechOrbit } from "./TechOrbit";
 
-type Props = {};
+// type Props = Record<string, never>;
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -20,7 +20,7 @@ const containerVariants = {
   },
 };
 
-export function HeroFreelance({}: Props) {
+export function HeroFreelance() {
   const items: string[] = [
     "Custom Websites",
     "Product Stores",

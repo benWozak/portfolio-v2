@@ -1,25 +1,25 @@
 "use client";
 
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
 import Logo from "./Logo";
 import { LinkButton } from "../ui/LinkButton";
 import { Socials } from "../content";
 import { useNavigation } from "@/utils/hooks";
 
-type Props = {};
+// type Props = Record<string, never>;
 
-export function Footer({}: Props) {
-  const [isScrolled, setIsScrolled] = useState(false);
+export function Footer() {
+  // const [isScrolled, setIsScrolled] = useState(false);
   const navItems = useNavigation();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0);
-    };
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     setIsScrolled(window.scrollY > 0);
+  //   };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, []);
 
   return (
     <footer className="text-sm text-foreground">

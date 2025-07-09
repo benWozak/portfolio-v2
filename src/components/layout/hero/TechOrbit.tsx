@@ -12,7 +12,7 @@ import {
   SiGraphql,
   SiDocker,
   SiSqlite,
-  SiMysql,
+  // SiMysql,
 } from "react-icons/si";
 import { FaAws } from "react-icons/fa";
 import { OrbitingCircles } from "../../magicui/orbiting-circles";

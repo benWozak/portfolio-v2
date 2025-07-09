@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   FaLinkedin,
   FaGithub,
@@ -32,14 +32,14 @@ const Resume: React.FC<ResumeProps> = ({
   isGeneratingPDF = false,
   hideContactInfo = true,
 }) => {
-  const [isSafari, setIsSafari] = useState(false);
+  // const [isSafari, setIsSafari] = useState(false);
 
   useEffect(() => {
     // Detect Safari browser
-    const userAgent = navigator.userAgent.toLowerCase();
-    const isSafariBrowser = /^((?!chrome|android).)*safari/i.test(userAgent);
-    const isIOS = /iphone|ipad|ipod/.test(userAgent);
-    setIsSafari(isSafariBrowser || isIOS);
+    // const userAgent = navigator.userAgent.toLowerCase();
+    // const isSafariBrowser = /^((?!chrome|android).)*safari/i.test(userAgent);
+    // const isIOS = /iphone|ipad|ipod/.test(userAgent);
+    // setIsSafari(isSafariBrowser || isIOS);
 
     const handleResize = () => {
       const viewport = document.querySelector('meta[name="viewport"]');
@@ -79,10 +79,8 @@ const Resume: React.FC<ResumeProps> = ({
             onClick={onExportPDF}
             disabled={true}
             disabledReason="PDF download is locked"
-            // disabled={isGeneratingPDF || isSafari}
-            // disabledReason={
-            //   isSafari ? "PDF download not available on mobile" : "Download PDF"
-            // }
+            // disabled={isGeneratingPDF}
+            // disabledReason="Download PDF"
             variant="primary"
           />
           <Button

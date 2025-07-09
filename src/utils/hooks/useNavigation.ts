@@ -23,9 +23,13 @@ export function useNavigation(): NavItem[] {
       label: "Projects",
     },
     {
-      href: "/resume",
-      label: "Resume",
+      href: "/blog",
+      label: "Blog",
     },
+    // {
+    //   href: "/resume",
+    //   label: "Resume",
+    // },
     {
       href: "/contact",
       label: "Contact",

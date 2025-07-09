@@ -19,10 +19,10 @@ export default function Contact() {
             variants={itemVariants}
           >
             <span className="text-primary-500 font-bold">
-              I'm currently available for freelance work
+              I&apos;m currently available for freelance work
             </span>{" "}
             — whether you need help shipping a feature, building a full app, or
-            just want a second set of eyes on your code, let's chat.
+            just want a second set of eyes on your code, let&apos;s chat.
             <br />
             <br />
             Feel free to reach out using the form below, or connect with me on{" "}

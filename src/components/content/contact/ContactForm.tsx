@@ -32,7 +32,7 @@ export default function ContactForm() {
         throw new Error("Missing environment variables");
       }
 
-      const result = await emailjs.sendForm(
+      await emailjs.sendForm(
         serviceId,
         templateId,
         form.current,

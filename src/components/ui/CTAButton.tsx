@@ -1,7 +1,7 @@
 "use client";
-import React, { useCallback } from "react";
+import React from "react";
 import Link from "next/link";
-import { useSmoothScroll } from "../../utils/hooks/useSmoothScroll";
+// import { useSmoothScroll } from "../../utils/hooks/useSmoothScroll";
 
 interface CTAButtonProps {
   href: string;
@@ -15,10 +15,10 @@ export function CTAButton({
   href,
   children,
   className = "",
-  onClick,
+  // onClick,
   type = "primary",
 }: CTAButtonProps) {
-  const { scrollToElement } = useSmoothScroll();
+  // const { scrollToElement } = useSmoothScroll();
 
   // const handleClick = useCallback(
   //   (e: React.MouseEvent<HTMLAnchorElement>) => {

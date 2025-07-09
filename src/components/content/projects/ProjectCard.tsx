@@ -11,7 +11,7 @@ type Props = {
   project: Project;
 };
 
-export function ProjectCard({ index, project }: Props) {
+export function ProjectCard({ project }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMobile, setIsMobile] = useState(false);

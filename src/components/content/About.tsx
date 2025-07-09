@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Section from "../layout/section";
-import Image from "next/image";
+// import Image from "next/image";
 import {
   AnimatedSection,
   itemVariants,

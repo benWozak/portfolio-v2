@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import Link from "next/link";
+// import Link from "next/link";
 import { SectionHeading } from "@/components/layout/section/SectionHeading";
 import clsx from "clsx";
 import { LinkButton } from "@/components/ui";

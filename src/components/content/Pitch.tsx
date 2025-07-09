@@ -8,9 +8,9 @@ import {
 import { motion } from "framer-motion";
 import { Rocket, Cpu, Blocks, UserIcon } from "lucide-react";
 
-type Props = {};
+// type Props = Record<string, never>;
 
-export function Pitch({}: Props) {
+export function Pitch() {
   const features = [
     {
       title: "Startup-Proven Engineering",

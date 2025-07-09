@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { getProjects } from "@/utils/getProjects";
 import { ProjectCard } from "@/components/content/projects/ProjectCard";
-import { SectionHeading } from "@/components/layout/section/SectionHeading";
+// import { SectionHeading } from "@/components/layout/section/SectionHeading";
 import { motion, useAnimationControls } from "framer-motion";
 import { Project } from "@/types";
 import { calculateWaterfallDelay } from "@/utils/functions/animations";

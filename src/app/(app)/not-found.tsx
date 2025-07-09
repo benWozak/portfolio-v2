@@ -12,8 +12,8 @@ export default function NotFound() {
             Well, this is awkward...
           </p>
           <p className="mt-4 mb-8 text-gray-500 dark:text-gray-400">
-            Don't panic. It's all good. You haven't broken the internet. The
-            homepage still works, it's cool!
+            Don&apos;t panic. It&apos;s all good. You haven&apos;t broken the internet. The
+            homepage still works, it&apos;s cool!
           </p>
 
           <Button label="Back to homepage" href="/" />

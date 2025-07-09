@@ -2,9 +2,9 @@ import React from "react";
 import { AnimatedSection } from "../../layout/section/AnimatedSection";
 import { CTAButton } from "@/components/ui";
 
-type Props = {};
+// type Props = Record<string, never>;
 
-function ContactCTA({}: Props) {
+function ContactCTA() {
   return (
     <section>
       <AnimatedSection className="px-4">

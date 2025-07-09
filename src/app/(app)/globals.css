@@ -139,6 +139,68 @@
     height: 100vh;
     height: 100dvh;
   }
+  
+  /* Line clamp utilities */
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+  
+  .line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+  
+  /* Blog content specific styles */
+  .blog-content {
+    @apply text-gray-800 dark:text-gray-200;
+  }
+  
+  .blog-content h1,
+  .blog-content h2,
+  .blog-content h3,
+  .blog-content h4,
+  .blog-content h5,
+  .blog-content h6 {
+    @apply text-foreground font-bold;
+  }
+  
+  .blog-content p {
+    @apply mb-4 leading-relaxed;
+  }
+  
+  .blog-content a {
+    @apply text-primary hover:text-primary-600 underline transition-colors;
+  }
+  
+  .blog-content blockquote {
+    @apply border-l-4 border-primary pl-6 my-6 italic text-gray-700 dark:text-gray-300;
+  }
+  
+  .blog-content pre {
+    @apply bg-gray-100 dark:bg-gray-800 rounded-lg p-4 overflow-x-auto my-4;
+  }
+  
+  .blog-content code {
+    @apply text-sm font-mono;
+  }
+  
+  .blog-content ul,
+  .blog-content ol {
+    @apply mb-4 space-y-2;
+  }
+  
+  .blog-content li {
+    @apply ml-4;
+  }
+  
+  .blog-content hr {
+    @apply my-8 border-gray-300 dark:border-gray-600;
+  }
 }
 
 /* New animations */

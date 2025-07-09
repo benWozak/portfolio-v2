@@ -25,6 +25,7 @@ function generateSkillsContent(skills: any[]): string {
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
   const name = searchParams.get('name');
+  console.log('GET request received with name:', name);
   
   // Fetch resume data
   let resumeData;
@@ -60,7 +61,7 @@ async function generateLatexPDF(data: any) {
     try {
       await fs.access(templatePath);
     } catch (error) {
-      console.error('Template file not found:', templatePath);
+      console.error('Template file not found:', templatePath, error);
       return NextResponse.json({ success: false, error: 'Template not found' }, { status: 404 });
     }
 

@@ -47,7 +47,7 @@ const renderNode = (node: any, index: number): React.ReactNode => {
       )
 
     case 'heading':
-      const HeadingTag = `h${node.tag}` as keyof JSX.IntrinsicElements
+      const HeadingTag = `h${node.tag}` as keyof React.JSX.IntrinsicElements
       const headingClasses = {
         h1: 'text-4xl lg:text-5xl font-bold mb-6 mt-8 text-foreground',
         h2: 'text-3xl lg:text-4xl font-bold mb-5 mt-7 text-foreground',

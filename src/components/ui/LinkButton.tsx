@@ -11,6 +11,7 @@ interface LinkButtonProps {
   className?: string;
   target?: string;
   onClick?: () => void;
+  isActive?: boolean;
 }
 
 export function LinkButton({
@@ -19,6 +20,7 @@ export function LinkButton({
   className = "",
   target,
   onClick,
+  isActive = false,
 }: LinkButtonProps) {
   const { scrollToElement } = useSmoothScroll();
   const pathname = usePathname();
@@ -47,10 +49,11 @@ export function LinkButton({
       className={`
         relative pb-1 tracking-wider text-sm
         after:content-[''] after:absolute after:w-full
-        after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0
+        after:h-0.5 after:bottom-0 after:left-0
         after:bg-primary-500 after:origin-right
         after:transition-transform after:duration-300 after:ease-out
         hover:after:scale-x-100 hover:after:origin-left
+        ${isActive ? 'after:scale-x-100 after:origin-left' : 'after:scale-x-0'}
         ${className}
       `}
     >

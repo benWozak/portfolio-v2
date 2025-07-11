@@ -1,5 +1,6 @@
 import React from "react";
 import { Badge } from "../../ui/Badge";
+import { calculateReadingTime, isContentTechnical } from "@/utils/readingTime";
 import type { Blog, User, Category, Tag } from "@/types/blog";
 
 interface BlogMetaProps {
@@ -19,6 +20,10 @@ export function BlogMeta({ post }: BlogMetaProps) {
     });
   };
 
+  const tagNames = tags?.map(tag => tag.name) || [];
+  const isTechnical = isContentTechnical(post.content, tagNames);
+  const readingTime = calculateReadingTime(post.content, isTechnical);
+
   return (
     <div className="flex flex-col gap-4 mb-8">
       <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400">
@@ -30,7 +35,7 @@ export function BlogMeta({ post }: BlogMetaProps) {
           <span>{formatDate(post.publishedAt || post.createdAt)}</span>
         </div>
         <div className="flex items-center gap-2">
-          <span>5 min read</span>
+          <span>{readingTime}</span>
         </div>
       </div>
       

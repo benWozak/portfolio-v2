@@ -17,7 +17,7 @@ interface BlogPostPageProps {
 
 export async function generateStaticParams() {
   const payload = await getPayloadHMR({ config: configPromise });
-  
+
   const { docs: posts } = await payload.find({
     collection: "blog" as any,
     where: {
@@ -33,10 +33,12 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
   const payload = await getPayloadHMR({ config: configPromise });
-  
+
   const { docs } = await payload.find({
     collection: "blog" as any,
     where: {
@@ -67,18 +69,24 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
       type: "article",
       publishedTime: post.publishedAt || post.createdAt,
       modifiedTime: post.updatedAt,
-      images: ogImage?.url || featuredImage?.url ? [
-        {
-          url: ogImage?.url || featuredImage?.url || "",
-          alt: ogImage?.alt || featuredImage?.alt || post.title,
-        },
-      ] : [],
+      images:
+        ogImage?.url || featuredImage?.url
+          ? [
+              {
+                url: ogImage?.url || featuredImage?.url || "",
+                alt: ogImage?.alt || featuredImage?.alt || post.title,
+              },
+            ]
+          : [],
     },
     twitter: {
       card: "summary_large_image",
       title: post.seo?.metaTitle || post.title,
       description: post.seo?.metaDescription || post.excerpt,
-      images: ogImage?.url || featuredImage?.url ? [ogImage?.url || featuredImage?.url || ""] : [],
+      images:
+        ogImage?.url || featuredImage?.url
+          ? [ogImage?.url || featuredImage?.url || ""]
+          : [],
     },
   };
 }
@@ -86,7 +94,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
   const payload = await getPayloadHMR({ config: configPromise });
-  
+
   const { docs } = await payload.find({
     collection: "blog" as any,
     where: {
@@ -117,7 +125,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const featuredImage = post.featuredImage as Media;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-secondary-50">
+    <div className="min-h-screen">
       <article className="container mx-auto px-4 py-16">
         <AnimatedSection>
           {/* Hero Section */}
@@ -133,7 +141,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 />
               </div>
             )}
-            
+
             <div className="text-center">
               <h1 className="text-4xl lg:text-6xl font-bold mb-6">
                 {post.title}

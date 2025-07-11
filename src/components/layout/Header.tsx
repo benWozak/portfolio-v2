@@ -6,12 +6,14 @@ import Logo from "./Logo";
 import { ThemeToggle } from "./ThemeToggle";
 import { LinkButton } from "../ui/LinkButton";
 import { useNavigation } from "@/utils/hooks";
+import { usePathname } from "next/navigation";
 import { Socials } from "../content";
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navItems = useNavigation();
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,6 +27,7 @@ export function Header() {
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
+
 
   return (
     <header
@@ -45,7 +48,12 @@ export function Header() {
               <ul className="flex items-center gap-6 text-sm">
                 {navItems.map((item) => (
                   <li key={item.href}>
-                    <LinkButton href={item.href}>{item.label}</LinkButton>
+                    <LinkButton
+                      href={item.href}
+                      isActive={pathname.includes(item.href)}
+                    >
+                      {item.label}
+                    </LinkButton>
                   </li>
                 ))}
               </ul>
@@ -128,7 +136,11 @@ export function Header() {
                 <ul className="space-y-8">
                   {navItems.map((item) => (
                     <li key={item.href}>
-                      <LinkButton href={item.href} onClick={toggleMobileMenu}>
+                      <LinkButton
+                        href={item.href}
+                        onClick={toggleMobileMenu}
+                        isActive={pathname.includes(item.href)}
+                      >
                         {item.label}
                       </LinkButton>
                     </li>

@@ -38,12 +38,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <LinkButton
               key={tab.name}
               href={tab.href}
-              className={clsx(
-                "pb-2 px-4 text-sm font-medium",
-                pathname === tab.href
-                  ? "border-b-2 border-primary-500 text-primary-500"
-                  : ""
-              )}
+              className={clsx("pb-2 px-4 text-sm font-medium")}
+              isActive={pathname === tab.href}
             >
               {tab.name}
             </LinkButton>

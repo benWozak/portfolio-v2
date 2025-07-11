@@ -189,3 +189,8 @@ export function LexicalRenderer({ content, className = '' }: LexicalRendererProp
     )
   }
 }
+
+// Export alias for backward compatibility
+export const renderLexicalContent = (content: any, className?: string) => {
+  return <LexicalRenderer content={content} className={className} />
+}

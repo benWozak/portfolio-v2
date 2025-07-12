@@ -2,7 +2,7 @@ import React from "react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { getPayloadHMR } from "@payloadcms/next/utilities";
+import { getPayload } from "payload";
 import configPromise from "@payload-config";
 import { BlogMeta, BlogContent, RelatedPosts } from "@/components/content/blog";
 import { AnimatedSection } from "@/components/layout/section/AnimatedSection";
@@ -16,7 +16,7 @@ interface BlogPostPageProps {
 }
 
 export async function generateStaticParams() {
-  const payload = await getPayloadHMR({ config: configPromise });
+  const payload = await getPayload({ config: configPromise });
 
   const { docs: posts } = await payload.find({
     collection: "blog" as any,
@@ -37,7 +37,7 @@ export async function generateMetadata({
   params,
 }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const payload = await getPayloadHMR({ config: configPromise });
+  const payload = await getPayload({ config: configPromise });
 
   const { docs } = await payload.find({
     collection: "blog" as any,
@@ -93,7 +93,7 @@ export async function generateMetadata({
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
-  const payload = await getPayloadHMR({ config: configPromise });
+  const payload = await getPayload({ config: configPromise });
 
   const { docs } = await payload.find({
     collection: "blog" as any,

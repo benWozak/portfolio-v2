@@ -15,6 +15,8 @@ import { Tags } from './collections/Tags'
 import { BlogPage } from './collections/BlogPage'
 import { ProfessionalInsights } from './collections/ProfessionalInsights'
 import { Tutorials } from './collections/Tutorials'
+import { Projects } from './collections/Projects'
+import { Resume } from './collections/Resume'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -26,7 +28,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Blog, Categories, Tags, BlogPage, ProfessionalInsights, Tutorials],
+  collections: [Users, Media, Blog, Categories, Tags, BlogPage, ProfessionalInsights, Tutorials, Projects, Resume],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

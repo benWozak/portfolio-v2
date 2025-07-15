@@ -10,7 +10,7 @@ export async function getProjects(): Promise<Project[]> {
   }
 
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/projects`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/projects`);
     if (!res.ok) {
       throw new Error('Failed to fetch projects');
     }

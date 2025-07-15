@@ -22,10 +22,10 @@ export function useNavigation(): NavItem[] {
       href: "/projects",
       label: "Projects",
     },
-    {
-      href: "/blog",
-      label: "Blog",
-    },
+    // {
+    //   href: "/blog",
+    //   label: "Blog",
+    // },
     // {
     //   href: "/resume",
     //   label: "Resume",

@@ -15,16 +15,16 @@ export default function Contact() {
       <Section id="contact" title="Contact" className="pt-32">
         <AnimatedSection className="w-full flex flex-col items-center">
           <motion.div
-            className="md:text-lg lg:text-xl lg:px-2 mb-4 px-8 max-w-2xl text-gray-800 dark:text-gray-200"
+            className="md:text-lg lg:text-xl lg:px-2 mb-4 px-4 max-w-2xl text-gray-800 dark:text-gray-200"
             variants={itemVariants}
           >
-            <span className="text-primary-500 font-bold">
+            {/* <span className="text-primary-500 font-bold">
               I&apos;m currently available for freelance work
             </span>{" "}
             — whether you need help shipping a feature, building a full app, or
             just want a second set of eyes on your code, let&apos;s chat.
             <br />
-            <br />
+            <br /> */}
             Feel free to reach out using the form below, or connect with me on{" "}
             <LinkButton
               href="https://github.com/benWozak"

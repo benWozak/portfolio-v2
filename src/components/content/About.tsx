@@ -23,13 +23,21 @@ export function About() {
             className="rounded-2xl"
           /> */}
           <div className="relative flex size-full max-w-lg items-center justify-center overflow-hidden px-40 py-44 md:pt-8 md:pb-60">
-            <Globe className="top-0 md:top-28 dark:invert" />
+            <Globe className="top-0 md:top-4 dark:invert" />
           </div>
         </motion.div>
         <motion.div className="max-w-xl" variants={itemVariants}>
-          <h3 className="text-xl md:text-2xl lg:text-3xl font-bold mb-2">
+          {/* <h3 className="text-xl md:text-2xl lg:text-3xl font-bold mb-2">
             For Industry Recruiters:
-          </h3>
+          </h3> */}
+          <p className="lg:text-lg mb-8">
+            I&apos;m a software engineer from Calgary Alberta looking to
+            relocate to San Diego, California. I specialize in building modern,
+            user-friendly web applications that solve real-world problems. With
+            a passion for clean code and a focus on performance, I create
+            scalable solutions that enhance user experience and drive business
+            success.
+          </p>
           <p className="lg:text-lg mb-8">
             Backed by years of industry experience building polished UIs for B2B
             SaaS platforms and high-traffic consumer websites, I help businesses
@@ -40,7 +48,7 @@ export function About() {
             clean, responsive interfaces that elevate user experience and drive
             results.
           </p>
-          <h3 className="text-xl md:text-2xl lg:text-3xl font-bold mb-2">
+          {/* <h3 className="text-xl md:text-2xl lg:text-3xl font-bold mb-2">
             For Contract Roles:
           </h3>
           <p className="lg:text-lg">
@@ -66,7 +74,7 @@ export function About() {
             advanced features out of the box, and scales effortlessly; whether
             you need a marketing site, a blog, an online store, or something
             entirely custom.
-          </p>
+          </p> */}
         </motion.div>
       </AnimatedSection>
     </Section>

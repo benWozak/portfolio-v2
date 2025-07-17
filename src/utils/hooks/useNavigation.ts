@@ -1,5 +1,3 @@
-// import { usePathname } from "next/navigation";
-
 export interface NavItem {
   href: string;
   label: string;
@@ -10,14 +8,12 @@ export interface NavItem {
  * @returns Array of navigation items with path-aware URLs
  */
 export function useNavigation(): NavItem[] {
-  // const pathname = usePathname();
-  // const isHomePage = pathname === "/";
 
   const navItems: NavItem[] = [
-    {
-      href: "/about",
-      label: "About",
-    },
+    // {
+    //   href: "/about",
+    //   label: "About",
+    // },
     {
       href: "/projects",
       label: "Projects",
@@ -26,10 +22,10 @@ export function useNavigation(): NavItem[] {
     //   href: "/blog",
     //   label: "Blog",
     // },
-    // {
-    //   href: "/resume",
-    //   label: "Resume",
-    // },
+    {
+      href: "/resume",
+      label: "Resume",
+    },
     {
       href: "/contact",
       label: "Contact",

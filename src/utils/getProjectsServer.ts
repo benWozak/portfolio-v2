@@ -27,8 +27,19 @@ export async function getProjectsServer(isDraftMode?: boolean): Promise<Project[
   try {
     const payload = await getPayload({ config: configPromise });
     
-    const { isEnabled } = await draftMode();
-    const shouldUseDraft = isDraftMode ?? isEnabled;
+    // Only check draftMode if we're in a request context and isDraftMode is not explicitly set
+    let shouldUseDraft = false;
+    if (isDraftMode !== undefined) {
+      shouldUseDraft = isDraftMode;
+    } else {
+      try {
+        const { isEnabled } = await draftMode();
+        shouldUseDraft = isEnabled;
+      } catch {
+        // If draftMode() fails (e.g., outside request context), default to false
+        shouldUseDraft = false;
+      }
+    }
     
     const result = await payload.find({
       collection: 'projects' as any,
@@ -51,8 +62,19 @@ export async function getProjectByNameServer(name: string, isDraftMode?: boolean
   try {
     const payload = await getPayload({ config: configPromise });
     
-    const { isEnabled } = await draftMode();
-    const shouldUseDraft = isDraftMode ?? isEnabled;
+    // Only check draftMode if we're in a request context and isDraftMode is not explicitly set
+    let shouldUseDraft = false;
+    if (isDraftMode !== undefined) {
+      shouldUseDraft = isDraftMode;
+    } else {
+      try {
+        const { isEnabled } = await draftMode();
+        shouldUseDraft = isEnabled;
+      } catch {
+        // If draftMode() fails (e.g., outside request context), default to false
+        shouldUseDraft = false;
+      }
+    }
     
     const result = await payload.find({
       collection: 'projects' as any,

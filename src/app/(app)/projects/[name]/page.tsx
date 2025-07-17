@@ -13,7 +13,7 @@ import { BackButton } from "@/components/ui/BackButton";
 type Params = Promise<{ name: string }>;
 
 export async function generateStaticParams() {
-  const projects = await getProjectsServer();
+  const projects = await getProjectsServer(false);
   return projects.map((project) => ({
     name: project.name.toLowerCase().replace(/\s+/g, "-"),
   }));

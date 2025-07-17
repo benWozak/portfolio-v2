@@ -38,7 +38,7 @@ function MediaContainer({ project }: Props) {
 
   return (
     <div
-      className="xl:w-[600px] h-[400px] bg-gradient-to-br from-secondary-400 via-secondary-500 to-secondary-800 rounded-md"
+      className="h-fit inline-block bg-gradient-to-br from-secondary-400 via-secondary-500 to-secondary-800 rounded-md overflow-hidden"
       onClick={handleInteraction}
       onMouseEnter={() => !isMobile && handleInteraction()}
       onMouseLeave={() => !isMobile && handleInteraction()}
@@ -48,7 +48,7 @@ function MediaContainer({ project }: Props) {
           <video
             ref={videoRef}
             src={project.media}
-            className="w-full h-full object-fit hidden md:block"
+            className="max-w-full rounded-md hidden md:block"
             muted
             loop
             playsInline
@@ -60,7 +60,7 @@ function MediaContainer({ project }: Props) {
             alt={project.name}
             width={600}
             height={400}
-            className="w-full h-full object-contain rounded-lg shadow-md md:hidden"
+            className="max-w-full rounded-md md:hidden"
           />
         </>
       ) : (
@@ -69,7 +69,7 @@ function MediaContainer({ project }: Props) {
           alt={project.name}
           width={600}
           height={400}
-          className="w-full h-full object-contain rounded-lg shadow-md"
+          className="max-w-full rounded-md"
         />
       )}
     </div>

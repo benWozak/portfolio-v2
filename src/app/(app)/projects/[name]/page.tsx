@@ -1,10 +1,14 @@
 import { SectionHeading } from "@/components/layout/section/SectionHeading";
-import { getProjectsServer, getProjectByNameServer } from "@/utils/getProjectsServer";
+import {
+  getProjectsServer,
+  getProjectByNameServer,
+} from "@/utils/getProjectsServer";
 import { LivePreviewToolbar } from "@/components/layout";
 import Link from "next/link";
 import { Metadata } from "next";
 import { draftMode } from "next/headers";
 import MediaContainer from "@/components/content/projects/MediaContainer";
+import { BackButton } from "@/components/ui/BackButton";
 
 type Params = Promise<{ name: string }>;
 
@@ -44,14 +48,17 @@ export default async function ProjectPage({ params }: { params: Params }) {
 
   return (
     <>
-      <LivePreviewToolbar 
-        isDraftMode={isEnabled} 
-        collection="projects" 
-        id={project.id?.toString()} 
+      <LivePreviewToolbar
+        isDraftMode={isEnabled}
+        collection="projects"
+        id={project.id?.toString()}
         slug={name}
       />
-      <div className={`container mx-auto px-4 py-16 lg:pt-24 ${isEnabled ? 'pt-20' : ''}`}>
+      <div
+        className={`container mx-auto px-4 py-16 lg:pt-24 ${isEnabled ? "pt-20" : ""}`}
+      >
         <SectionHeading title={project.name} />
+        <BackButton />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <MediaContainer project={project} />
           <div>

@@ -58,7 +58,7 @@ export function ProjectCard({ project }: Props) {
               <video
                 ref={videoRef}
                 src={project.media}
-                className="w-full h-full object-fit hidden md:block"
+                className="w-full h-full object-cover hidden md:block"
                 muted
                 loop
                 playsInline

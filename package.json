@@ -6,7 +6,11 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "payload:migrate": "tsx node_modules/.bin/payload migrate",
+    "payload:migrate:fresh": "tsx node_modules/.bin/payload migrate:fresh",
+    "payload:generate:types": "tsx node_modules/.bin/payload generate:types",
+    "db:reset": "tsx scripts/reset-db.js"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",

@@ -8,34 +8,6 @@ import { BackButton } from "@/components/ui/BackButton";
 
 type Params = Promise<{ name: string }>;
 
-// Dummy project data
-const dummyProject = {
-  id: 1,
-  name: "Calgary Folk Fest",
-  type: "web" as const,
-  status: "Professional" as const,
-  description:
-    "A website for a local music festival with over 40 years of rich history in the heart of downtown Calgary, AB.",
-  overview:
-    "A website for a local music festival with over 40 years of rich history in the heart of downtown Calgary, AB. I was the lead developer responsible for architecture, infrastructure, and front-end development.",
-  challenge:
-    "The existing website for this iconic local festival was outdated and couldn't support their growing content needs. The primary challenge was to deliver a complete digital refresh that matched its cultural significance, re-imagining a site with extensive, complex content while working under tight deadlines.",
-  solution:
-    "As part of a small, agile team, we built a brand new solution from the ground up. I spearheaded the technical approach, opting for a modern stack to ensure scalability and ease of content management. Key decisions included implementing a headless architecture with StrapiCMS which allowed for flexible content modeling and an API-first approach that could support future mobile applications and integrations. I designed a component-based system for optimal user experience. This decoupled setup allowed us to build a highly interactive and fast user interface, hosted on AWS for reliability. I was also responsible for developing the front-end, from component architecture to final implementation.",
-  techStack: {
-    frontend: ["Next.js", "React", "Tailwind CSS", "TypeScript"],
-    backend: ["StrapiCMS", "MySQL", "AWS (S3, EC2)"],
-    other: ["Figma", "Vercel", "Docker"],
-  },
-  keyTakeaways:
-    "This project was a fantastic learning experience. It sharpened my skills in architecting scalable front-end systems and solidified my expertise with the Next.js framework. One of the main challenges was migrating a vast amount of legacy content, which required careful planning and scripting. The result was a significantly faster, more user-friendly website that saw a measurable increase in user engagement and ticket sales during the festival season.",
-  liveUrl: "https://calgaryfolkfest.com",
-  githubUrl: null,
-  media: {
-    staticImage: "/projects/calgary-folk-fest.jpg",
-    video: "/projects/calgary-folk-fest.mp4",
-  },
-};
 
 export async function generateStaticParams() {
   try {
@@ -47,12 +19,7 @@ export async function generateStaticParams() {
     }));
   } catch (error) {
     console.error("Error generating static params:", error);
-    // Fallback to dummy project
-    return [
-      {
-        name: "calgary-folk-fest",
-      },
-    ];
+    return [];
   }
 }
 
@@ -63,10 +30,21 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { name } = await params;
 
-  return {
-    title: `${name} | Projects`,
-    description: dummyProject.description,
-  };
+  try {
+    const { getProjectByNameServer } = await import("@/utils/getProjectsServer");
+    const { isEnabled } = await draftMode();
+    const project = await getProjectByNameServer(name.replace(/-/g, " "), isEnabled);
+    
+    return {
+      title: `${project?.name || name} | Projects`,
+      description: project?.description || `Project details for ${name}`,
+    };
+  } catch (error) {
+    return {
+      title: `${name} | Projects`,
+      description: `Project details for ${name}`,
+    };
+  }
 }
 
 export default async function ProjectPage({ params }: { params: Params }) {
@@ -75,9 +53,7 @@ export default async function ProjectPage({ params }: { params: Params }) {
 
   // Import here to avoid build issues
   const { getProjectByNameServer } = await import("@/utils/getProjectsServer");
-  const project =
-    (await getProjectByNameServer(name.replace(/-/g, " "), isEnabled)) ||
-    dummyProject;
+  const project = await getProjectByNameServer(name.replace(/-/g, " "), isEnabled);
 
   if (!project) {
     return <div>Project not found</div>;

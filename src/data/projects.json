@@ -5,8 +5,8 @@
     "type": "native",
     "status": "Prototype",
     "description": "A desktop application for Tedana - a program for multi-echo fMRI processing using Tauri, Rust and React.",
-    "media": "https://ua4mmiw8i4jbla3y.public.blob.vercel-storage.com/TedanaApp-71fvLOCahSSxyzvgKNJj7vTKHwGOhw.mov",
-    "staticImage": "https://ua4mmiw8i4jbla3y.public.blob.vercel-storage.com/TedanaApp-8Gpg6wj8lu88AwQPAaoKHt88E50IoO.png",
+    "media": "https://ua4mmiw8i4jbla3y.public.blob.vercel-storage.com/TedanaApp.mov",
+    "staticImage": "https://ua4mmiw8i4jbla3y.public.blob.vercel-storage.com/TedanaApp.webp",
     "liveUrl": null,
     "githubUrl": "https://github.com/benWozak/tedana-gui",
     "content": {
@@ -20,8 +20,8 @@
     "type": "web",
     "status": "Professional",
     "description": "A website for a local music festival with well over 40 years of rich history in the heart of downtown Calgary, AB.",
-    "media": "https://ua4mmiw8i4jbla3y.public.blob.vercel-storage.com/CFMF-xJzGh6j0tM4nfGWVzi1fsgdAq9In7M.mov",
-    "staticImage": "https://ua4mmiw8i4jbla3y.public.blob.vercel-storage.com/CFMF-andRlosHHaG0BXZ6k1oi10W7k0nt8q.png",
+    "media": "https://ua4mmiw8i4jbla3y.public.blob.vercel-storage.com/CFMF.mov",
+    "staticImage": "https://ua4mmiw8i4jbla3y.public.blob.vercel-storage.com/CFMF.webp",
     "liveUrl": "https://calgaryfolkfest.com/",
     "githubUrl": null,
     "content": {

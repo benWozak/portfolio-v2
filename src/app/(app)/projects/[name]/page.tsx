@@ -145,7 +145,7 @@ export default async function ProjectPage({ params }: { params: Params }) {
 
                     <div>
                       <h3 className="font-medium mb-3 text-gray-900 dark:text-gray-100">
-                        Backend & Hosting
+                        Backend
                       </h3>
                       <ul className="space-y-1">
                         {project.techStack.backend.map((tech, index) => (
@@ -161,7 +161,7 @@ export default async function ProjectPage({ params }: { params: Params }) {
 
                     <div>
                       <h3 className="font-medium mb-3 text-gray-900 dark:text-gray-100">
-                        Other Tools
+                        Other
                       </h3>
                       <ul className="space-y-1">
                         {project.techStack.other.map((tech, index) => (

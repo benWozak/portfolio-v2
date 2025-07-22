@@ -12,8 +12,8 @@ type Params = Promise<{ name: string }>;
 const dummyProject = {
   id: 1,
   name: "Calgary Folk Fest",
-  type: "web",
-  status: "Professional",
+  type: "web" as const,
+  status: "Professional" as const,
   description:
     "A website for a local music festival with over 40 years of rich history in the heart of downtown Calgary, AB.",
   overview:
@@ -38,12 +38,22 @@ const dummyProject = {
 };
 
 export async function generateStaticParams() {
-  // For now, just return the dummy project
-  return [
-    {
-      name: "calgary-folk-fest",
-    },
-  ];
+  try {
+    const { getProjectsServer } = await import("@/utils/getProjectsServer");
+    const projects = await getProjectsServer();
+
+    return projects.map((project) => ({
+      name: project.name.toLowerCase().replace(/\s+/g, "-"),
+    }));
+  } catch (error) {
+    console.error("Error generating static params:", error);
+    // Fallback to dummy project
+    return [
+      {
+        name: "calgary-folk-fest",
+      },
+    ];
+  }
 }
 
 export async function generateMetadata({
@@ -62,7 +72,12 @@ export async function generateMetadata({
 export default async function ProjectPage({ params }: { params: Params }) {
   const { name } = await params;
   const { isEnabled } = await draftMode();
-  const project = dummyProject; // Using dummy data
+
+  // Import here to avoid build issues
+  const { getProjectByNameServer } = await import("@/utils/getProjectsServer");
+  const project =
+    (await getProjectByNameServer(name.replace(/-/g, " "), isEnabled)) ||
+    dummyProject;
 
   if (!project) {
     return <div>Project not found</div>;
@@ -82,17 +97,14 @@ export default async function ProjectPage({ params }: { params: Params }) {
         <SectionHeading title={project.name} />
         <BackButton />
 
-        {/* New Layout Structure */}
         <div className="space-y-12">
-          {/* Hero Image using MediaContainer */}
-          <div className="flex justify-center">
-            <MediaContainer project={project} />
-          </div>
-
           {/* Content Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Main Content - Left Side (2/3) */}
             <div className="lg:col-span-2 space-y-8">
+              <div className="flex justify-center">
+                <MediaContainer project={project} />
+              </div>
               {/* Overview */}
               <section>
                 <h2 className="text-2xl font-semibold mb-4">Overview</h2>

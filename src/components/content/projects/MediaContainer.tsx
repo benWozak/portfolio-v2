@@ -1,11 +1,10 @@
 "use client";
 import React, { useRef, useState, useEffect } from "react";
 import Image from "next/image";
-// import { Project } from "@/types";
+import { Project } from "@/types";
 
 type Props = {
-  // project: Project;
-  project: any;
+  project: Project;
 };
 
 function MediaContainer({ project }: Props) {

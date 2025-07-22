@@ -1,8 +1,17 @@
 import { NextResponse } from 'next/server';
 import projectsData from '@/data/projects.json';
+import { getProjectsServer } from '@/utils/getProjectsServer';
 
 export async function GET() {
-  const response = NextResponse.json(projectsData);
+  let response;
+  
+  try {
+    const projects = await getProjectsServer();
+    response = NextResponse.json(projects);
+  } catch (error) {
+    console.error('Error fetching projects:', error);
+    response = NextResponse.json(projectsData);
+  }
   
   response.headers.set('Access-Control-Allow-Origin', 'https://www.benwozak.dev');
   response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');

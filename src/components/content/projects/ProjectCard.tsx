@@ -52,12 +52,12 @@ export function ProjectCard({ project }: Props) {
         onClick={(e) => e.stopPropagation()} // Prevent link navigation when clicking to play/pause
       >
         <div className="relative h-56 bg-gradient-to-br from-secondary-300 via-secondary-500 to-secondary-700">
-          {(!!project.media && project.media?.endsWith(".mp4")) ||
-          project.media?.endsWith(".mov") ? (
+          {(!!project.media.video && project.media.video?.endsWith(".mp4")) ||
+          project.media.video?.endsWith(".mov") ? (
             <>
               <video
                 ref={videoRef}
-                src={project.media}
+                src={project.media.video}
                 className="w-full h-full object-cover hidden md:block"
                 muted
                 loop
@@ -66,7 +66,7 @@ export function ProjectCard({ project }: Props) {
                 preload="metadata"
               />
               <Image
-                src={project.staticImage}
+                src={project.media.staticImage}
                 alt={project.name}
                 fill
                 style={{ objectFit: "cover" }}
@@ -76,7 +76,7 @@ export function ProjectCard({ project }: Props) {
             </>
           ) : (
             <Image
-              src={project.staticImage}
+              src={project.media.staticImage}
               alt={project.name}
               fill
               style={{ objectFit: "cover" }}

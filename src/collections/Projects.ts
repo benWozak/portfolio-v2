@@ -74,21 +74,107 @@ export const Projects: CollectionConfig = {
       },
     },
     {
-      name: 'media',
-      type: 'upload',
-      relationTo: 'media',
+      name: 'overview',
+      type: 'textarea',
+      required: true,
       admin: {
-        description: 'Video showcasing the project (MP4 format recommended)',
+        description: 'Detailed overview of the project and your role',
       },
     },
     {
-      name: 'staticImage',
-      type: 'upload',
-      relationTo: 'media',
+      name: 'challenge',
+      type: 'textarea',
       required: true,
       admin: {
-        description: 'Static image/screenshot of the project',
+        description: 'The main challenge or problem this project addressed',
       },
+    },
+    {
+      name: 'solution',
+      type: 'textarea',
+      required: true,
+      admin: {
+        description: 'How you solved the challenge and technical implementation details',
+      },
+    },
+    {
+      name: 'keyTakeaways',
+      type: 'textarea',
+      required: true,
+      admin: {
+        description: 'What you learned from this project and its impact',
+      },
+    },
+    {
+      name: 'techStack',
+      type: 'group',
+      fields: [
+        {
+          name: 'frontend',
+          type: 'array',
+          fields: [
+            {
+              name: 'technology',
+              type: 'text',
+              required: true,
+            },
+          ],
+          admin: {
+            description: 'Frontend technologies used',
+          },
+        },
+        {
+          name: 'backend',
+          type: 'array',
+          fields: [
+            {
+              name: 'technology',
+              type: 'text',
+              required: true,
+            },
+          ],
+          admin: {
+            description: 'Backend technologies used',
+          },
+        },
+        {
+          name: 'other',
+          type: 'array',
+          fields: [
+            {
+              name: 'technology',
+              type: 'text',
+              required: true,
+            },
+          ],
+          admin: {
+            description: 'Other tools and technologies used',
+          },
+        },
+      ],
+    },
+    {
+      name: 'media',
+      type: 'group',
+      fields: [
+        {
+          name: 'staticImage',
+          type: 'upload',
+          relationTo: 'media',
+          required: true,
+          admin: {
+            description: 'Static image/screenshot of the project',
+          },
+        },
+        {
+          name: 'video',
+          type: 'upload',
+          relationTo: 'media',
+          admin: {
+            description: 'Video showcasing the project (MP4 format recommended)',
+          },
+        },
+      ],
     },
     {
       name: 'liveUrl',
@@ -103,28 +189,6 @@ export const Projects: CollectionConfig = {
       admin: {
         description: 'GitHub repository URL (optional)',
       },
-    },
-    {
-      name: 'content',
-      type: 'group',
-      fields: [
-        {
-          name: 'concept',
-          type: 'textarea',
-          required: true,
-          admin: {
-            description: 'Description of the project concept and problem it solves',
-          },
-        },
-        {
-          name: 'solution',
-          type: 'textarea',
-          required: true,
-          admin: {
-            description: 'Description of the solution and technical implementation',
-          },
-        },
-      ],
     },
     // SEO and metadata fields
     {

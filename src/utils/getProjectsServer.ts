@@ -7,19 +7,65 @@ import { draftMode } from 'next/headers';
 // Type assertion for imported JSON
 const projectsData = rawProjectsData as any[];
 
-// Transform Payload project data to match existing Project interface
+// Transform old JSON format to new Project interface
+function transformLegacyProject(legacyProject: any): Project {
+  return {
+    id: legacyProject.id,
+    name: legacyProject.name,
+    type: legacyProject.type,
+    status: legacyProject.status,
+    description: legacyProject.description,
+    overview: legacyProject.overview || legacyProject.description,
+    challenge: legacyProject.challenge || legacyProject.content?.concept || '',
+    solution: legacyProject.solution || legacyProject.content?.solution || '',
+    techStack: legacyProject.techStack || { frontend: [], backend: [], other: [] },
+    keyTakeaways: legacyProject.keyTakeaways || '',
+    liveUrl: legacyProject.liveUrl || null,
+    githubUrl: legacyProject.githubUrl || null,
+    media: {
+      staticImage: legacyProject.staticImage || legacyProject.media?.staticImage || '',
+      video: legacyProject.media?.video || legacyProject.media || undefined,
+    },
+  };
+}
+
+// Transform Payload project data to match Project interface
 function transformPayloadProject(payloadProject: any): Project {
+  // Transform tech stack from Payload array format to simple string arrays
+  const transformTechStack = (techStack: any) => {
+    if (!techStack) return { frontend: [], backend: [], other: [] };
+    
+    return {
+      frontend: techStack.frontend?.map((item: any) => item.technology) || [],
+      backend: techStack.backend?.map((item: any) => item.technology) || [],
+      other: techStack.other?.map((item: any) => item.technology) || [],
+    };
+  };
+
+  // Transform media from Payload nested object to expected format
+  const transformMedia = (media: any) => {
+    const staticImage = media?.staticImage ? 
+      (typeof media.staticImage === 'object' ? media.staticImage.url : media.staticImage) : '';
+    const video = media?.video ? 
+      (typeof media.video === 'object' ? media.video.url : media.video) : undefined;
+    
+    return { staticImage, video };
+  };
+
   return {
     id: payloadProject.id,
     name: payloadProject.name,
     type: payloadProject.type,
     status: payloadProject.status,
     description: payloadProject.description,
-    media: typeof payloadProject.media === 'object' ? payloadProject.media?.url : payloadProject.media,
-    staticImage: typeof payloadProject.staticImage === 'object' ? payloadProject.staticImage?.url : payloadProject.staticImage,
-    liveUrl: payloadProject.liveUrl,
-    githubUrl: payloadProject.githubUrl,
-    content: payloadProject.content,
+    overview: payloadProject.overview || '',
+    challenge: payloadProject.challenge || '',
+    solution: payloadProject.solution || '',
+    techStack: transformTechStack(payloadProject.techStack),
+    keyTakeaways: payloadProject.keyTakeaways || '',
+    liveUrl: payloadProject.liveUrl || null,
+    githubUrl: payloadProject.githubUrl || null,
+    media: transformMedia(payloadProject.media),
   };
 }
 
@@ -54,8 +100,8 @@ export async function getProjectsServer(isDraftMode?: boolean): Promise<Project[
     console.error('Payload projects fetch error:', error);
   }
   
-  // Fallback to JSON data
-  return projectsData;
+  // Fallback to JSON data - transform legacy format
+  return projectsData.map(transformLegacyProject);
 }
 
 export async function getProjectByNameServer(name: string, isDraftMode?: boolean): Promise<Project | undefined> {

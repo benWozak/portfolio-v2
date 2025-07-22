@@ -8,7 +8,6 @@ import { BackButton } from "@/components/ui/BackButton";
 
 type Params = Promise<{ name: string }>;
 
-
 export async function generateStaticParams() {
   try {
     const { getProjectsServer } = await import("@/utils/getProjectsServer");
@@ -31,10 +30,15 @@ export async function generateMetadata({
   const { name } = await params;
 
   try {
-    const { getProjectByNameServer } = await import("@/utils/getProjectsServer");
+    const { getProjectByNameServer } = await import(
+      "@/utils/getProjectsServer"
+    );
     const { isEnabled } = await draftMode();
-    const project = await getProjectByNameServer(name.replace(/-/g, " "), isEnabled);
-    
+    const project = await getProjectByNameServer(
+      name.replace(/-/g, " "),
+      isEnabled
+    );
+
     return {
       title: `${project?.name || name} | Projects`,
       description: project?.description || `Project details for ${name}`,
@@ -53,7 +57,10 @@ export default async function ProjectPage({ params }: { params: Params }) {
 
   // Import here to avoid build issues
   const { getProjectByNameServer } = await import("@/utils/getProjectsServer");
-  const project = await getProjectByNameServer(name.replace(/-/g, " "), isEnabled);
+  const project = await getProjectByNameServer(
+    name.replace(/-/g, " "),
+    isEnabled
+  );
 
   if (!project) {
     return <div>Project not found</div>;
@@ -67,9 +74,7 @@ export default async function ProjectPage({ params }: { params: Params }) {
         id={project.id?.toString()}
         slug={name}
       />
-      <div
-        className={`container mx-auto px-4 py-16 lg:pt-24 ${isEnabled ? "pt-20" : ""}`}
-      >
+      <div className={`container mx-auto px-4 ${isEnabled ? "pt-20" : ""}`}>
         <SectionHeading title={project.name} />
         <BackButton />
 

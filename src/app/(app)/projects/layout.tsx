@@ -31,10 +31,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const currentTitle = getTitle(pathname);
 
   return (
-    <article className="container mx-auto my-16 px-4 py-16 lg:py-8">
-      <nav className="mb-8 flex space-x-4">
-        {!isProjectPath(pathname) &&
-          tabs.map((tab) => (
+    <article className="container mx-auto my-16 px-4 lg:py-8">
+      {!isProjectPath(pathname) && (
+        <nav className="mb-8 flex space-x-4 pt-16">
+          {tabs.map((tab) => (
             <LinkButton
               key={tab.name}
               href={tab.href}
@@ -44,7 +44,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               {tab.name}
             </LinkButton>
           ))}
-      </nav>
+        </nav>
+      )}
+
       {!isProjectPath(pathname) && <SectionHeading title={currentTitle} />}
       {children}
     </article>

@@ -5,7 +5,7 @@ import configPromise from '../payload.config';
 import { draftMode } from 'next/headers';
 
 // Type assertion for imported JSON
-const projectsData = rawProjectsData as Project[];
+const projectsData = rawProjectsData as any[];
 
 // Transform Payload project data to match existing Project interface
 function transformPayloadProject(payloadProject: any): Project {

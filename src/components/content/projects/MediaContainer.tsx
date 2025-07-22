@@ -1,10 +1,11 @@
 "use client";
 import React, { useRef, useState, useEffect } from "react";
 import Image from "next/image";
-import { Project } from "@/types";
+// import { Project } from "@/types";
 
 type Props = {
-  project: Project;
+  // project: Project;
+  project: any;
 };
 
 function MediaContainer({ project }: Props) {
@@ -43,11 +44,13 @@ function MediaContainer({ project }: Props) {
       onMouseEnter={() => !isMobile && handleInteraction()}
       onMouseLeave={() => !isMobile && handleInteraction()}
     >
-      {project.media.endsWith(".mp4") || project.media.endsWith(".mov") ? (
+      {!!project?.media?.video &&
+      (project.media.video.endsWith(".mp4") ||
+        project.media.video.endsWith(".mov")) ? (
         <>
           <video
             ref={videoRef}
-            src={project.media}
+            src={project.media.video}
             className="max-w-full rounded-md hidden md:block"
             muted
             loop
@@ -56,7 +59,7 @@ function MediaContainer({ project }: Props) {
             preload="metadata"
           />
           <Image
-            src={project.staticImage}
+            src={project.media.staticImage}
             alt={project.name}
             width={600}
             height={400}
@@ -65,7 +68,7 @@ function MediaContainer({ project }: Props) {
         </>
       ) : (
         <Image
-          src={project.media}
+          src={project.media.staticImage}
           alt={project.name}
           width={600}
           height={400}

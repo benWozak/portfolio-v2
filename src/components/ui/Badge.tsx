@@ -2,7 +2,7 @@ import React from "react";
 import { ProjectStatus, ProjectType } from "@/types";
 
 type BadgeProps = {
-  status: ProjectStatus | ProjectType | string;
+  status?: ProjectStatus | ProjectType | string;
   className?: string;
 };
 

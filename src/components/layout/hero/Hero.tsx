@@ -21,13 +21,6 @@ const containerVariants = {
 };
 
 export function Hero() {
-  const items: string[] = [
-    "Custom Websites",
-    "Product Stores",
-    "Online Services",
-    "Custom Solutions",
-  ];
-
   return (
     <motion.section
       variants={containerVariants}

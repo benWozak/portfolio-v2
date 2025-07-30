@@ -12,8 +12,5 @@ export const Media: CollectionConfig = {
       required: true,
     },
   ],
-  upload: {
-    staticDir: 'media',
-    maxFileSize: 20 * 1024 * 1024, // 20MB
-  },
+  upload: true,
 }

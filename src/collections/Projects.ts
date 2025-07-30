@@ -2,10 +2,10 @@ import type { CollectionConfig } from 'payload'
 
 export const Projects: CollectionConfig = {
   slug: 'projects',
+  defaultSort: 'order',
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'type', 'status', 'order', 'featured', 'updatedAt'],
-    defaultSort: 'order',
     livePreview: {
       url: ({ data }) => {
         const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'

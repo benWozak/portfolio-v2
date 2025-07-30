@@ -44,6 +44,7 @@ export async function generateMetadata({
       description: project?.description || `Project details for ${name}`,
     };
   } catch (error) {
+    console.error("Error generating metadata:", error);
     return {
       title: `${name} | Projects`,
       description: `Project details for ${name}`,

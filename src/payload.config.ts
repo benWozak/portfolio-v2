@@ -28,6 +28,11 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
+  upload: {
+    limits: {
+      fileSize: 20 * 1024 * 1024, // 20MB
+    },
+  },
   collections: [Users, Media, Blog, Categories, Tags, BlogPage, ProfessionalInsights, Tutorials, Projects, Resume],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

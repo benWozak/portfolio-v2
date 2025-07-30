@@ -58,7 +58,7 @@ export default function WebProjectsPage() {
             }),
           }}
         >
-          <ProjectCard index={index} project={project} />
+          <ProjectCard project={project} isAboveFold={index < 2} />
         </motion.div>
       ))}
     </div>

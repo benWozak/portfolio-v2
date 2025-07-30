@@ -4,3 +4,4 @@ export { Button } from "./Button";
 export { LinkButton } from "./LinkButton";
 export { CTAButton } from "./CTAButton";
 export { Announcement } from "./Announcement";
+export { VideoLoader } from "./VideoLoader";

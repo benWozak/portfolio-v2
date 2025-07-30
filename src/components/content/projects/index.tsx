@@ -44,7 +44,7 @@ export function Projects() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-4 md:px-0 pt-4">
           {projects.map((project, index) => (
             <motion.div variants={itemVariants} key={index}>
-              <ProjectCard index={index} project={project} />
+              <ProjectCard project={project} isAboveFold={true} />
             </motion.div>
           ))}
         </div>

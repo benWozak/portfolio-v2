@@ -85,7 +85,7 @@ export default async function ProjectPage({ params }: { params: Params }) {
             {/* Main Content - Left Side (2/3) */}
             <div className="lg:col-span-2 space-y-8">
               <div className="flex justify-center">
-                <MediaContainer project={project} />
+                <MediaContainer project={project} isAboveFold={true} />
               </div>
               {/* Overview */}
               <section>

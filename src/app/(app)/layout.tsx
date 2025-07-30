@@ -16,6 +16,8 @@ const geistSans = localFont({
     },
   ],
   variable: "--font-geist-sans",
+  display: "swap",
+  preload: true,
 });
 
 const geistMono = localFont({
@@ -27,6 +29,8 @@ const geistMono = localFont({
     },
   ],
   variable: "--font-geist-mono",
+  display: "swap",
+  preload: true,
 });
 
 export const metadata: Metadata = {

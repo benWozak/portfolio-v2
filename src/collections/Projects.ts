@@ -4,7 +4,8 @@ export const Projects: CollectionConfig = {
   slug: 'projects',
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'type', 'status', 'updatedAt'],
+    defaultColumns: ['name', 'type', 'status', 'order', 'featured', 'updatedAt'],
+    defaultSort: 'order',
     livePreview: {
       url: ({ data }) => {
         const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
@@ -188,6 +189,23 @@ export const Projects: CollectionConfig = {
       type: 'text',
       admin: {
         description: 'GitHub repository URL (optional)',
+      },
+    },
+    {
+      name: 'order',
+      type: 'number',
+      admin: {
+        position: 'sidebar',
+        description: 'Display order (lower numbers appear first)',
+      },
+    },
+    {
+      name: 'featured',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        position: 'sidebar',
+        description: 'Mark as featured project',
       },
     },
     // SEO and metadata fields

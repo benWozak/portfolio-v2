@@ -52,8 +52,8 @@ export function ProjectCard({ project }: Props) {
         onClick={(e) => e.stopPropagation()} // Prevent link navigation when clicking to play/pause
       >
         <div className="relative h-56 bg-gradient-to-br from-secondary-300 via-secondary-500 to-secondary-700">
-          {(!!project.media.video && project.media.video?.endsWith(".mp4")) ||
-          project.media.video?.endsWith(".mov") ? (
+          {(!!project.media.video && typeof project.media.video === 'string' && project.media.video.endsWith(".mp4")) ||
+          (typeof project.media.video === 'string' && project.media.video.endsWith(".mov")) ? (
             <>
               <video
                 ref={videoRef}

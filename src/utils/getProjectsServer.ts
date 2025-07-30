@@ -26,6 +26,8 @@ function transformLegacyProject(legacyProject: any): Project {
       staticImage: legacyProject.staticImage || legacyProject.media?.staticImage || '',
       video: legacyProject.media?.video || legacyProject.media || undefined,
     },
+    order: legacyProject.order || 999,
+    featured: legacyProject.featured || false,
   };
 }
 
@@ -66,6 +68,8 @@ function transformPayloadProject(payloadProject: any): Project {
     liveUrl: payloadProject.liveUrl || null,
     githubUrl: payloadProject.githubUrl || null,
     media: transformMedia(payloadProject.media),
+    order: payloadProject.order || 999,
+    featured: payloadProject.featured || false,
   };
 }
 
@@ -91,6 +95,7 @@ export async function getProjectsServer(isDraftMode?: boolean): Promise<Project[
       collection: 'projects' as any,
       draft: shouldUseDraft,
       depth: 2, // Include related media
+      sort: 'order,createdAt',
     });
     
     if (result.docs.length > 0) {

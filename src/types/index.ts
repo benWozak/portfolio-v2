@@ -26,4 +26,6 @@ export interface Project {
   liveUrl: string | null;
   githubUrl: string | null;
   media: ProjectMedia;
+  order?: number;
+  featured?: boolean;
 }

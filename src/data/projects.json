@@ -5,8 +5,10 @@
     "type": "native",
     "status": "Prototype",
     "description": "A desktop application for Tedana - a program for multi-echo fMRI processing using Tauri, Rust and React.",
-    "media": "https://ua4mmiw8i4jbla3y.public.blob.vercel-storage.com/TedanaApp.mov",
-    "staticImage": "https://ua4mmiw8i4jbla3y.public.blob.vercel-storage.com/TedanaApp.webp",
+    "media": {
+      "video": "https://ua4mmiw8i4jbla3y.public.blob.vercel-storage.com/TedanaApp.mov",
+      "staticImage": "https://ua4mmiw8i4jbla3y.public.blob.vercel-storage.com/TedanaApp.webp"
+    },
     "liveUrl": null,
     "githubUrl": "https://github.com/benWozak/tedana-gui",
     "content": {
@@ -20,8 +22,10 @@
     "type": "web",
     "status": "Professional",
     "description": "A website for a local music festival with well over 40 years of rich history in the heart of downtown Calgary, AB.",
-    "media": "https://ua4mmiw8i4jbla3y.public.blob.vercel-storage.com/CFMF.mov",
-    "staticImage": "https://ua4mmiw8i4jbla3y.public.blob.vercel-storage.com/CFMF.webp",
+    "media": {
+      "video": "https://ua4mmiw8i4jbla3y.public.blob.vercel-storage.com/CFMF.mov",
+      "staticImage": "https://ua4mmiw8i4jbla3y.public.blob.vercel-storage.com/CFMF.webp"
+    },
     "liveUrl": "https://calgaryfolkfest.com/",
     "githubUrl": null,
     "content": {
@@ -35,8 +39,10 @@
     "type": "web",
     "status": "Professional",
     "description": "A residential community website in Crossfield, AB as part of a larger suite of developments by Dream Homes.",
-    "media": "https://ua4mmiw8i4jbla3y.public.blob.vercel-storage.com/vistacrossing-3CcZZGjclv2XMR84UD7AKvw4jL8fcU.mov",
-    "staticImage": "https://ua4mmiw8i4jbla3y.public.blob.vercel-storage.com/vistacrossing-tjBMbmgTH6RQwkeMSeiXTvY1ltH5T8.png",
+    "media": {
+      "video": "https://ua4mmiw8i4jbla3y.public.blob.vercel-storage.com/vistacrossing-3CcZZGjclv2XMR84UD7AKvw4jL8fcU.mov",
+      "staticImage": "https://ua4mmiw8i4jbla3y.public.blob.vercel-storage.com/vistacrossing-tjBMbmgTH6RQwkeMSeiXTvY1ltH5T8.png"
+    },
     "liveUrl": "https://vistacrossing.ca/",
     "githubUrl": null,
     "content": {

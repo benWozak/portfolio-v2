@@ -122,14 +122,14 @@ export default async function ProjectPage({ params }: { params: Params }) {
 
             {/* Sidebar - Right Side (1/3) */}
             <div className="lg:col-span-1">
-              <div className="sticky top-20 space-y-8">
+              <div className="sticky top-20 space-y-4">
                 {/* Tech Stack */}
                 <section>
                   <h2 className="text-2xl font-semibold mb-4">Tech Stack</h2>
 
                   <div className="space-y-6">
                     <div>
-                      <h3 className="font-medium mb-3 text-gray-900 dark:text-gray-100">
+                      <h3 className="font-medium text-gray-900 dark:text-gray-100">
                         Frontend
                       </h3>
                       <ul className="space-y-1">
@@ -145,7 +145,7 @@ export default async function ProjectPage({ params }: { params: Params }) {
                     </div>
 
                     <div>
-                      <h3 className="font-medium mb-3 text-gray-900 dark:text-gray-100">
+                      <h3 className="font-medium text-gray-900 dark:text-gray-100">
                         Backend
                       </h3>
                       <ul className="space-y-1">
@@ -161,7 +161,7 @@ export default async function ProjectPage({ params }: { params: Params }) {
                     </div>
 
                     <div>
-                      <h3 className="font-medium mb-3 text-gray-900 dark:text-gray-100">
+                      <h3 className="font-medium text-gray-900 dark:text-gray-100">
                         Other
                       </h3>
                       <ul className="space-y-1">

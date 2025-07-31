@@ -95,11 +95,13 @@ export async function getProjectsServer(isDraftMode?: boolean): Promise<Project[
       collection: 'projects' as any,
       draft: shouldUseDraft,
       depth: 2, // Include related media
-      sort: 'order,createdAt',
+      sort: 'order',
     });
     
     if (result.docs.length > 0) {
-      return result.docs.map(transformPayloadProject);
+      const projects = result.docs.map(transformPayloadProject);
+      // Sort projects by order
+      return projects.sort((a, b) => (Number(a.order)) - (Number(b.order)));
     }
   } catch (error) {
     console.error('Payload projects fetch error:', error);

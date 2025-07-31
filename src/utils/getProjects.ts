@@ -37,7 +37,7 @@ export async function getProjects(): Promise<Project[]> {
       throw new Error('Failed to fetch projects');
     }
     const data = await res.json();
-    return data.map(transformLegacyProject);
+    return data as Project[];
   } catch (error) {
     console.error('Projects fetch error:', error);
     return projectsData.map(transformLegacyProject);

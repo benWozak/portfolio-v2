@@ -94,7 +94,7 @@ const Resume: React.FC<ResumeProps> = ({
       {/* Resume Container */}
       <div
         id="resume-container"
-        className={`${nunito.className} bg-white shadow-lg p-4 sm:p-8 max-w-4xl mx-auto rounded overflow-x-auto`}
+        className={`${nunito.className} bg-white ${!isGeneratingPDF ? "shadow-lg" : ""} p-4 sm:p-8 max-w-4xl mx-auto rounded overflow-x-auto`}
       >
         {/* Header */}
         <header className="text-center mb-4">
@@ -107,9 +107,11 @@ const Resume: React.FC<ResumeProps> = ({
                 <FaPhone className="text-gray-600 w-3 h-3 inline-block mr-1" />
               )}
               <span
-                className={`phone-display ${hideContactInfo ? "blur-sm" : ""}`}
+                className={`phone-display ${hideContactInfo && !isGeneratingPDF ? "blur-sm" : ""}`}
               >
-                {hideContactInfo ? "(555) 555-5555" : data.phone}
+                {hideContactInfo && !isGeneratingPDF
+                  ? "(555) 555-5555"
+                  : data.phone}
               </span>
             </span>
             <span className="text-gray-900">
@@ -118,9 +120,11 @@ const Resume: React.FC<ResumeProps> = ({
               )}
 
               <span
-                className={`email-display ${hideContactInfo ? "blur-sm" : "s"}`}
+                className={`email-display ${hideContactInfo && !isGeneratingPDF ? "blur-sm" : ""}`}
               >
-                {hideContactInfo ? "redacted@email.com" : data.email}
+                {hideContactInfo && !isGeneratingPDF
+                  ? "redacted@email.com"
+                  : data.email}
               </span>
             </span>
           </div>

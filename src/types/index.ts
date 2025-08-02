@@ -29,3 +29,6 @@ export interface Project {
   order?: number;
   featured?: boolean;
 }
+
+// Re-export YakPDF types
+export * from './yakpdf';

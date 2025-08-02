@@ -332,6 +332,11 @@ body.animation-complete .animate-fade-up {
   --print-bullet-size: 6px;
 }
 
+/* Hide box shadow during PDF generation */
+.generating-pdf #resume-container {
+  box-shadow: none !important;
+}
+
 .generating-pdf .resume-list li::before {
   content: "-";
   display: inline-block;

@@ -77,9 +77,10 @@ const Resume: React.FC<ResumeProps> = ({
             icon={<FaDownload />}
             label="Download PDF"
             onClick={onExportPDF}
-            disabled={true}
             disabledReason="PDF download is locked"
-            // disabled={isGeneratingPDF}
+            disabled={
+              isGeneratingPDF && !window.location.href.includes("localhost")
+            }
             variant="primary"
           />
           <Button
@@ -94,18 +95,16 @@ const Resume: React.FC<ResumeProps> = ({
       {/* Resume Container */}
       <div
         id="resume-container"
-        className={`${nunito.className} bg-white ${!isGeneratingPDF ? "shadow-lg" : ""} p-4 sm:p-8 max-w-4xl mx-auto rounded overflow-x-auto`}
+        className={`${nunito.className} bg-white ${!isGeneratingPDF ? "shadow-lg" : "bg-white"} py-4 px-8 sm:py-8 sm:px-16 max-w-4xl mx-auto rounded overflow-x-auto`}
       >
         {/* Header */}
-        <header className="text-center mb-4">
+        <header className="text-center mb-8">
           <h1 className="text-2xl sm:text-3xl font-bold uppercase mb-2 text-gray-900">
             {data.full_name}
           </h1>
           <div className="flex flex-wrap justify-center gap-2 sm:gap-4 text-xs sm:text-sm mb-1">
             <span className="text-gray-900">
-              {!isGeneratingPDF && (
-                <FaPhone className="text-gray-600 w-3 h-3 inline-block mr-1" />
-              )}
+              <FaPhone className="text-gray-600 w-4 h-4 inline-block mr-1" />
               <span
                 className={`phone-display ${hideContactInfo && !isGeneratingPDF ? "blur-sm" : ""}`}
               >
@@ -115,10 +114,7 @@ const Resume: React.FC<ResumeProps> = ({
               </span>
             </span>
             <span className="text-gray-900">
-              {!isGeneratingPDF && (
-                <FaEnvelope className="text-gray-600 w-3 h-3 inline-block mr-1" />
-              )}
-
+              <FaEnvelope className="text-gray-600 w-4 h-4 inline-block mr-1" />
               <span
                 className={`email-display ${hideContactInfo && !isGeneratingPDF ? "blur-sm" : ""}`}
               >
@@ -135,9 +131,7 @@ const Resume: React.FC<ResumeProps> = ({
               rel="noopener noreferrer"
               className="text-blue-700 hover:underline"
             >
-              {!isGeneratingPDF && (
-                <FaLinkedin className="text-gray-600 w-4 h-4 inline-block mr-1" />
-              )}
+              <FaLinkedin className="text-gray-600 w-4 h-4 inline-block mr-1" />
               {cleanUrl(data.socials.linkedin_url)}
             </a>
             <span className="text-gray-400 hidden sm:inline">◆</span>
@@ -147,9 +141,7 @@ const Resume: React.FC<ResumeProps> = ({
               rel="noopener noreferrer"
               className="flex items-center text-blue-700 hover:underline"
             >
-              {!isGeneratingPDF && (
-                <FaGithub className="text-gray-600 w-4 h-4 inline-block mr-1" />
-              )}
+              <FaGithub className="text-gray-600 w-4 h-4 inline-block mr-1" />
               {cleanUrl(data.socials.github_url)}
             </a>
             <span className="text-gray-400 hidden sm:inline">◆</span>
@@ -159,9 +151,7 @@ const Resume: React.FC<ResumeProps> = ({
               rel="noopener noreferrer"
               className="flex items-center text-blue-700 hover:underline"
             >
-              {!isGeneratingPDF && (
-                <FaGlobe className="text-gray-600 w-4 h-4 inline-block mr-1" />
-              )}
+              <FaGlobe className="text-gray-600 w-4 h-4 inline-block mr-1" />
               {cleanUrl(data.socials.portfolio_url)}
             </a>
           </div>
@@ -184,7 +174,7 @@ const Resume: React.FC<ResumeProps> = ({
             <div
               id={index === 3 ? "page2el" : undefined}
               key={index}
-              className="mb-1"
+              className="mb-2 last:mb-0"
             >
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline">
                 <h3 className="text-base font-bold">{exp.company}</h3>
@@ -207,7 +197,9 @@ const Resume: React.FC<ResumeProps> = ({
         </section>
 
         {/* Technical Strengths Section */}
-        <section className="mb-4 text-gray-900">
+        <section
+          className={`mb-4 text-gray-900 ${isGeneratingPDF ? "pt-16" : ""}`}
+        >
           <h2 className="font-bold uppercase mb-2 pb-1 border-b border-gray-300">
             Technical Strengths
           </h2>

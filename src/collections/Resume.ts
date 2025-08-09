@@ -1,5 +1,38 @@
 import type { CollectionConfig } from 'payload'
 
+async function revalidateResume() {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const secret = process.env.REVALIDATION_SECRET
+  
+  if (!secret) {
+    console.warn('REVALIDATION_SECRET not set, skipping cache revalidation')
+    return
+  }
+
+  try {
+    const response = await fetch(`${baseUrl}/api/revalidate?secret=${secret}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        collection: 'resume',
+        tag: 'resume-data',
+        path: '/resume'
+      }),
+    })
+
+    if (response.ok) {
+      const data = await response.json()
+      console.log('Resume cache revalidation successful:', data)
+    } else {
+      console.error('Resume cache revalidation failed:', response.status, response.statusText)
+    }
+  } catch (error) {
+    console.error('Error revalidating resume cache:', error)
+  }
+}
+
 // Hook to ensure only one resume can be active at a time
 const ensureSingleActiveResume = async ({ data, operation, req }: { data: any, operation: string, req: any }) => {
   if (operation === 'create' || operation === 'update') {
@@ -55,6 +88,21 @@ export const Resume: CollectionConfig = {
   },
   hooks: {
     beforeChange: [ensureSingleActiveResume],
+    afterChange: [
+      async ({ doc, operation }) => {
+        // Revalidate cache after any change (create, update)
+        if (operation === 'create' || operation === 'update') {
+          console.log(`Resume ${operation}: ${doc.version}`)
+          await revalidateResume()
+        }
+      }
+    ],
+    afterDelete: [
+      async ({ doc }) => {
+        console.log(`Resume deleted: ${doc.version}`)
+        await revalidateResume()
+      }
+    ],
   },
   fields: [
     {

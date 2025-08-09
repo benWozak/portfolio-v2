@@ -27,6 +27,12 @@ export async function POST(request: NextRequest) {
       revalidatePath('/api/projects')
     }
     
+    // For resume collection, revalidate the resume data and page
+    if (collection === 'resume') {
+      revalidateTag('resume-data')
+      revalidatePath('/resume')
+    }
+    
     return NextResponse.json({ 
       revalidated: true, 
       now: Date.now(),

@@ -3,6 +3,7 @@ import rawResumeData from '@/data/resume.json';
 import { getPayload } from 'payload';
 import configPromise from '../payload.config';
 import { draftMode } from 'next/headers';
+import { unstable_cache } from 'next/cache';
 
 // Type assertion for imported JSON
 const resumeData = rawResumeData as ResumeData;
@@ -26,29 +27,72 @@ function transformPayloadResume(payloadResume: any): ResumeData {
   };
 }
 
-export async function getActiveResume(isDraftMode?: boolean): Promise<ResumeData | null> {
-  try {
-    const payload = await getPayload({ config: configPromise });
-    
-    const { isEnabled } = await draftMode();
-    const shouldUseDraft = isDraftMode ?? isEnabled;
-    
-    const result = await payload.find({
-      collection: 'resume' as any,
-      where: {
-        isActive: {
-          equals: true,
+// Cached function to fetch resume from Payload
+const getCachedResumeFromPayload = unstable_cache(
+  async () => {
+    try {
+      const payload = await getPayload({ config: configPromise });
+      
+      const result = await payload.find({
+        collection: 'resume' as any,
+        where: {
+          isActive: {
+            equals: true,
+          },
         },
-      },
-      draft: shouldUseDraft,
-      limit: 1,
-    });
-    
-    if (result.docs.length > 0) {
-      return transformPayloadResume(result.docs[0]);
+        draft: false, // Production data only for cached version
+        limit: 1,
+      });
+      
+      if (result.docs.length > 0) {
+        return transformPayloadResume(result.docs[0]);
+      }
+      
+      return null;
+    } catch (error) {
+      console.error('Payload resume fetch error:', error);
+      return null;
     }
-  } catch (error) {
-    console.error('Payload resume fetch error:', error);
+  },
+  ['resume-active'],
+  {
+    tags: ['resume-data'],
+    revalidate: 604800, // 1 week in seconds
+  }
+);
+
+export async function getActiveResume(isDraftMode?: boolean): Promise<ResumeData | null> {
+  const { isEnabled } = await draftMode();
+  const shouldUseDraft = isDraftMode ?? isEnabled;
+  
+  // If in draft mode, bypass cache and fetch directly
+  if (shouldUseDraft) {
+    try {
+      const payload = await getPayload({ config: configPromise });
+      
+      const result = await payload.find({
+        collection: 'resume' as any,
+        where: {
+          isActive: {
+            equals: true,
+          },
+        },
+        draft: shouldUseDraft,
+        limit: 1,
+      });
+      
+      if (result.docs.length > 0) {
+        return transformPayloadResume(result.docs[0]);
+      }
+    } catch (error) {
+      console.error('Payload resume fetch error:', error);
+    }
+  } else {
+    // Use cached version for production
+    const cachedResume = await getCachedResumeFromPayload();
+    if (cachedResume) {
+      return cachedResume;
+    }
   }
   
   // Fallback to JSON data

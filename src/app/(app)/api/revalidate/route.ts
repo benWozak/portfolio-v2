@@ -42,10 +42,3 @@ export async function POST(request: NextRequest) {
     )
   }
 }
-
-export async function GET(request: NextRequest) {
-  return NextResponse.json(
-    { message: 'Method not allowed. Use POST to revalidate cache.' },
-    { status: 405 }
-  )
-}

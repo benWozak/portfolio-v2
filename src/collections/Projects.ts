@@ -38,7 +38,7 @@ export const Projects: CollectionConfig = {
   defaultSort: 'order',
   hooks: {
     afterChange: [
-      async ({ doc, req, previousDoc, operation }) => {
+      async ({ doc, operation }) => {
         // Revalidate cache after any change (create, update, delete)
         if (operation === 'create' || operation === 'update') {
           console.log(`Project ${operation}: ${doc.name}`)

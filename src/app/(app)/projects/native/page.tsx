@@ -20,7 +20,7 @@ export default function MobileProjectsPage() {
         if (response.ok) {
           const allProjects = await response.json();
           const mobileProjects = allProjects.filter(
-            (project) => project.type === "native"
+            (project: Project) => project.type === "native"
           );
           setProjects(mobileProjects);
         } else {

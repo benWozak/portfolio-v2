@@ -20,7 +20,7 @@ export default function WebProjectsPage() {
         if (response.ok) {
           const allProjects = await response.json();
           const webProjects = allProjects.filter(
-            (project) => project.type === "web"
+            (project: Project) => project.type === "web"
           );
           setProjects(webProjects);
         } else {

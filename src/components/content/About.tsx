@@ -19,12 +19,11 @@ export function About() {
         </motion.div>
         <motion.div className="max-w-xl" variants={itemVariants}>
           <p className="lg:text-lg mb-8">
-            I&apos;m a software engineer from Calgary Alberta looking to
-            relocate to San Diego, California. I specialize in building modern,
-            user-friendly web applications that solve real-world problems. With
-            a passion for clean code and a focus on performance, I create
-            scalable solutions that enhance user experience and drive business
-            success.
+            I&apos;m a software engineer from Calgary Alberta relocating to San
+            Diego, California. I specialize in building modern, user-friendly
+            web applications that solve real-world problems. With a passion for
+            clean code and a focus on performance, I create scalable solutions
+            that enhance user experience and drive business success.
           </p>
           <p className="lg:text-lg mb-8">
             Backed by years of industry experience building polished UIs for B2B

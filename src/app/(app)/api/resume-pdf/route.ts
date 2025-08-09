@@ -9,6 +9,7 @@ import {
   escapeUrl, 
   formatDate 
 } from '@/utils/functions/format';
+import { getActiveResume } from '@/utils/getResume';
 
 function generateSkillsContent(skills: any[]): string {
   return skills.map((skill, index) => {
@@ -27,16 +28,12 @@ export async function GET(req: NextRequest) {
   const name = searchParams.get('name');
   console.log('GET request received with name:', name);
   
-  // Fetch resume data
-  let resumeData;
-  try {
-    // Attempt to load the data file
-    const dataPath = path.join(process.cwd(), 'public', 'resume.json');
-    const rawData = await fs.readFile(dataPath, 'utf-8');
-    resumeData = JSON.parse(rawData);
-  } catch (error) {
-    console.error('Error loading resume data:', error);
-    return NextResponse.json({ success: false, error: 'Failed to load resume data' }, { status: 500 });
+  // Fetch resume data from Payload
+  const resumeData = await getActiveResume();
+  
+  if (!resumeData) {
+    console.error('No active resume data found');
+    return NextResponse.json({ success: false, error: 'No active resume data available' }, { status: 404 });
   }
   
   return await generateLatexPDF(resumeData);

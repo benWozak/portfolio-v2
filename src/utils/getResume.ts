@@ -1,12 +1,8 @@
 import { ResumeData } from '@/types/resume';
-import rawResumeData from '@/data/resume.json';
 import { getPayload } from 'payload';
 import configPromise from '../payload.config';
 import { draftMode } from 'next/headers';
 import { unstable_cache } from 'next/cache';
-
-// Type assertion for imported JSON
-const resumeData = rawResumeData as ResumeData;
 
 // Transform Payload resume data to match existing ResumeData interface
 function transformPayloadResume(payloadResume: any): ResumeData {
@@ -95,8 +91,8 @@ export async function getActiveResume(isDraftMode?: boolean): Promise<ResumeData
     }
   }
   
-  // Fallback to JSON data
-  return resumeData;
+  // No fallback data available
+  return null;
 }
 
 export async function getResumeById(id: string, isDraftMode?: boolean): Promise<ResumeData | null> {

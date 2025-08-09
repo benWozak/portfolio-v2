@@ -52,10 +52,25 @@ const experiences: TimeBlockProps[] = [
   },
 ];
 
+// Variant for the timeline dot with delayed fade-in
+const dotVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 0.8,
+      delay: 1.8,
+    },
+  },
+};
+
 function TimeBlock({ time, company, role, url, description }: TimeBlockProps) {
   return (
     <motion.li className="mb-8 ms-8 lg:mb-20 lg:ms-12" variants={itemVariants}>
-      <div className="absolute w-3 h-3 bg-secondary-700 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-secondary-500"></div>
+      <motion.div
+        className="absolute w-3 h-3 bg-secondary-700 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-secondary-500"
+        variants={dotVariants}
+      />
       <time className="mb-1 text-sm lg:text-base font-normal leading-none text-secondary-800 dark:text-secondary-500">
         {time}
       </time>

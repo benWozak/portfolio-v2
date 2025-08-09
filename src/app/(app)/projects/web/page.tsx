@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getProjects } from "@/utils/getProjects";
+// Removed direct import - using fetch to API route instead
 import { ProjectCard } from "@/components/content/projects/ProjectCard";
 // import { SectionHeading } from "@/components/layout/section/SectionHeading";
 import { motion, useAnimationControls } from "framer-motion";
@@ -15,11 +15,20 @@ export default function WebProjectsPage() {
 
   useEffect(() => {
     async function loadProjects() {
-      const allProjects = await getProjects();
-      const webProjects = allProjects.filter(
-        (project) => project.type === "web"
-      );
-      setProjects(webProjects);
+      try {
+        const response = await fetch('/api/projects');
+        if (response.ok) {
+          const allProjects = await response.json();
+          const webProjects = allProjects.filter(
+            (project) => project.type === "web"
+          );
+          setProjects(webProjects);
+        } else {
+          console.error('Failed to fetch projects');
+        }
+      } catch (error) {
+        console.error('Error fetching projects:', error);
+      }
 
       setTimeout(() => {
         setIsReady(true);

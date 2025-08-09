@@ -2,7 +2,7 @@
 
 import React from "react";
 import Section from "../../layout/section";
-import { getProjects } from "@/utils/getProjects";
+// Removed direct import - using fetch to API route instead
 import { CTAButton } from "../../ui";
 import { ProjectCard } from "./ProjectCard";
 import {
@@ -17,8 +17,17 @@ export function Projects() {
 
   React.useEffect(() => {
     async function fetchProjects() {
-      const fetchedProjects = await getProjects();
-      setProjects(fetchedProjects.slice(0, 2));
+      try {
+        const response = await fetch('/api/projects');
+        if (response.ok) {
+          const fetchedProjects = await response.json();
+          setProjects(fetchedProjects.slice(0, 2));
+        } else {
+          console.error('Failed to fetch projects');
+        }
+      } catch (error) {
+        console.error('Error fetching projects:', error);
+      }
     }
     fetchProjects();
   }, []);

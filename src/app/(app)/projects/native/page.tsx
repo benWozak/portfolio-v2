@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getProjects } from "@/utils/getProjects";
+// Removed direct import - using fetch to API route instead;
 import { ProjectCard } from "@/components/content/projects/ProjectCard";
 // import { SectionHeading } from "@/components/layout/section/SectionHeading";
 import { motion, useAnimationControls } from "framer-motion";
@@ -15,11 +15,20 @@ export default function MobileProjectsPage() {
 
   useEffect(() => {
     async function loadProjects() {
-      const allProjects = await getProjects();
-      const mobileProjects = allProjects.filter(
-        (project) => project.type === "native"
-      );
-      setProjects(mobileProjects);
+      try {
+        const response = await fetch('/api/projects');
+        if (response.ok) {
+          const allProjects = await response.json();
+          const mobileProjects = allProjects.filter(
+            (project) => project.type === "native"
+          );
+          setProjects(mobileProjects);
+        } else {
+          console.error('Failed to fetch projects');
+        }
+      } catch (error) {
+        console.error('Error fetching projects:', error);
+      }
 
       setTimeout(() => {
         setIsReady(true);

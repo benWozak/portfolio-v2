@@ -1,8 +1,58 @@
 import type { CollectionConfig } from 'payload'
 
+async function revalidateProjects() {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const secret = process.env.REVALIDATION_SECRET
+  
+  if (!secret) {
+    console.warn('REVALIDATION_SECRET not set, skipping cache revalidation')
+    return
+  }
+
+  try {
+    const response = await fetch(`${baseUrl}/api/revalidate?secret=${secret}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        collection: 'projects',
+        tag: 'projects-data',
+        path: '/projects'
+      }),
+    })
+
+    if (response.ok) {
+      const data = await response.json()
+      console.log('Cache revalidation successful:', data)
+    } else {
+      console.error('Cache revalidation failed:', response.status, response.statusText)
+    }
+  } catch (error) {
+    console.error('Error revalidating cache:', error)
+  }
+}
+
 export const Projects: CollectionConfig = {
   slug: 'projects',
   defaultSort: 'order',
+  hooks: {
+    afterChange: [
+      async ({ doc, req, previousDoc, operation }) => {
+        // Revalidate cache after any change (create, update, delete)
+        if (operation === 'create' || operation === 'update') {
+          console.log(`Project ${operation}: ${doc.name}`)
+          await revalidateProjects()
+        }
+      }
+    ],
+    afterDelete: [
+      async ({ doc }) => {
+        console.log(`Project deleted: ${doc.name}`)
+        await revalidateProjects()
+      }
+    ]
+  },
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'type', 'status', 'order', 'featured', 'updatedAt'],

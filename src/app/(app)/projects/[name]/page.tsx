@@ -10,8 +10,8 @@ type Params = Promise<{ name: string }>;
 
 export async function generateStaticParams() {
   try {
-    const { getProjectsServer } = await import("@/utils/getProjectsServer");
-    const projects = await getProjectsServer();
+    const { getProjects } = await import("@/utils/getProjects");
+    const projects = await getProjects();
 
     return projects.map((project) => ({
       name: project.name.toLowerCase().replace(/\s+/g, "-"),
@@ -30,11 +30,11 @@ export async function generateMetadata({
   const { name } = await params;
 
   try {
-    const { getProjectByNameServer } = await import(
-      "@/utils/getProjectsServer"
+    const { getProjectByName } = await import(
+      "@/utils/getProjects"
     );
     const { isEnabled } = await draftMode();
-    const project = await getProjectByNameServer(
+    const project = await getProjectByName(
       name.replace(/-/g, " "),
       isEnabled
     );
@@ -57,8 +57,8 @@ export default async function ProjectPage({ params }: { params: Params }) {
   const { isEnabled } = await draftMode();
 
   // Import here to avoid build issues
-  const { getProjectByNameServer } = await import("@/utils/getProjectsServer");
-  const project = await getProjectByNameServer(
+  const { getProjectByName } = await import("@/utils/getProjects");
+  const project = await getProjectByName(
     name.replace(/-/g, " "),
     isEnabled
   );

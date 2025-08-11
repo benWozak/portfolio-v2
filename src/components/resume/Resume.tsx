@@ -79,7 +79,7 @@ const Resume: React.FC<ResumeProps> = ({
             onClick={onExportPDF}
             disabledReason="PDF download is locked"
             disabled={
-              isGeneratingPDF && !window.location.href.includes("localhost")
+              isGeneratingPDF || window.location.href.includes("localhost")
             }
             variant="primary"
           />

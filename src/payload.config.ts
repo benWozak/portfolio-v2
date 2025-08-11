@@ -27,6 +27,19 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    meta: {
+      titleSuffix: '- Ben Wozak',
+    },
+    components: {
+      graphics: {
+        Logo: {
+          path: './components/admin/PayloadLogo',
+        },
+        Icon: {
+          path: './components/admin/PayloadIcon', 
+        },
+      },
+    },
   },
   upload: {
     limits: {

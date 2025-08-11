@@ -1,0 +1,181 @@
+/* Payload Admin Panel Custom Styling */
+/* Maps your custom color scheme to Payload's CSS variables */
+
+:root,
+[data-theme="light"],
+[data-theme="auto"] {
+  /* Base colors - Light mode */
+  --theme-bg: hsl(210, 20%, 98%);
+  --theme-text: hsl(210, 29%, 16%);
+  
+  /* Primary colors (Orange) - Override Payload's success colors with your primary */
+  --theme-success-50: hsl(22, 100%, 95%);
+  --theme-success-100: hsl(22, 100%, 90%);
+  --theme-success-200: hsl(22, 100%, 80%);
+  --theme-success-300: hsl(22, 99%, 70%);
+  --theme-success-400: hsl(22, 99%, 60%);
+  --theme-success-500: hsl(22, 99%, 50%);
+  --theme-success-600: hsl(22, 99%, 40%);
+  --theme-success-700: hsl(22, 99%, 35%);
+  --theme-success-800: hsl(22, 99%, 30%);
+  --theme-success-900: hsl(22, 99%, 25%);
+  --theme-success-950: hsl(22, 99%, 15%);
+  
+  /* Elevation system */
+  --theme-elevation-0: hsl(0, 0%, 100%);
+  --theme-elevation-50: hsl(210, 14%, 97%);
+  --theme-elevation-100: hsl(210, 14%, 94%);
+  --theme-elevation-150: hsl(210, 14%, 91%);
+  --theme-elevation-200: hsl(210, 14%, 89%);
+  --theme-elevation-300: hsl(210, 14%, 85%);
+  --theme-elevation-400: hsl(210, 14%, 80%);
+  --theme-elevation-500: hsl(210, 14%, 70%);
+  --theme-elevation-600: hsl(210, 14%, 60%);
+  --theme-elevation-700: hsl(210, 14%, 50%);
+  --theme-elevation-800: hsl(210, 29%, 16%);
+  --theme-elevation-900: hsl(210, 29%, 12%);
+  --theme-elevation-1000: hsl(210, 29%, 8%);
+  
+  /* Border and input colors */
+  --theme-elevation-border: hsl(0, 0%, 89.8%);
+  
+  /* Warning and error colors */
+  --theme-warning-500: hsl(45, 93%, 47%);
+  --theme-warning-600: hsl(45, 93%, 42%);
+  --theme-error-500: hsl(0, 84.2%, 60.2%);
+  --theme-error-600: hsl(0, 84.2%, 55.2%);
+  
+  /* Secondary color (Teal) - for secondary buttons and accents */
+  --theme-secondary: hsl(174, 69%, 52%);
+  --theme-secondary-hover: hsl(174, 69%, 45%);
+}
+
+[data-theme="dark"] {
+  /* Base colors - Dark mode */
+  --theme-bg: hsl(210, 22%, 16%);
+  --theme-text: hsl(0, 0%, 98%);
+  
+  /* Primary colors (Orange) - slightly desaturated for dark mode */
+  --theme-success-50: hsl(22, 85%, 15%);
+  --theme-success-100: hsl(22, 85%, 25%);
+  --theme-success-200: hsl(22, 85%, 30%);
+  --theme-success-300: hsl(22, 85%, 35%);
+  --theme-success-400: hsl(22, 85%, 40%);
+  --theme-success-500: hsl(22, 85%, 50%);
+  --theme-success-600: hsl(22, 85%, 60%);
+  --theme-success-700: hsl(22, 85%, 70%);
+  --theme-success-800: hsl(22, 85%, 80%);
+  --theme-success-900: hsl(22, 85%, 90%);
+  --theme-success-950: hsl(22, 85%, 95%);
+  
+  /* Elevation colors for dark mode */
+  --theme-elevation-0: hsl(210, 22%, 16%);
+  --theme-elevation-50: hsl(210, 22%, 18%);
+  --theme-elevation-100: hsl(210, 22%, 20%);
+  --theme-elevation-150: hsl(210, 22%, 22%);
+  --theme-elevation-200: hsl(210, 18%, 24%);
+  --theme-elevation-300: hsl(210, 18%, 28%);
+  --theme-elevation-400: hsl(210, 18%, 32%);
+  --theme-elevation-500: hsl(210, 18%, 40%);
+  --theme-elevation-600: hsl(210, 18%, 50%);
+  --theme-elevation-700: hsl(210, 18%, 60%);
+  --theme-elevation-800: hsl(0, 0%, 98%);
+  --theme-elevation-900: hsl(0, 0%, 95%);
+  --theme-elevation-1000: hsl(0, 0%, 90%);
+  
+  /* Border colors for dark mode */
+  --theme-elevation-border: hsl(0, 0%, 14.9%);
+  
+  /* Warning and error colors for dark mode */
+  --theme-warning-500: hsl(45, 93%, 57%);
+  --theme-warning-600: hsl(45, 93%, 52%);
+  --theme-error-500: hsl(0, 62.8%, 50.6%);
+  --theme-error-600: hsl(0, 62.8%, 45.6%);
+  
+  /* Secondary color (Teal) for dark mode */
+  --theme-secondary: hsl(174, 60%, 52%);
+  --theme-secondary-hover: hsl(174, 60%, 45%);
+}
+
+/* Custom styles for better integration */
+body[data-theme] {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* Ensure smooth theme transitions */
+[data-theme] * {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Primary button styling - target actual Payload button classes */
+[data-theme] button[data-style="primary"],
+[data-theme] .btn--primary,
+[data-theme] .form-submit [type="submit"] {
+  background-color: var(--theme-success-500) !important;
+  border-color: var(--theme-success-500) !important;
+  color: var(--theme-elevation-0) !important;
+}
+
+[data-theme] button[data-style="primary"]:hover,
+[data-theme] .btn--primary:hover,
+[data-theme] .form-submit [type="submit"]:hover {
+  background-color: var(--theme-success-600) !important;
+  border-color: var(--theme-success-600) !important;
+}
+
+/* Secondary button styling */
+[data-theme] button[data-style="secondary"],
+[data-theme] .btn--secondary {
+  background-color: var(--theme-secondary) !important;
+  border-color: var(--theme-secondary) !important;
+  color: var(--theme-elevation-0) !important;
+}
+
+[data-theme] button[data-style="secondary"]:hover,
+[data-theme] .btn--secondary:hover {
+  background-color: var(--theme-secondary-hover) !important;
+  border-color: var(--theme-secondary-hover) !important;
+}
+
+/* Form field focus states using your brand colors */
+[data-theme] input:focus,
+[data-theme] textarea:focus,
+[data-theme] select:focus,
+[data-theme] .input:focus {
+  border-color: var(--theme-success-500) !important;
+  box-shadow: 0 0 0 1px hsla(22, 99%, 50%, 0.2) !important;
+}
+
+/* Navigation active states */
+[data-theme] .nav a[aria-current="page"],
+[data-theme] .nav-link[data-active="true"],
+[data-theme] .nav .active {
+  color: var(--theme-success-500) !important;
+}
+
+[data-theme] .nav a:hover,
+[data-theme] .nav-link:hover {
+  color: var(--theme-success-400) !important;
+}
+
+/* Save button and primary actions */
+[data-theme] .form-submit button,
+[data-theme] .document-controls button[data-style="primary"],
+[data-theme] .btn.btn--style-primary {
+  background-color: var(--theme-success-500) !important;
+  border-color: var(--theme-success-500) !important;
+}
+
+/* Status indicators */
+[data-theme] .pill--style-success,
+[data-theme] .status--published {
+  background-color: var(--theme-success-100) !important;
+  color: var(--theme-success-700) !important;
+  border-color: var(--theme-success-300) !important;
+}
+
+[data-theme] .pill--style-warning,
+[data-theme] .status--draft {
+  background-color: var(--theme-warning-500) !important;
+  color: var(--theme-elevation-0) !important;
+}

@@ -78,7 +78,8 @@ const Resume: React.FC<ResumeProps> = ({
             label="Download PDF"
             onClick={onExportPDF}
             disabledReason="PDF download is locked"
-            disabled={isGeneratingPDF || isLocalhost}
+            // disabled={isGeneratingPDF || isLocalhost}
+            disabled={true}
             variant="primary"
           />
           <Button

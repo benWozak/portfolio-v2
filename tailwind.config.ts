@@ -91,7 +91,9 @@ const config: Config = {
   			sm: 'calc(var(--radius) - 4px)'
   		},
   		animation: {
-  			orbit: 'orbit calc(var(--duration)*1s) linear infinite'
+  			orbit: 'orbit calc(var(--duration)*1s) linear infinite',
+				shimmer: 'shimmer 2s infinite',
+        fadeIn: 'fadeIn 0.5s ease-out forwards',
   		},
   		keyframes: {
 				orbit: {
@@ -101,7 +103,21 @@ const config: Config = {
 					'100%': {
 						transform: 'rotate(calc(var(--angle) * 1deg + 360deg)) translateX(calc(var(--radius) * 1px)) rotate(calc((var(--angle) * -1deg) - 360deg))'
 					}
-				}
+				},
+				shimmer: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
+				fadeIn: {
+          from: { 
+            opacity: '0',
+            transform: 'translateY(10px)'
+          },
+          to: { 
+            opacity: '1',
+            transform: 'translateY(0)'
+          },
+        },
 			}
   	}
   },

@@ -3,9 +3,10 @@ import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
 import configPromise from '../payload.config'
 import { draftMode } from 'next/headers'
+import { getBase64 } from './getBase46'
 
 // Transform Payload project data to match Project interface
-function transformPayloadProject(payloadProject: any): Project {
+async function transformPayloadProject(payloadProject: any): Promise<Project> {
   // Transform tech stack from Payload array format to simple string arrays
   const transformTechStack = (techStack: any) => {
     if (!techStack) return { frontend: [], backend: [], other: [] }
@@ -18,13 +19,49 @@ function transformPayloadProject(payloadProject: any): Project {
   }
 
   // Transform media from Payload nested object to expected format
-  const transformMedia = (media: any) => {
+  const transformMedia = async (media: any) => {
     const staticImage = media?.staticImage ? 
       (typeof media.staticImage === 'object' ? media.staticImage.url : media.staticImage) : ''
     const video = media?.video ? 
       (typeof media.video === 'object' ? media.video.url : media.video) : undefined
     
-    return { staticImage, video }
+    // Generate blur placeholder for the static image
+    let blurDataURL: string | undefined
+    if (staticImage) {
+      try {
+        // Use the URL directly from Payload - it should already be the correct blob storage URL
+        // Skip blur generation for relative API paths that aren't accessible in development
+        if (staticImage.startsWith('/api/')) {
+          blurDataURL = `data:image/svg+xml;base64,${Buffer.from(
+            `<svg width="600" height="400" xmlns="http://www.w3.org/2000/svg">
+              <rect width="600" height="400" fill="#e5e7eb"/>
+            </svg>`
+          ).toString('base64')}`
+        } else {
+          const base64 = await getBase64(staticImage)
+          if (base64) {
+            blurDataURL = base64
+          } else {
+            // Fallback to a simple SVG blur if generation fails
+            blurDataURL = `data:image/svg+xml;base64,${Buffer.from(
+              `<svg width="600" height="400" xmlns="http://www.w3.org/2000/svg">
+                <rect width="600" height="400" fill="#e5e7eb"/>
+              </svg>`
+            ).toString('base64')}`
+          }
+        }
+      } catch (error) {
+        console.warn(`Failed to generate blur placeholder for ${staticImage}:`, error)
+        // Fallback to a simple SVG blur if generation fails
+        blurDataURL = `data:image/svg+xml;base64,${Buffer.from(
+          `<svg width="600" height="400" xmlns="http://www.w3.org/2000/svg">
+            <rect width="600" height="400" fill="#e5e7eb"/>
+          </svg>`
+        ).toString('base64')}`
+      }
+    }
+    
+    return { staticImage, video, blurDataURL }
   }
 
   return {
@@ -40,7 +77,7 @@ function transformPayloadProject(payloadProject: any): Project {
     keyTakeaways: payloadProject.keyTakeaways || '',
     liveUrl: payloadProject.liveUrl || null,
     githubUrl: payloadProject.githubUrl || null,
-    media: transformMedia(payloadProject.media),
+    media: await transformMedia(payloadProject.media),
     order: payloadProject.order || 999,
     featured: payloadProject.featured || false,
   }
@@ -72,7 +109,10 @@ async function getProjectsFromPayload(isDraftMode?: boolean): Promise<Project[]>
   })
   
   if (result.docs.length > 0) {
-    const projects = result.docs.map(transformPayloadProject)
+    // Use Promise.all to transform all projects in parallel (including blur generation)
+    const projects = await Promise.all(
+      result.docs.map(doc => transformPayloadProject(doc))
+    )
     // Sort projects by order
     return projects.sort((a, b) => (Number(a.order)) - (Number(b.order)))
   }
@@ -128,7 +168,7 @@ export async function getProjectByName(name: string, isDraftMode?: boolean): Pro
     })
     
     if (result.docs.length > 0) {
-      return transformPayloadProject(result.docs[0])
+      return await transformPayloadProject(result.docs[0])
     }
   } catch (error) {
     console.error('Payload project fetch error:', error)

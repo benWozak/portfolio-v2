@@ -24,6 +24,7 @@ const GLOBE_CONFIG: COBEOptions = {
   glowColor: [1, 1, 1],
   markers: [
     { location: [51.0447, -114.0719], size: 0.1 },
+    { location: [49.2827, -123.1207], size: 0.1 },
     { location: [32.715736, -117.161087], size: 0.1 },
   ],
 };

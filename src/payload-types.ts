@@ -599,6 +599,10 @@ export interface Project {
      * Video showcasing the project (MP4 format recommended)
      */
     video?: (number | null) | Media;
+    /**
+     * Optional base64-encoded placeholder for the static image to improve loading performance
+     */
+    blurDataURL?: string;
   };
   /**
    * Live URL where the project can be viewed (optional)

@@ -10,6 +10,7 @@ export interface TechStack {
 export interface ProjectMedia {
   staticImage: string;
   video?: string;
+  blurDataURL?: string
 }
 
 export interface Project {

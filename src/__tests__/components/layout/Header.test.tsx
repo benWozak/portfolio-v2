@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, screen, fireEvent, waitFor } from '@/test-utils'
 import userEvent from '@testing-library/user-event'
 import { Header } from '@/components/layout/Header'
+import { usePathname } from 'next/navigation'
 
 // Mock the navigation hook
 vi.mock('@/utils/hooks', () => ({
@@ -221,8 +222,7 @@ describe('Header Component', () => {
 
   describe('Navigation Active States', () => {
     it('marks navigation items as active based on pathname', () => {
-      const { usePathname } = require('next/navigation')
-      usePathname.mockReturnValue('/about/me')
+      vi.mocked(usePathname).mockReturnValue('/about/me')
       
       render(<Header />)
       
@@ -234,8 +234,7 @@ describe('Header Component', () => {
     })
 
     it('handles root path correctly', () => {
-      const { usePathname } = require('next/navigation')
-      usePathname.mockReturnValue('/')
+      vi.mocked(usePathname).mockReturnValue('/')
       
       render(<Header />)
       

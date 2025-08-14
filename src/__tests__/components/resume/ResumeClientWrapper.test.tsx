@@ -1,6 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import React from 'react'
-import { renderHook, act } from '@testing-library/react'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mockResumeData } from './__mocks__/mockResumeData'
 
 // Mock react-hot-toast
@@ -100,7 +98,7 @@ describe('ResumeClientWrapper Logic Tests', () => {
 
           mockToast.dismiss()
           mockToast.success('PDF generated successfully!')
-        } catch (error) {
+        } catch {
           mockToast.dismiss()
           mockToast.error('Failed to generate PDF')
         }

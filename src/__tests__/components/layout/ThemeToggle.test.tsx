@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen } from '@/test-utils'
 import userEvent from '@testing-library/user-event'
 import { ThemeToggle } from '@/components/layout/ThemeToggle'
+import { useTheme } from '@/contexts/ThemeContext'
 
 // Mock the theme context
 const mockSetTheme = vi.fn()
@@ -224,10 +225,9 @@ describe('ThemeToggle Component', () => {
 
   describe('Component Dependencies', () => {
     it('uses theme context correctly', () => {
-      const { useTheme } = require('@/contexts/ThemeContext')
       render(<ThemeToggle />)
       
-      expect(useTheme).toHaveBeenCalled()
+      expect(vi.mocked(useTheme)).toHaveBeenCalled()
     })
 
     it('imports Dropdown from UI components', () => {

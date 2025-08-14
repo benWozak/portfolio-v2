@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   FaLinkedin,
   FaGithub,
@@ -34,12 +34,8 @@ const Resume: React.FC<ResumeProps> = ({
   isGeneratingPDF = false,
   hideContactInfo = true,
 }) => {
-  const [isLocalhost, setIsLocalhost] = useState(false);
-
   useEffect(() => {
     if (typeof window === "undefined") return;
-
-    setIsLocalhost(window.location.href.includes("localhost"));
 
     const handleResize = () => {
       const viewport = document.querySelector('meta[name="viewport"]');

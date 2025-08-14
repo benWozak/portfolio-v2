@@ -23,7 +23,7 @@ vi.mock('motion/react', () => ({
     get: vi.fn(() => initialValue),
     set: vi.fn()
   })),
-  useSpring: vi.fn((value) => ({
+  useSpring: vi.fn(() => ({
     get: vi.fn(() => 0)
   }))
 }))

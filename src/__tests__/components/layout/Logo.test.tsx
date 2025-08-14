@@ -25,11 +25,11 @@ vi.mock('next/navigation', () => ({
 // Mock Next.js Image component
 vi.mock('next/image', () => ({
   default: ({ src, alt, width, height, className, priority }: any) => (
-    <img 
-      src={src} 
-      alt={alt} 
-      width={width} 
-      height={height} 
+    <div 
+      data-src={src} 
+      data-alt={alt} 
+      data-width={width} 
+      data-height={height} 
       className={className}
       data-priority={priority}
       data-testid="logo-image"
@@ -82,9 +82,9 @@ describe('Logo Component', () => {
       render(<Logo />)
       
       const logoImage = screen.getByTestId('logo-image')
-      expect(logoImage).toHaveAttribute('alt', 'Brand Logo')
-      expect(logoImage).toHaveAttribute('width', '187.8')
-      expect(logoImage).toHaveAttribute('height', '216')
+      expect(logoImage).toHaveAttribute('data-alt', 'Brand Logo')
+      expect(logoImage).toHaveAttribute('data-width', '187.8')
+      expect(logoImage).toHaveAttribute('data-height', '216')
       expect(logoImage).toHaveClass('h-16', 'w-auto')
       expect(logoImage).toHaveAttribute('data-priority', 'true')
     })
@@ -104,8 +104,8 @@ describe('Logo Component', () => {
       const logoImage = screen.getByTestId('logo-image')
       
       // Should render with a logo source (either light or dark)
-      expect(logoImage).toHaveAttribute('src')
-      const src = logoImage.getAttribute('src')
+      expect(logoImage).toHaveAttribute('data-src')
+      const src = logoImage.getAttribute('data-src')
       expect(src).toMatch(/\/BW_logo(_light)?\.svg/)
     })
   })

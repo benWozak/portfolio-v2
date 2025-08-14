@@ -194,7 +194,6 @@ describe('Resume Component', () => {
       render(<Resume {...defaultProps} />)
 
       // The 4th experience item (index 3) should have the 'page2el' id
-      const experienceItems = document.querySelectorAll('[data-testid], #page2el')
       const fourthItem = document.querySelector('#page2el')
       expect(fourthItem).toBeInTheDocument()
     })

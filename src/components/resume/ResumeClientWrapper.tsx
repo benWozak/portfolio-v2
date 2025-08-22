@@ -38,7 +38,7 @@ export function ResumeClientWrapper({
       document.body.classList.add("generating-pdf");
 
       // Wait for React to re-render with new state
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise(resolve => setTimeout(resolve, 300));
 
       // Get the HTML content with all styles
       const htmlContent = `

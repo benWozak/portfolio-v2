@@ -12,13 +12,13 @@ function transformPayloadResume(payloadResume: any): ResumeData {
     email: payloadResume.email,
     summary: payloadResume.summary,
     socials: payloadResume.socials,
-    experience: payloadResume.experience.map((exp: any) => ({
+    experience: payloadResume.experience?.map((exp: any) => ({
       company: exp.company,
       position: exp.position,
       duration: exp.duration,
-      description: exp.description.map((item: any) => item.item),
-    })),
-    skills: payloadResume.skills,
+      description: exp.description?.map((item: any) => item.item) || [],
+    })) || [],
+    skills: payloadResume.skills || [],
     education: payloadResume.education,
   };
 }

@@ -81,7 +81,7 @@ const Resume: React.FC<ResumeProps> = ({
           <Button
             icon={<FaAddressCard />}
             label="Contact Me"
-            href="/#contact"
+            href="/contact"
             variant="secondary"
           />
         </div>

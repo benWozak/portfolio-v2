@@ -26,6 +26,7 @@ const GLOBE_CONFIG: COBEOptions = {
     { location: [51.0447, -114.0719], size: 0.1 },
     { location: [49.2827, -123.1207], size: 0.1 },
     { location: [32.715736, -117.161087], size: 0.1 },
+    { location: [39.7392, -104.9903], size: 0.1 },
   ],
 };
 
@@ -97,12 +98,12 @@ export function Globe({
     <div
       className={cn(
         "absolute inset-0 mx-auto aspect-[1/1] w-full max-w-[600px]",
-        className
+        className,
       )}
     >
       <canvas
         className={cn(
-          "size-full opacity-0 transition-opacity duration-500 [contain:layout_paint_size]"
+          "size-full opacity-0 transition-opacity duration-500 [contain:layout_paint_size]",
         )}
         ref={canvasRef}
         onPointerDown={(e) => {

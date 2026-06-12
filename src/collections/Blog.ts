@@ -1,5 +1,15 @@
 import type { CollectionConfig } from 'payload'
 import { blogBeforeChangeHook } from './hooks/blogHooks'
+import { createRevalidationHooks } from './hooks/revalidation'
+
+const revalidation = createRevalidationHooks({
+  tags: ['blog-data'],
+  paths: (doc, previousDoc) => [
+    '/blog',
+    doc?.slug && `/blog/${doc.slug}`,
+    previousDoc?.slug && previousDoc.slug !== doc?.slug && `/blog/${previousDoc.slug}`,
+  ],
+})
 
 export const Blog: CollectionConfig = {
   slug: 'blog',
@@ -21,6 +31,8 @@ export const Blog: CollectionConfig = {
   },
   hooks: {
     beforeChange: [blogBeforeChangeHook],
+    afterChange: [revalidation.afterChange],
+    afterDelete: [revalidation.afterDelete],
   },
   fields: [
     {

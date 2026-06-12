@@ -1,57 +1,24 @@
 import type { CollectionConfig } from 'payload'
+import { createRevalidationHooks } from './hooks/revalidation'
 
-async function revalidateProjects() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-  const secret = process.env.REVALIDATION_SECRET
-  
-  if (!secret) {
-    console.warn('REVALIDATION_SECRET not set, skipping cache revalidation')
-    return
-  }
-
-  try {
-    const response = await fetch(`${baseUrl}/api/revalidate?secret=${secret}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        collection: 'projects',
-        tag: 'projects-data',
-        path: '/projects'
-      }),
-    })
-
-    if (response.ok) {
-      const data = await response.json()
-      console.log('Cache revalidation successful:', data)
-    } else {
-      console.error('Cache revalidation failed:', response.status, response.statusText)
-    }
-  } catch (error) {
-    console.error('Error revalidating cache:', error)
-  }
-}
+const revalidation = createRevalidationHooks({
+  tags: ['projects-data'],
+  paths: (doc, previousDoc) => [
+    '/',
+    '/projects',
+    '/projects/web',
+    '/projects/native',
+    doc?.slug && `/projects/${doc.slug}`,
+    previousDoc?.slug && previousDoc.slug !== doc?.slug && `/projects/${previousDoc.slug}`,
+  ],
+})
 
 export const Projects: CollectionConfig = {
   slug: 'projects',
   defaultSort: 'order',
   hooks: {
-    afterChange: [
-      async ({ doc, operation }) => {
-        // Revalidate cache after any change (create, update, delete)
-        if (operation === 'create' || operation === 'update') {
-          console.log(`Project ${operation}: ${doc.name}`)
-          await revalidateProjects()
-        }
-      }
-    ],
-    afterDelete: [
-      async ({ doc }) => {
-        console.log(`Project deleted: ${doc.name}`)
-        await revalidateProjects()
-      }
-    ]
+    afterChange: [revalidation.afterChange],
+    afterDelete: [revalidation.afterDelete],
   },
   admin: {
     useAsTitle: 'name',

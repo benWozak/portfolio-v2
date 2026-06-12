@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { authenticated } from '../access'
 import { blogBeforeChangeHook } from './hooks/blogHooks'
 import { createRevalidationHooks } from './hooks/revalidation'
 
@@ -15,6 +16,7 @@ export const Blog: CollectionConfig = {
   slug: 'blog',
   admin: {
     useAsTitle: 'title',
+    group: 'Content',
     defaultColumns: ['title', 'status', 'publishedAt', 'updatedAt'],
   },
   access: {
@@ -28,6 +30,9 @@ export const Blog: CollectionConfig = {
         },
       }
     },
+    create: authenticated,
+    update: authenticated,
+    delete: authenticated,
   },
   hooks: {
     beforeChange: [blogBeforeChangeHook],

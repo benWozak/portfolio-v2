@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { authenticated } from '../access'
 
 export const Tutorials: CollectionConfig = {
   slug: 'tutorials',
@@ -8,6 +9,7 @@ export const Tutorials: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
+    group: 'Content',
     defaultColumns: ['title', 'difficulty', 'estimatedTime', 'featured', 'updatedAt'],
     description: 'Step-by-step tutorials and walkthroughs for various technologies and workflows',
   },
@@ -22,6 +24,9 @@ export const Tutorials: CollectionConfig = {
         },
       }
     },
+    create: authenticated,
+    update: authenticated,
+    delete: authenticated,
   },
   fields: [
     {

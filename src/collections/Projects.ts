@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { authenticated } from '../access'
 import { createRevalidationHooks } from './hooks/revalidation'
 import { ensureUniqueSlug, generateSlug } from './hooks/slug'
 
@@ -33,6 +34,7 @@ export const Projects: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
+    group: 'Portfolio',
     defaultColumns: ['name', 'slug', 'type', 'status', 'order', 'featured', 'updatedAt'],
     livePreview: {
       url: ({ data }) => {
@@ -44,6 +46,9 @@ export const Projects: CollectionConfig = {
   },
   access: {
     read: () => true,
+    create: authenticated,
+    update: authenticated,
+    delete: authenticated,
   },
   fields: [
     {

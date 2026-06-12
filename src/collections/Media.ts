@@ -1,12 +1,17 @@
 import type { CollectionConfig } from 'payload'
+import { authenticated } from '../access'
 
 export const Media: CollectionConfig = {
   slug: 'media',
   admin: {
+    group: 'System',
     defaultColumns: ['filename', 'alt', 'mimeType', 'filesize', 'updatedAt'],
   },
   access: {
     read: () => true,
+    create: authenticated,
+    update: authenticated,
+    delete: authenticated,
   },
   fields: [
     {

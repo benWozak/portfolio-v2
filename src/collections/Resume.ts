@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { authenticated } from '../access'
 import { createRevalidationHooks } from './hooks/revalidation'
 
 const revalidation = createRevalidationHooks({
@@ -40,6 +41,7 @@ export const Resume: CollectionConfig = {
   slug: 'resume',
   admin: {
     useAsTitle: 'version',
+    group: 'Portfolio',
     defaultColumns: ['version', 'isActive', 'full_name', 'updatedAt'],
     livePreview: {
       url: ({ data }) => {
@@ -59,6 +61,9 @@ export const Resume: CollectionConfig = {
         },
       }
     },
+    create: authenticated,
+    update: authenticated,
+    delete: authenticated,
   },
   hooks: {
     beforeChange: [ensureSingleActiveResume],

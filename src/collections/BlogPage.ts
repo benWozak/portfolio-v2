@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { authenticated } from '../access'
 import { HeroPartial, AboutSection } from './blocks'
 
 export const BlogPage: CollectionConfig = {
@@ -9,10 +10,14 @@ export const BlogPage: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
+    group: 'Content',
     description: 'Configure the blog page layout and content sections',
   },
   access: {
     read: () => true,
+    create: authenticated,
+    update: authenticated,
+    delete: authenticated,
   },
   fields: [
     {

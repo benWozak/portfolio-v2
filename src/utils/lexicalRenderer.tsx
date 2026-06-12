@@ -124,6 +124,7 @@ const renderNode = (node: any, index: number): React.ReactNode => {
                 alt={imageData.alt || 'Blog image'}
                 width={imageData.width || 800}
                 height={imageData.height || 600}
+                sizes="(max-width: 896px) 100vw, 896px"
                 className="rounded-lg w-full h-auto shadow-md"
                 style={{ maxWidth: '100%', height: 'auto' }}
               />

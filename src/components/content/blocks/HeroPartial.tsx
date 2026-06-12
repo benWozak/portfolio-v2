@@ -19,6 +19,7 @@ export const HeroPartial: React.FC<HeroPartialProps> = ({ block }) => {
             src={backgroundImage.url || ''}
             alt={backgroundImage.alt || ''}
             fill
+            sizes="100vw"
             className="object-cover opacity-20"
             priority
           />

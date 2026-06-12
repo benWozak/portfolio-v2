@@ -92,6 +92,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   src={featuredImage.url || ""}
                   alt={featuredImage.alt || post.title}
                   fill
+                  priority
+                  sizes="(max-width: 896px) 100vw, 896px"
                   style={{ objectFit: "cover" }}
                   className="transition-transform duration-300 hover:scale-105"
                 />

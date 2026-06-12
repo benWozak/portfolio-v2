@@ -157,6 +157,13 @@ export const Projects: CollectionConfig = {
       },
     },
     {
+      name: 'content',
+      type: 'richText',
+      admin: {
+        description: 'Full project write-up. Supports headings, links, bold, italic, lists, etc.',
+      },
+    },
+    {
       name: 'techStack',
       type: 'group',
       fields: [

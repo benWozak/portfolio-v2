@@ -17,8 +17,8 @@ vi.mock('cobe', () => {
 
 const mockCreateGlobe = vi.mocked(createGlobe)
 
-// Mock motion/react hooks
-vi.mock('motion/react', () => ({
+// Mock framer-motion hooks
+vi.mock('framer-motion', () => ({
   useMotionValue: vi.fn((initialValue) => ({
     get: vi.fn(() => initialValue),
     set: vi.fn()

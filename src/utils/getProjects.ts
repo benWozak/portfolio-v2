@@ -3,7 +3,7 @@ import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
 import configPromise from '../payload.config'
 import { draftMode } from 'next/headers'
-import { getBase64 } from './getBase46'
+import { getBase64 } from './getBase64'
 
 // Transform Payload project data to match Project interface
 async function transformPayloadProject(payloadProject: any): Promise<Project> {

@@ -78,6 +78,7 @@ async function transformPayloadProject(payloadProject: any): Promise<Project> {
     solution: payloadProject.solution || '',
     techStack: transformTechStack(payloadProject.techStack),
     keyTakeaways: payloadProject.keyTakeaways || '',
+    content: payloadProject.content ?? undefined,
     liveUrl: payloadProject.liveUrl || null,
     githubUrl: payloadProject.githubUrl || null,
     media: await transformMedia(payloadProject.media),

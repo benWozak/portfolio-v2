@@ -26,6 +26,8 @@ export interface Project {
   solution: string;
   techStack: TechStack;
   keyTakeaways: string;
+  /** Optional Lexical rich-text "full write-up" (SerializedEditorState) */
+  content?: unknown;
   liveUrl: string | null;
   githubUrl: string | null;
   media: ProjectMedia;

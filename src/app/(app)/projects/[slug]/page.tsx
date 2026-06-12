@@ -7,6 +7,8 @@ import { draftMode } from "next/headers";
 import MediaContainer from "@/components/content/projects/MediaContainer";
 import { BackButton } from "@/components/ui/BackButton";
 import { getProjects, getProjectBySlug } from "@/utils/getProjects";
+import { RichText } from "@payloadcms/richtext-lexical/react";
+import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 
 type Params = Promise<{ slug: string }>;
 
@@ -108,6 +110,17 @@ export default async function ProjectPage({ params }: { params: Params }) {
                   {project.keyTakeaways}
                 </p>
               </section>
+
+              {/* Optional rich-text full write-up */}
+              {project.content ? (
+                <section>
+                  <h2 className="text-2xl font-semibold mb-4">Full Write-up</h2>
+                  <RichText
+                    data={project.content as SerializedEditorState}
+                    className="prose prose-lg max-w-none dark:prose-invert text-gray-600 dark:text-gray-300"
+                  />
+                </section>
+              ) : null}
             </div>
 
             {/* Sidebar - Right Side (1/3) */}

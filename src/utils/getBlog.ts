@@ -1,7 +1,7 @@
 import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
 import configPromise from '../payload.config'
-import type { Blog } from '@/types/blog'
+import type { Blog } from '@/payload-types'
 import type { BlogPage } from '@/types/blogPage'
 
 export const getBlogPageConfig = unstable_cache(

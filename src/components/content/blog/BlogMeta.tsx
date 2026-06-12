@@ -1,7 +1,7 @@
 import React from "react";
 import { Badge } from "../../ui/Badge";
 import { calculateReadingTime, isContentTechnical } from "@/utils/readingTime";
-import type { Blog, User, Category, Tag } from "@/types/blog";
+import type { Blog, User, Category, Tag } from "@/payload-types";
 
 interface BlogMetaProps {
   post: Blog;

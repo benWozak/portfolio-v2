@@ -7,7 +7,8 @@ import { getBase64 } from './getBase64'
 import { generateSlug } from '@/collections/hooks/slug'
 
 // Transform Payload project data to match Project interface
-async function transformPayloadProject(payloadProject: any): Promise<Project> {
+// (exported for unit tests)
+export async function transformPayloadProject(payloadProject: any): Promise<Project> {
   // Transform tech stack from Payload array format to simple string arrays
   const transformTechStack = (techStack: any) => {
     if (!techStack) return { frontend: [], backend: [], other: [] }

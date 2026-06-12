@@ -4,11 +4,11 @@ import React from "react";
 import { motion } from "framer-motion";
 import { BlogCard } from "./BlogCard";
 import { SectionHeading } from "../../layout/section/SectionHeading";
-import type { Blog } from "@/types/blog";
+import type { Blog } from "@/payload-types";
 
 interface RelatedPostsProps {
   posts: Blog[];
-  currentPostId: string;
+  currentPostId: number;
 }
 
 export function RelatedPosts({ posts, currentPostId }: RelatedPostsProps) {

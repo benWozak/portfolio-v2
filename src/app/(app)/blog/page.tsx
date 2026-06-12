@@ -5,7 +5,7 @@ import { BlogCard, EmptyState } from "@/components/content/blog";
 import { SectionHeading } from "@/components/layout/section/SectionHeading";
 import { AnimatedSection } from "@/components/layout/section/AnimatedSection";
 import { ContentBlockRenderer } from "@/components/content/blocks";
-import type { Blog } from "@/types/blog";
+import type { Blog } from "@/payload-types";
 
 export const metadata: Metadata = {
   title: "Blog | Ben Wozak",

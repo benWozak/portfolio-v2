@@ -1,16 +1,16 @@
-import type { EditorState } from 'lexical'
-
 const WORDS_PER_MINUTE = 200 // Average reading speed
 const WORDS_PER_MINUTE_TECHNICAL = 150 // Slower for technical content
 
-export function calculateReadingTime(content: EditorState | string, isTechnical: boolean = false): string {
+// content is either plain text or a serialized Lexical editor state
+// (the JSON shape Payload stores for richText fields)
+export function calculateReadingTime(content: unknown, isTechnical: boolean = false): string {
   let wordCount: number
 
   if (typeof content === 'string') {
     // Handle plain text
     wordCount = content.trim().split(/\s+/).filter(word => word.length > 0).length
   } else {
-    // Handle Lexical EditorState
+    // Handle serialized Lexical state
     wordCount = extractWordCountFromLexical(content)
   }
 
@@ -24,7 +24,7 @@ export function calculateReadingTime(content: EditorState | string, isTechnical:
   return `${minutes} min read`
 }
 
-function extractWordCountFromLexical(editorState: EditorState): number {
+function extractWordCountFromLexical(editorState: unknown): number {
   let wordCount = 0
   
   try {

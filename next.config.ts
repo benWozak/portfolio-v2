@@ -21,7 +21,9 @@ const nextConfig: NextConfig = {
         has: [
           {
             type: 'host',
-            value: 'https://v2-benwozak.vercel.app/',
+            // host matchers take a bare hostname; with a full URL here the
+            // redirect never fired
+            value: 'v2-benwozak.vercel.app',
           },
         ],
         destination: 'https://www.benwozak.dev/:path*',

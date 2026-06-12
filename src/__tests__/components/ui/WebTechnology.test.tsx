@@ -220,7 +220,7 @@ describe('WebTechnology Component', () => {
       const iconContainer = container.querySelector('.w-6')
       const nameElement = screen.getByText('MongoDB')
       
-      expect(techContainer).toContainElement(iconContainer)
+      expect(techContainer).toContainElement(iconContainer as HTMLElement | null)
       expect(techContainer).toContainElement(nameElement)
     })
 

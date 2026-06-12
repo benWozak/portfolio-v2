@@ -49,7 +49,7 @@ beforeEach(() => {
   global.URL.createObjectURL = vi.fn(() => 'blob:test-url')
   global.URL.revokeObjectURL = vi.fn()
   global.Blob = vi.fn() as any
-  global.setTimeout = vi.fn((fn) => { fn(); return 1 as any })
+  global.setTimeout = vi.fn((fn) => { fn(); return 1 as any }) as unknown as typeof setTimeout
 })
 
 describe('ResumeClientWrapper Logic Tests', () => {

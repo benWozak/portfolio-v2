@@ -1,4 +1,4 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionBeforeChangeHook, CollectionConfig } from 'payload'
 import { authenticated } from '../access'
 import { createRevalidationHooks } from './hooks/revalidation'
 
@@ -8,7 +8,7 @@ const revalidation = createRevalidationHooks({
 })
 
 // Hook to ensure only one resume can be active at a time
-const ensureSingleActiveResume = async ({ data, operation, req }: { data: any, operation: string, req: any }) => {
+const ensureSingleActiveResume: CollectionBeforeChangeHook = async ({ data, operation, req }) => {
   if (operation === 'create' || operation === 'update') {
     // Ensure arrays are properly formatted
     if (!Array.isArray(data.skills)) {

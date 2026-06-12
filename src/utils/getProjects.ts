@@ -4,6 +4,7 @@ import { getPayload } from 'payload'
 import configPromise from '../payload.config'
 import { draftMode } from 'next/headers'
 import { getBase64 } from './getBase64'
+import { generateSlug } from '@/collections/hooks/slug'
 
 // Transform Payload project data to match Project interface
 async function transformPayloadProject(payloadProject: any): Promise<Project> {
@@ -20,9 +21,10 @@ async function transformPayloadProject(payloadProject: any): Promise<Project> {
 
   // Transform media from Payload nested object to expected format
   const transformMedia = async (media: any) => {
-    const staticImage = media?.staticImage ? 
+    const staticImage = media?.staticImage ?
       (typeof media.staticImage === 'object' ? media.staticImage.url : media.staticImage) : ''
-    const video = media?.video ? 
+    const alt = typeof media?.staticImage === 'object' ? media.staticImage.alt : undefined
+    const video = media?.video ?
       (typeof media.video === 'object' ? media.video.url : media.video) : undefined
     
     // Generate blur placeholder for the static image
@@ -61,12 +63,13 @@ async function transformPayloadProject(payloadProject: any): Promise<Project> {
       }
     }
     
-    return { staticImage, video, blurDataURL }
+    return { staticImage, alt, video, blurDataURL }
   }
 
   return {
     id: payloadProject.id,
     name: payloadProject.name,
+    slug: payloadProject.slug || generateSlug(payloadProject.name || ''),
     type: payloadProject.type,
     status: payloadProject.status,
     description: payloadProject.description,
@@ -138,15 +141,15 @@ export const getProjects = unstable_cache(
 )
 
 // Uncached single-project fetch (used directly in draft mode, cached otherwise)
-async function fetchProjectByName(name: string, draft: boolean): Promise<Project | undefined> {
+async function fetchProjectBySlug(slug: string, draft: boolean): Promise<Project | undefined> {
   try {
     const payload = await getPayload({ config: configPromise })
 
     const result = await payload.find({
       collection: 'projects' as any,
       where: {
-        name: {
-          equals: name,
+        slug: {
+          equals: slug,
         },
       },
       draft,
@@ -160,22 +163,23 @@ async function fetchProjectByName(name: string, draft: boolean): Promise<Project
     console.error('Payload project fetch error:', error)
   }
 
-  // Fallback to getting all projects and finding the match
+  // Fallback for projects saved before the stored slug existed: transformed
+  // projects derive a slug from the name, so match against that.
   const projects = await getProjectsFromPayload(draft)
-  return projects.find((project) => project.name.toLowerCase() === name.toLowerCase())
+  return projects.find((project) => project.slug === slug)
 }
 
-const getCachedProjectByName = unstable_cache(
-  async (name: string): Promise<Project | undefined> => fetchProjectByName(name, false),
-  ['project-by-name'],
+const getCachedProjectBySlug = unstable_cache(
+  async (slug: string): Promise<Project | undefined> => fetchProjectBySlug(slug, false),
+  ['project-by-slug'],
   {
     tags: ['projects-data'],
     revalidate: 3600,
   },
 )
 
-// Get a single project by name
-export async function getProjectByName(name: string, isDraftMode?: boolean): Promise<Project | undefined> {
+// Get a single project by its URL slug
+export async function getProjectBySlug(slug: string, isDraftMode?: boolean): Promise<Project | undefined> {
   // Only check draftMode if we're in a request context and isDraftMode is not explicitly set
   let shouldUseDraft = false
   if (isDraftMode !== undefined) {
@@ -192,8 +196,8 @@ export async function getProjectByName(name: string, isDraftMode?: boolean): Pro
 
   // Draft mode bypasses the cache so live preview always sees fresh data
   if (shouldUseDraft) {
-    return fetchProjectByName(name, true)
+    return fetchProjectBySlug(slug, true)
   }
 
-  return getCachedProjectByName(name)
+  return getCachedProjectBySlug(slug)
 }

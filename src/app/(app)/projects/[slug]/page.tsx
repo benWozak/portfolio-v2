@@ -2,19 +2,20 @@ import { SectionHeading } from "@/components/layout/section/SectionHeading";
 import { LivePreviewToolbar } from "@/components/layout";
 import Link from "next/link";
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { draftMode } from "next/headers";
 import MediaContainer from "@/components/content/projects/MediaContainer";
 import { BackButton } from "@/components/ui/BackButton";
+import { getProjects, getProjectBySlug } from "@/utils/getProjects";
 
-type Params = Promise<{ name: string }>;
+type Params = Promise<{ slug: string }>;
 
 export async function generateStaticParams() {
   try {
-    const { getProjects } = await import("@/utils/getProjects");
     const projects = await getProjects();
 
     return projects.map((project) => ({
-      name: project.name.toLowerCase().replace(/\s+/g, "-"),
+      slug: project.slug,
     }));
   } catch (error) {
     console.error("Error generating static params:", error);
@@ -27,44 +28,33 @@ export async function generateMetadata({
 }: {
   params: Params;
 }): Promise<Metadata> {
-  const { name } = await params;
+  const { slug } = await params;
 
   try {
-    const { getProjectByName } = await import(
-      "@/utils/getProjects"
-    );
     const { isEnabled } = await draftMode();
-    const project = await getProjectByName(
-      name.replace(/-/g, " "),
-      isEnabled
-    );
+    const project = await getProjectBySlug(slug, isEnabled);
 
     return {
-      title: `${project?.name || name} | Projects`,
-      description: project?.description || `Project details for ${name}`,
+      title: `${project?.name || slug} | Projects`,
+      description: project?.description || `Project details for ${slug}`,
     };
   } catch (error) {
     console.error("Error generating metadata:", error);
     return {
-      title: `${name} | Projects`,
-      description: `Project details for ${name}`,
+      title: `${slug} | Projects`,
+      description: `Project details for ${slug}`,
     };
   }
 }
 
 export default async function ProjectPage({ params }: { params: Params }) {
-  const { name } = await params;
+  const { slug } = await params;
   const { isEnabled } = await draftMode();
 
-  // Import here to avoid build issues
-  const { getProjectByName } = await import("@/utils/getProjects");
-  const project = await getProjectByName(
-    name.replace(/-/g, " "),
-    isEnabled
-  );
+  const project = await getProjectBySlug(slug, isEnabled);
 
   if (!project) {
-    return <div>Project not found</div>;
+    notFound();
   }
 
   return (
@@ -73,7 +63,7 @@ export default async function ProjectPage({ params }: { params: Params }) {
         isDraftMode={isEnabled}
         collection="projects"
         id={project.id?.toString()}
-        slug={name}
+        slug={project.slug}
       />
       <div className={`container mx-auto px-4 ${isEnabled ? "pt-20" : ""}`}>
         <SectionHeading title={project.name} />

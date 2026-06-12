@@ -9,6 +9,7 @@ export interface TechStack {
 
 export interface ProjectMedia {
   staticImage: string;
+  alt?: string;
   video?: string;
   blurDataURL?: string
 }
@@ -16,6 +17,7 @@ export interface ProjectMedia {
 export interface Project {
   id: number;
   name: string;
+  slug: string;
   type: ProjectType;
   status: ProjectStatus;
   description: string;

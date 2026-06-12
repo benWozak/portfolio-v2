@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { createRevalidationHooks } from './hooks/revalidation'
+import { ensureUniqueSlug, generateSlug } from './hooks/slug'
 
 const revalidation = createRevalidationHooks({
   tags: ['projects-data'],
@@ -17,16 +18,26 @@ export const Projects: CollectionConfig = {
   slug: 'projects',
   defaultSort: 'order',
   hooks: {
+    beforeChange: [
+      async ({ data, originalDoc, req }) => {
+        // Auto-generate slug from name when empty; never overwrite an existing
+        // slug on rename so published URLs stay stable.
+        if (data.name && !data.slug) {
+          data.slug = await ensureUniqueSlug('projects', generateSlug(data.name), originalDoc?.id, req)
+        }
+        return data
+      },
+    ],
     afterChange: [revalidation.afterChange],
     afterDelete: [revalidation.afterDelete],
   },
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'type', 'status', 'order', 'featured', 'updatedAt'],
+    defaultColumns: ['name', 'slug', 'type', 'status', 'order', 'featured', 'updatedAt'],
     livePreview: {
       url: ({ data }) => {
         const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-        const slug = data.name?.toLowerCase().replace(/\s+/g, '-')
+        const slug = data.slug || generateSlug(data.name || '')
         return `${baseUrl}/api/preview?collection=projects&slug=${slug}`
       },
     },
@@ -41,6 +52,16 @@ export const Projects: CollectionConfig = {
       required: true,
       admin: {
         description: 'Project name as displayed on the website',
+      },
+    },
+    {
+      name: 'slug',
+      type: 'text',
+      unique: true,
+      index: true,
+      admin: {
+        position: 'sidebar',
+        description: 'URL slug (auto-generated from name if empty). Changing it changes the project URL.',
       },
     },
     {

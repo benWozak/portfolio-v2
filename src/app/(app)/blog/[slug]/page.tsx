@@ -2,12 +2,10 @@ import React from "react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { getPayload } from "payload";
-import configPromise from "@payload-config";
+import { getPostBySlug, getPublishedPosts } from "@/utils/getBlog";
 import { BlogMeta, BlogContent, RelatedPosts } from "@/components/content/blog";
 import { AnimatedSection } from "@/components/layout/section/AnimatedSection";
 import type { Media } from "@/payload-types";
-import type { Blog } from "@/types/blog";
 
 interface BlogPostPageProps {
   params: Promise<{
@@ -16,19 +14,9 @@ interface BlogPostPageProps {
 }
 
 export async function generateStaticParams() {
-  const payload = await getPayload({ config: configPromise });
+  const posts = await getPublishedPosts();
 
-  const { docs: posts } = await payload.find({
-    collection: "blog" as any,
-    where: {
-      status: {
-        equals: "published",
-      },
-    },
-    limit: 1000,
-  });
-
-  return posts.map((post: Blog) => ({
+  return posts.map((post) => ({
     slug: post.slug,
   }));
 }
@@ -37,19 +25,7 @@ export async function generateMetadata({
   params,
 }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const payload = await getPayload({ config: configPromise });
-
-  const { docs } = await payload.find({
-    collection: "blog" as any,
-    where: {
-      slug: {
-        equals: slug,
-      },
-    },
-    limit: 1,
-  });
-
-  const post = docs[0];
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     return {
@@ -93,34 +69,14 @@ export async function generateMetadata({
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
-  const payload = await getPayload({ config: configPromise });
-
-  const { docs } = await payload.find({
-    collection: "blog" as any,
-    where: {
-      slug: {
-        equals: slug,
-      },
-    },
-    limit: 1,
-  });
-
-  const post = docs[0];
+  const [post, allPosts] = await Promise.all([
+    getPostBySlug(slug),
+    getPublishedPosts(),
+  ]);
 
   if (!post) {
     notFound();
   }
-
-  const { docs: allPosts } = await payload.find({
-    collection: "blog" as any,
-    where: {
-      status: {
-        equals: "published",
-      },
-    },
-    sort: "-publishedAt",
-    limit: 10,
-  });
 
   const featuredImage = post.featuredImage as Media;
 
@@ -164,7 +120,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </div>
           </AnimatedSection>
 
-          <RelatedPosts posts={allPosts} currentPostId={post.id} />
+          <RelatedPosts posts={allPosts.slice(0, 10)} currentPostId={post.id} />
         </div>
       </article>
     </div>

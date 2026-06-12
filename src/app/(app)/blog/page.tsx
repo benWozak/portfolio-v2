@@ -1,13 +1,11 @@
 import React from "react";
 import { Metadata } from "next";
-import { getPayload } from "payload";
-import configPromise from "@payload-config";
+import { getBlogPageConfig, getPublishedPosts } from "@/utils/getBlog";
 import { BlogCard, EmptyState } from "@/components/content/blog";
 import { SectionHeading } from "@/components/layout/section/SectionHeading";
 import { AnimatedSection } from "@/components/layout/section/AnimatedSection";
 import { ContentBlockRenderer } from "@/components/content/blocks";
 import type { Blog } from "@/types/blog";
-import type { BlogPage } from "@/types/blogPage";
 
 export const metadata: Metadata = {
   title: "Blog | Ben Wozak",
@@ -20,46 +18,13 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogPage() {
-  const payload = await getPayload({ config: configPromise });
+  const [blogPageConfig, posts] = await Promise.all([
+    getBlogPageConfig(),
+    getPublishedPosts(),
+  ]);
 
-  // Fetch blog page configuration
-  const { docs: blogPageConfigs } = await payload.find({
-    collection: "blogPage" as any,
-    limit: 1,
-  });
-
-  const blogPageConfig = blogPageConfigs[0] as BlogPage | undefined;
-
-  const { docs: posts } = await payload.find({
-    collection: "blog" as any,
-    where: {
-      status: {
-        equals: "published",
-      },
-    },
-    sort: "-publishedAt",
-    limit: 50,
-  });
-
-  const { docs: featuredPosts } = await payload.find({
-    collection: "blog" as any,
-    where: {
-      and: [
-        {
-          status: {
-            equals: "published",
-          },
-        },
-        {
-          featured: {
-            equals: true,
-          },
-        },
-      ],
-    },
-    sort: "-publishedAt",
-    limit: 3,
-  });
+  // Featured posts derived from the published list (already sorted -publishedAt)
+  const featuredPosts = posts.filter((post) => post.featured).slice(0, 3);
 
   // Get the first featured post for the hero layout
   const heroPost = featuredPosts[0];

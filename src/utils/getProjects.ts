@@ -137,25 +137,11 @@ export const getProjects = unstable_cache(
   }
 )
 
-// Get a single project by name
-export async function getProjectByName(name: string, isDraftMode?: boolean): Promise<Project | undefined> {
+// Uncached single-project fetch (used directly in draft mode, cached otherwise)
+async function fetchProjectByName(name: string, draft: boolean): Promise<Project | undefined> {
   try {
     const payload = await getPayload({ config: configPromise })
-    
-    // Only check draftMode if we're in a request context and isDraftMode is not explicitly set
-    let shouldUseDraft = false
-    if (isDraftMode !== undefined) {
-      shouldUseDraft = isDraftMode
-    } else {
-      try {
-        const { isEnabled } = await draftMode()
-        shouldUseDraft = isEnabled
-      } catch {
-        // If draftMode() fails (e.g., outside request context), default to false
-        shouldUseDraft = false
-      }
-    }
-    
+
     const result = await payload.find({
       collection: 'projects' as any,
       where: {
@@ -163,41 +149,51 @@ export async function getProjectByName(name: string, isDraftMode?: boolean): Pro
           equals: name,
         },
       },
-      draft: shouldUseDraft,
+      draft,
       depth: 2,
     })
-    
+
     if (result.docs.length > 0) {
       return await transformPayloadProject(result.docs[0])
     }
   } catch (error) {
     console.error('Payload project fetch error:', error)
   }
-  
+
   // Fallback to getting all projects and finding the match
-  const projects = await getProjectsFromPayload(isDraftMode)
+  const projects = await getProjectsFromPayload(draft)
   return projects.find((project) => project.name.toLowerCase() === name.toLowerCase())
 }
 
-// Alternative fetch-based approach for API routes (updated URL)
-export async function fetchProjectsWithCache(): Promise<Project[]> {
-  try {
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-    const response = await fetch(`${siteUrl}/api/projects`, {
-      next: { 
-        tags: ['projects-data'],
-        revalidate: 3600
-      }
-    })
-    
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
+const getCachedProjectByName = unstable_cache(
+  async (name: string): Promise<Project | undefined> => fetchProjectByName(name, false),
+  ['project-by-name'],
+  {
+    tags: ['projects-data'],
+    revalidate: 3600,
+  },
+)
+
+// Get a single project by name
+export async function getProjectByName(name: string, isDraftMode?: boolean): Promise<Project | undefined> {
+  // Only check draftMode if we're in a request context and isDraftMode is not explicitly set
+  let shouldUseDraft = false
+  if (isDraftMode !== undefined) {
+    shouldUseDraft = isDraftMode
+  } else {
+    try {
+      const { isEnabled } = await draftMode()
+      shouldUseDraft = isEnabled
+    } catch {
+      // If draftMode() fails (e.g., outside request context), default to false
+      shouldUseDraft = false
     }
-    
-    return await response.json()
-  } catch (error) {
-    console.error('Error fetching projects via fetch:', error)
-    // Fallback to direct server function
-    return await getProjects()
   }
+
+  // Draft mode bypasses the cache so live preview always sees fresh data
+  if (shouldUseDraft) {
+    return fetchProjectByName(name, true)
+  }
+
+  return getCachedProjectByName(name)
 }

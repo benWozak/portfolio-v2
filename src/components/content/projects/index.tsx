@@ -2,7 +2,6 @@
 
 import React from "react";
 import Section from "../../layout/section";
-// Removed direct import - using fetch to API route instead
 import { CTAButton } from "../../ui";
 import { ProjectCard } from "./ProjectCard";
 import {
@@ -12,26 +11,11 @@ import {
 import { motion } from "framer-motion";
 import { Project } from "@/types";
 
-export function Projects() {
-  const [projects, setProjects] = React.useState<Project[]>([]);
+interface ProjectsProps {
+  projects: Project[];
+}
 
-  React.useEffect(() => {
-    async function fetchProjects() {
-      try {
-        const response = await fetch('/api/projects');
-        if (response.ok) {
-          const fetchedProjects = await response.json();
-          setProjects(fetchedProjects.slice(0, 2));
-        } else {
-          console.error('Failed to fetch projects');
-        }
-      } catch (error) {
-        console.error('Error fetching projects:', error);
-      }
-    }
-    fetchProjects();
-  }, []);
-
+export function Projects({ projects }: ProjectsProps) {
   return (
     <Section
       id="projects"

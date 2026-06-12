@@ -40,7 +40,7 @@ export function Dropdown({ options, value, onChange }: DropdownProps) {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-between w-full px-4 py-2 text-sm font-medium text-foreground bg-secondary-bg rounded-md hover:bg-primary/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+        className="flex items-center justify-between w-full px-4 py-2 text-sm font-medium text-foreground bg-secondary-bg rounded-md hover:bg-primary/10 focus-ring"
         aria-haspopup="listbox"
         aria-expanded={isOpen}
       >

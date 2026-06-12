@@ -419,8 +419,10 @@ describe('LivePreviewToolbar Component', () => {
 
     it('returns null when not visible', () => {
       const { container } = render(<LivePreviewToolbar isDraftMode={false} />)
-      
-      expect(container.firstChild).toBeNull()
+
+      // next-themes (test-utils provider) injects a <script>; the component
+      // itself must render no elements.
+      expect(container.querySelector('div')).toBeNull()
     })
   })
 })

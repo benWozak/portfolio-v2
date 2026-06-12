@@ -2,13 +2,14 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen } from '@/test-utils'
 import userEvent from '@testing-library/user-event'
 import { ThemeToggle } from '@/components/layout/ThemeToggle'
-import { useTheme } from '@/contexts/ThemeContext'
+import { useTheme } from 'next-themes'
 
-// Mock the theme context
+// Mock next-themes
 const mockSetTheme = vi.fn()
 const mockTheme = { theme: 'light', setTheme: mockSetTheme }
-vi.mock('@/contexts/ThemeContext', () => ({
-  useTheme: vi.fn(() => mockTheme)
+vi.mock('next-themes', () => ({
+  useTheme: vi.fn(() => mockTheme),
+  ThemeProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>
 }))
 
 // Mock Lucide React icons

@@ -21,6 +21,13 @@ export default function ContactForm() {
     script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
     script.async = true;
     script.defer = true;
+    script.onerror = () => {
+      setErrors({
+        form: [
+          "The verification widget failed to load. Please refresh the page and try again.",
+        ],
+      });
+    };
     document.head.appendChild(script);
 
     (window as any).onTurnstileCallback = (token: string) => {
@@ -107,7 +114,7 @@ export default function ContactForm() {
           name='from_name'
           id='from_name'
           required
-          className='block w-full p-2 rounded border focus:outline-none focus:ring focus:ring-opacity-25 focus:dark:ring-secondary-700 dark:bg-secondary-bg'
+          className='block w-full p-2 rounded border focus:outline-none focus:ring-2 focus:ring-primary dark:bg-secondary-bg'
         />
         {errors.name && (
           <p className='mt-1 text-sm text-red-600'>{errors.name[0]}</p>
@@ -126,7 +133,7 @@ export default function ContactForm() {
           name='user_email'
           id='user_email'
           required
-          className='block w-full p-2 rounded border focus:outline-none focus:ring focus:ring-opacity-25 focus:dark:ring-secondary-700 dark:bg-secondary-bg'
+          className='block w-full p-2 rounded border focus:outline-none focus:ring-2 focus:ring-primary dark:bg-secondary-bg'
         />
         {errors.email && (
           <p className='mt-1 text-sm text-red-600'>{errors.email[0]}</p>
@@ -145,24 +152,43 @@ export default function ContactForm() {
           id='message'
           required
           rows={4}
-          className='block w-full p-2 rounded border focus:outline-none focus:ring focus:ring-opacity-25 focus:dark:ring-secondary-700 dark:bg-secondary-bg'
+          className='block w-full p-2 rounded border focus:outline-none focus:ring-2 focus:ring-primary dark:bg-secondary-bg'
         />
         {errors.message && (
           <p className='mt-1 text-sm text-red-600'>{errors.message[0]}</p>
         )}
       </div>
       {/* Turnstile widget */}
-      <div
-        className='cf-turnstile'
-        data-sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
-        data-callback='onTurnstileCallback'
-        data-theme='auto'
-      />
-      {errors.form && <p className='text-sm text-red-600'>{errors.form[0]}</p>}
+      <div role='group' aria-label='Spam protection'>
+        <div
+          className='cf-turnstile'
+          data-sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+          data-callback='onTurnstileCallback'
+          data-theme='auto'
+        />
+        {!turnstileToken && !errors.form && (
+          <p
+            id='turnstile-hint'
+            className='mt-1 text-sm text-gray-500 dark:text-gray-400'
+          >
+            Complete the verification above to enable sending.
+          </p>
+        )}
+      </div>
+      {errors.form && (
+        <p className='text-sm text-red-600' role='status' aria-live='polite'>
+          {errors.form[0]}
+        </p>
+      )}
       <Button
         className='w-full lg:text-base text-sm'
         label={isSubmitting ? "Sending..." : "Send Message"}
         disabled={isSubmitting || !turnstileToken}
+        disabledReason={
+          !turnstileToken
+            ? "Complete the verification to enable sending"
+            : undefined
+        }
         variant='primary'
         onClick={() => form.current?.requestSubmit()}
       />

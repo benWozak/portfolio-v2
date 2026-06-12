@@ -1,6 +1,6 @@
 "use client";
 
-import { useTheme } from "../../contexts/ThemeContext";
+import { useTheme } from "next-themes";
 import { Sun, Moon, Laptop } from "lucide-react";
 import { Dropdown } from "../ui";
 
@@ -13,11 +13,13 @@ export function ThemeToggle() {
     { value: "system", label: "System", icon: <Laptop size={16} /> },
   ];
 
+  // next-themes returns undefined until mounted; "system" matches the server
+  // render so hydration stays consistent.
   return (
     <Dropdown
       options={options}
-      value={theme}
-      onChange={(value) => setTheme(value as "light" | "dark" | "system")}
+      value={theme ?? "system"}
+      onChange={(value) => setTheme(value)}
     />
   );
 }

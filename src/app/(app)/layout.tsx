@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { ThemeProvider } from "../../contexts/ThemeContext";
+import { Providers } from "@/components/providers/Providers";
 import localFont from "next/font/local";
 import "./globals.css";
 import "../../styles/normalization.css";
@@ -107,7 +107,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
       >
-        <ThemeProvider>
+        <Providers>
           <div className="min-h-screen flex flex-col">
             <Header />
             <main className="flex-1 flex items-center justify-center">
@@ -115,7 +115,7 @@ export default function RootLayout({
             </main>
             <Footer />
           </div>
-        </ThemeProvider>
+        </Providers>
         <Analytics />
         <SpeedInsights />
       </body>

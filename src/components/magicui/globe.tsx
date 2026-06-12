@@ -102,6 +102,7 @@ export function Globe({
       )}
     >
       <canvas
+        aria-hidden="true"
         className={cn(
           "size-full opacity-0 transition-opacity duration-500 [contain:layout_paint_size]",
         )}

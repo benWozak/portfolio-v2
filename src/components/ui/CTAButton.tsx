@@ -57,7 +57,7 @@ export function CTAButton({
       href={href}
       // onClick={handleClick}
       className={`
-        group font-semibold
+        group font-semibold focus-ring
         relative flex justify-center items-center rounded-md
         overflow-hidden cursor-pointer
         after:content-["_"] after:absolute after:h-full

@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, RenderOptions } from '@testing-library/react'
-import { ThemeProvider } from './contexts/ThemeContext'
+import { ThemeProvider } from 'next-themes'
 
 // Custom render function that includes providers
 const AllTheProviders = ({ children }: { children: React.ReactNode }) => {

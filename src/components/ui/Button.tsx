@@ -24,7 +24,7 @@ export const Button: React.FC<ButtonProps> = ({
   className,
   noreferrer = false,
 }) => {
-  const baseClasses = `px-4 py-2 rounded shadow flex items-center justify-center gap-2 text-sm transition-colors`;
+  const baseClasses = `px-4 py-2 rounded shadow flex items-center justify-center gap-2 text-sm transition-colors focus-ring`;
 
   const variantClasses = {
     primary: disabled

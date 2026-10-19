@@ -56,6 +56,9 @@ export default buildConfig({
       url: process.env.DATABASE_URI || '',
       authToken: process.env.DATABASE_AUTH_TOKEN || '',
     },
+    // Outside production, getPayload() runs a drizzle schema push on init.
+    // Scripts set PAYLOAD_DB_PUSH=false so they can never mutate the schema.
+    push: process.env.PAYLOAD_DB_PUSH === 'false' ? false : undefined,
   }),
   sharp,
   plugins: [

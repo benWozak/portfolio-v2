@@ -14,7 +14,7 @@ export function ProjectCard({ project, isAboveFold = false }: Props) {
 
   // Use project's blur data if available, otherwise use fallback
   const shimmerBlurDataUrl =
-    project.media.blurDataURL ||
+    project.image.blurDataURL ||
     `data:image/svg+xml;base64,${Buffer.from(
       `<svg width="400" height="225" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -42,8 +42,8 @@ export function ProjectCard({ project, isAboveFold = false }: Props) {
           )}
 
           <Image
-            src={project.media.staticImage}
-            alt={project.media.alt || project.name}
+            src={project.image.src}
+            alt={project.image.alt}
             fill
             style={{ objectFit: "cover" }}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

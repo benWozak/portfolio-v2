@@ -1,10 +1,7 @@
-import { getProjects } from "@/utils/getProjects";
+import { getProjects } from "@/lib/projects";
 import { ProjectsGrid } from "@/components/content/projects/ProjectsGrid";
 
-export default async function MobileProjectsPage() {
-  const projects = (await getProjects()).filter(
-    (project) => project.type === "native"
-  );
-
+export default function MobileProjectsPage() {
+  const projects = getProjects().filter((project) => project.type === "native");
   return <ProjectsGrid projects={projects} />;
 }

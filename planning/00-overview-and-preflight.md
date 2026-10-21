@@ -232,3 +232,11 @@ Recommended: commit `package-lock.json` in chunk 05 (when the dependency set sta
 ## Hand-off log
 
 _(append dated notes here)_
+
+**2026-10-21**
+- Task 1: Node v22.17.0, `npm install` was a no-op. `npm run build` on `audit-improvements` passes and statically generates all four `/projects/<slug>` pages through the new collection config, which hints that prod already has `slug`. Task 2 confirms or refutes this. Next warns about multiple lockfiles because of the stray `~/package-lock.json`. This is harmless.
+- Task 2 Step 1: the push guard was added to `.env` *before* the Task 1 build (order swapped as a precaution).
+- Task 4: the baseline is 45 failing tests across 9 files (555 total). Every failing file fails on assertions and none fail to load, so the set check sees everything. It was committed (`54e2777`) before the preflight script, because `planning/` was already staged and would otherwise have gone into the script's commit.
+- Task 5: Claude ran the public GET. Live hrefs: `/projects/calgary-folk-fest`, `/projects/homechef-companion`, `/projects/tedana-app`, `/projects/vista-crossing`. `/projects/web` and `/projects/native` also appear; they are the filter routes.
+- Task 6: commit `package-lock.json` in chunk 05, as recommended.
+- Tasks 2 Step 3 and Task 3: **PENDING**, waiting for the owner to run `preflight.ts`. `chunk-01-export-content` was branched from `audit-improvements` in the meantime, which works for either merge path.

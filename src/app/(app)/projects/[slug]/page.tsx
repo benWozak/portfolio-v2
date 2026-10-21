@@ -1,222 +1,146 @@
-import { SectionHeading } from "@/components/layout/section/SectionHeading";
-import { LivePreviewToolbar } from "@/components/layout";
+// src/app/(app)/projects/[slug]/page.tsx
+import Image from "next/image";
 import Link from "next/link";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { draftMode } from "next/headers";
-import MediaContainer from "@/components/content/projects/MediaContainer";
+import { SectionHeading } from "@/components/layout/section/SectionHeading";
 import { BackButton } from "@/components/ui/BackButton";
-import { getProjects, getProjectBySlug } from "@/utils/getProjects";
-import { RichText } from "@payloadcms/richtext-lexical/react";
-import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
+import { getProjectBySlug, getProjectSlugs } from "@/lib/projects";
 
 type Params = Promise<{ slug: string }>;
 
-export async function generateStaticParams() {
-  try {
-    const projects = await getProjects();
+export const dynamicParams = false;
 
-    return projects.map((project) => ({
-      slug: project.slug,
-    }));
-  } catch (error) {
-    console.error("Error generating static params:", error);
-    return [];
-  }
+export function generateStaticParams() {
+  return getProjectSlugs().map((slug) => ({ slug }));
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Params;
-}): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug } = await params;
-
-  try {
-    const { isEnabled } = await draftMode();
-    const project = await getProjectBySlug(slug, isEnabled);
-
-    return {
-      title: `${project?.name || slug} | Projects`,
-      description: project?.description || `Project details for ${slug}`,
-    };
-  } catch (error) {
-    console.error("Error generating metadata:", error);
-    return {
-      title: `${slug} | Projects`,
-      description: `Project details for ${slug}`,
-    };
-  }
+  const project = getProjectBySlug(slug);
+  if (!project) return { title: "Project not found" };
+  return {
+    title: project.seo?.title ?? `${project.name} | Projects`,
+    description: project.seo?.description ?? project.description,
+    openGraph: { images: [project.image.src] },
+  };
 }
+
+const PARAGRAPH = "text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-line";
+const HEADING = "text-2xl font-semibold mb-4";
 
 export default async function ProjectPage({ params }: { params: Params }) {
   const { slug } = await params;
-  const { isEnabled } = await draftMode();
+  const project = getProjectBySlug(slug);
+  if (!project) notFound();
 
-  const project = await getProjectBySlug(slug, isEnabled);
-
-  if (!project) {
-    notFound();
-  }
+  const stackGroups = [
+    ["Frontend", project.techStack.frontend],
+    ["Backend", project.techStack.backend],
+    ["Other", project.techStack.other],
+  ] as const;
 
   return (
-    <>
-      <LivePreviewToolbar
-        isDraftMode={isEnabled}
-        collection="projects"
-        id={project.id?.toString()}
-        slug={project.slug}
-      />
-      <div className={`container mx-auto px-4 ${isEnabled ? "pt-20" : ""}`}>
-        <SectionHeading title={project.name} />
-        <BackButton />
+    <div className="container mx-auto px-4">
+      <SectionHeading title={project.name} />
+      <BackButton />
 
-        <div className="space-y-12">
-          {/* Content Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Main Content - Left Side (2/3) */}
-            <div className="lg:col-span-2 space-y-8">
-              <div className="flex justify-center">
-                <MediaContainer project={project} isAboveFold={true} />
-              </div>
-              {/* Overview */}
-              <section>
-                <h2 className="text-2xl font-semibold mb-4">Overview</h2>
-                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                  {project.overview}
-                </p>
-              </section>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2 space-y-8">
+          <Image
+            src={project.image.src}
+            alt={project.image.alt}
+            width={project.image.width}
+            height={project.image.height}
+            placeholder="blur"
+            blurDataURL={project.image.blurDataURL}
+            priority
+            sizes="(max-width: 1024px) 100vw, 66vw"
+            className="rounded-md w-full h-auto"
+          />
 
-              {/* Challenge */}
-              <section>
-                <h2 className="text-2xl font-semibold mb-4">Challenge</h2>
-                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                  {project.challenge}
-                </p>
-              </section>
-
-              {/* Solution */}
-              <section>
-                <h2 className="text-2xl font-semibold mb-4">Solution</h2>
-                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                  {project.solution}
-                </p>
-              </section>
-
-              {/* Key Takeaways */}
-              <section>
-                <h2 className="text-2xl font-semibold mb-4">Key Takeaways</h2>
-                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                  {project.keyTakeaways}
-                </p>
-              </section>
-
-              {/* Optional rich-text full write-up */}
-              {project.content ? (
-                <section>
-                  <h2 className="text-2xl font-semibold mb-4">Full Write-up</h2>
-                  <RichText
-                    data={project.content as SerializedEditorState}
-                    className="prose prose-lg max-w-none dark:prose-invert text-gray-600 dark:text-gray-300"
-                  />
-                </section>
-              ) : null}
-            </div>
-
-            {/* Sidebar - Right Side (1/3) */}
-            <div className="lg:col-span-1">
-              <div className="sticky top-20 space-y-4">
-                {/* Tech Stack */}
-                <section>
-                  <h2 className="text-2xl font-semibold mb-4">Tech Stack</h2>
-
-                  <div className="space-y-6">
-                    <div>
-                      <h3 className="font-medium text-gray-900 dark:text-gray-100">
-                        Frontend
-                      </h3>
-                      <ul className="space-y-1">
-                        {project.techStack.frontend.map((tech, index) => (
-                          <li
-                            key={index}
-                            className="text-gray-600 dark:text-gray-300 text-sm"
-                          >
-                            • {tech}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <div>
-                      <h3 className="font-medium text-gray-900 dark:text-gray-100">
-                        Backend
-                      </h3>
-                      <ul className="space-y-1">
-                        {project.techStack.backend.map((tech, index) => (
-                          <li
-                            key={index}
-                            className="text-gray-600 dark:text-gray-300 text-sm"
-                          >
-                            • {tech}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <div>
-                      <h3 className="font-medium text-gray-900 dark:text-gray-100">
-                        Other
-                      </h3>
-                      <ul className="space-y-1">
-                        {project.techStack.other.map((tech, index) => (
-                          <li
-                            key={index}
-                            className="text-gray-600 dark:text-gray-300 text-sm"
-                          >
-                            • {tech}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                </section>
-
-                {/* Action Buttons */}
-                <section>
-                  <div className="space-y-3">
-                    {project.liveUrl && (
-                      <Link
-                        href={project.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block w-full bg-primary-500 text-primary-foreground px-4 py-3 rounded-md hover:bg-primary-600 transition-colors text-center font-medium"
-                      >
-                        Live Demo
-                      </Link>
-                    )}
-                    {project.githubUrl && (
-                      <Link
-                        href={project.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block w-full bg-secondary-400 dark:bg-secondary-600 text-foreground px-4 py-3 rounded-md hover:bg-secondary-600 hover:dark:bg-secondary-800 transition-colors text-center font-medium"
-                      >
-                        View Code
-                      </Link>
-                    )}
-                  </div>
-
-                  {!project.githubUrl && (
-                    <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-4 italic">
-                      I do not own the rights to the code for this project.
-                    </p>
-                  )}
-                </section>
-              </div>
-            </div>
-          </div>
+          <section>
+            <h2 className={HEADING}>Overview</h2>
+            <p className={PARAGRAPH}>{project.overview}</p>
+          </section>
+          <section>
+            <h2 className={HEADING}>Challenge</h2>
+            <p className={PARAGRAPH}>{project.challenge}</p>
+          </section>
+          <section>
+            <h2 className={HEADING}>Solution</h2>
+            <p className={PARAGRAPH}>{project.solution}</p>
+          </section>
+          <section>
+            <h2 className={HEADING}>Key Takeaways</h2>
+            <ul className="list-disc pl-5 space-y-2 text-gray-600 dark:text-gray-300">
+              {project.keyTakeaways.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </section>
+          {project.sections?.map((section) => (
+            <section key={section.heading}>
+              <h2 className={HEADING}>{section.heading}</h2>
+              <p className={PARAGRAPH}>{section.body}</p>
+            </section>
+          ))}
         </div>
+
+        <aside className="lg:col-span-1">
+          <div className="sticky top-20 space-y-4">
+            <section>
+              <h2 className={HEADING}>Tech Stack</h2>
+              <div className="space-y-6">
+                {stackGroups
+                  .filter(([, items]) => items.length > 0)
+                  .map(([label, items]) => (
+                    <div key={label}>
+                      <h3 className="font-medium text-gray-900 dark:text-gray-100">{label}</h3>
+                      <ul className="space-y-1">
+                        {items.map((tech) => (
+                          <li key={tech} className="text-gray-600 dark:text-gray-300 text-sm">
+                            • {tech}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+              </div>
+            </section>
+
+            <section>
+              <div className="space-y-3">
+                {project.liveUrl && (
+                  <Link
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="focus-ring block w-full bg-primary-500 text-primary-foreground px-4 py-3 rounded-md hover:bg-primary-600 transition-colors text-center font-medium"
+                  >
+                    Live Demo
+                  </Link>
+                )}
+                {project.githubUrl && (
+                  <Link
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="focus-ring block w-full bg-secondary-400 dark:bg-secondary-600 text-foreground px-4 py-3 rounded-md hover:bg-secondary-600 hover:dark:bg-secondary-800 transition-colors text-center font-medium"
+                  >
+                    View Code
+                  </Link>
+                )}
+              </div>
+              {!project.githubUrl && (
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-4 italic">
+                  I do not own the rights to the code for this project.
+                </p>
+              )}
+            </section>
+          </div>
+        </aside>
       </div>
-    </>
+    </div>
   );
 }

@@ -1,0 +1,45 @@
+src/__tests__/components/layout/Header.test.tsx :: Header Component Mobile Menu closes mobile menu when logo clicked
+src/__tests__/components/layout/Header.test.tsx :: Header Component Mobile Menu closes mobile menu when navigation item clicked
+src/__tests__/components/layout/Header.test.tsx :: Header Component Mobile Menu opens mobile menu when button clicked
+src/__tests__/components/layout/LivePreviewToolbar.test.tsx :: LivePreviewToolbar Component Visual Elements renders toolbar with correct styling
+src/__tests__/components/layout/ThemeToggle.test.tsx :: ThemeToggle Component Edge Cases handles undefined theme gracefully
+src/__tests__/components/layout/hero/Hero.test.tsx :: Hero Component Accessibility maintains semantic structure
+src/__tests__/components/layout/hero/Hero.test.tsx :: Hero Component Accessibility provides meaningful link text for CTA buttons
+src/__tests__/components/layout/hero/Hero.test.tsx :: Hero Component Accessibility uses proper heading hierarchy
+src/__tests__/components/layout/hero/Hero.test.tsx :: Hero Component CTA Buttons renders primary CTA button with correct props
+src/__tests__/components/layout/hero/Hero.test.tsx :: Hero Component CTA Buttons renders secondary CTA button with correct props
+src/__tests__/components/layout/hero/Hero.test.tsx :: Hero Component CTA Buttons wraps CTA buttons in correct container
+src/__tests__/components/layout/hero/Hero.test.tsx :: Hero Component Color Scheme Support applies dark mode classes to description
+src/__tests__/components/layout/hero/Hero.test.tsx :: Hero Component Color Scheme Support applies dark mode classes to heading
+src/__tests__/components/layout/hero/Hero.test.tsx :: Hero Component Color Scheme Support uses primary color for highlighted text
+src/__tests__/components/layout/hero/Hero.test.tsx :: Hero Component Content Structure maintains correct content hierarchy
+src/__tests__/components/layout/hero/Hero.test.tsx :: Hero Component Content Structure renders description with proper inline styling
+src/__tests__/components/layout/hero/Hero.test.tsx :: Hero Component Content Structure renders heading with proper line breaks
+src/__tests__/components/layout/hero/Hero.test.tsx :: Hero Component Edge Cases handles missing itemVariants import gracefully
+src/__tests__/components/layout/hero/Hero.test.tsx :: Hero Component Edge Cases maintains layout with long text content
+src/__tests__/components/layout/hero/Hero.test.tsx :: Hero Component Integration with Components integrates with CTAButton component correctly
+src/__tests__/components/layout/hero/Hero.test.tsx :: Hero Component Integration with Components integrates with TechOrbit component correctly
+src/__tests__/components/layout/hero/Hero.test.tsx :: Hero Component Layout and Responsive Design applies correct section styling
+src/__tests__/components/layout/hero/Hero.test.tsx :: Hero Component Layout and Responsive Design renders tech orbit in responsive container
+src/__tests__/components/layout/hero/Hero.test.tsx :: Hero Component Layout and Responsive Design renders text content in full-width container
+src/__tests__/components/layout/hero/Hero.test.tsx :: Hero Component Motion Animation applies container variants to section
+src/__tests__/components/layout/hero/Hero.test.tsx :: Hero Component Motion Animation wraps animated elements properly
+src/__tests__/components/layout/hero/Hero.test.tsx :: Hero Component Rendering highlights "digital experiences" in description
+src/__tests__/components/layout/hero/Hero.test.tsx :: Hero Component Rendering renders TechOrbit component
+src/__tests__/components/layout/hero/Hero.test.tsx :: Hero Component Rendering renders description paragraph
+src/__tests__/components/layout/hero/Hero.test.tsx :: Hero Component Rendering renders main heading with correct text and styling
+src/__tests__/components/layout/hero/Hero.test.tsx :: Hero Component Rendering renders main section element
+src/__tests__/components/layout/hero/Hero.test.tsx :: Hero Component Rendering renders primary text with highlighted span
+src/__tests__/components/layout/hero/TechOrbit.test.tsx :: TechOrbit Component Inner Orbit (Database & Cloud) configures inner orbit correctly
+src/__tests__/components/layout/hero/TechOrbit.test.tsx :: TechOrbit Component Orbit Configuration configures reverse rotation correctly
+src/__tests__/components/layout/hero/TechOrbit.test.tsx :: TechOrbit Component Outer Orbit (Frontend Technologies) configures outer orbit correctly
+src/__tests__/components/layout/hero/TechOrbit.test.tsx :: TechOrbit Component Rendering renders main container with correct styling
+src/__tests__/components/layout/section/AnimatedSection.test.tsx :: AnimatedSection Component Rendering applies default className when none provided
+src/__tests__/components/layout/section/SectionHeading.test.tsx :: SectionHeading Component Edge Cases handles title with only whitespace
+src/__tests__/components/layout/section/SectionHeading.test.tsx :: SectionHeading Component Edge Cases handles titles with HTML entities
+src/__tests__/components/resume/Resume.test.tsx :: Resume Component Buttons disables download button when specified
+src/__tests__/components/resume/Resume.test.tsx :: Resume Component Buttons passes onExportPDF to button component but button is disabled
+src/__tests__/components/resume/Resume.test.tsx :: Resume Component Buttons renders contact me button with correct href
+src/__tests__/components/resume/Resume.test.tsx :: Resume Component Buttons shows different button state when generating PDF
+src/__tests__/components/ui/BackButton.test.tsx :: BackButton Component Accessibility has proper button role and is accessible
+src/__tests__/components/ui/BackButton.test.tsx :: BackButton Component Rendering renders as a button element

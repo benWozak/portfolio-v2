@@ -23,10 +23,6 @@ export function useNavigation(): NavItem[] {
     //   label: "Blog",
     // },
     {
-      href: "/resume",
-      label: "Resume",
-    },
-    {
       href: "/contact",
       label: "Contact",
     },

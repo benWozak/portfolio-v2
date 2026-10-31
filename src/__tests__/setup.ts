@@ -85,19 +85,3 @@ const localStorageMock = {
 Object.defineProperty(window, 'localStorage', {
   value: localStorageMock,
 })
-
-vi.mock('next/font/google', () => ({
-  Nunito: vi.fn(() => ({
-    className: 'font-nunito',
-    variable: '--font-nunito',
-  })),
-}))
-
-vi.mock('react-hot-toast', () => ({
-  toast: {
-    loading: vi.fn(),
-    success: vi.fn(),
-    error: vi.fn(),
-    dismiss: vi.fn(),
-  },
-}))

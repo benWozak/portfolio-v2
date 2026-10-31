@@ -29,6 +29,7 @@ const nextConfig: NextConfig = {
         destination: 'https://www.benwozak.dev/:path*',
         permanent: true,
       },
+      { source: '/resume', destination: '/', permanent: true },
     ]
   },
 };

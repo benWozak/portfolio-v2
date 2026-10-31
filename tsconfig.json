@@ -36,7 +36,6 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "scripts/build-resume.js",
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [

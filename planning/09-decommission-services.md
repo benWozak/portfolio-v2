@@ -68,6 +68,7 @@ Expected: all 200; four project URLs. Open one project page and submit a test me
 ## Task 5: Local tidy-up
 
 - [ ] `.env` no longer contains any of the deleted keys (chunk 05 did this; confirm).
+- [ ] Delete `.env.payload-legacy`. Chunk 05 parked the Payload-era keys there instead of deleting them; nothing needs them once Tasks 2–4 are done.
 - [ ] Optional: `rm -rf scripts/backups` locally. The off-repo copy is the backup; keep it.
 - [ ] Write the date and what was deleted in the hand-off log below, and tick 09 in `planning/README.md`.
 

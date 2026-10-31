@@ -1,7 +1,6 @@
 src/__tests__/components/layout/Header.test.tsx :: Header Component Mobile Menu closes mobile menu when logo clicked
 src/__tests__/components/layout/Header.test.tsx :: Header Component Mobile Menu closes mobile menu when navigation item clicked
 src/__tests__/components/layout/Header.test.tsx :: Header Component Mobile Menu opens mobile menu when button clicked
-src/__tests__/components/layout/LivePreviewToolbar.test.tsx :: LivePreviewToolbar Component Visual Elements renders toolbar with correct styling
 src/__tests__/components/layout/ThemeToggle.test.tsx :: ThemeToggle Component Edge Cases handles undefined theme gracefully
 src/__tests__/components/layout/hero/Hero.test.tsx :: Hero Component Accessibility maintains semantic structure
 src/__tests__/components/layout/hero/Hero.test.tsx :: Hero Component Accessibility provides meaningful link text for CTA buttons

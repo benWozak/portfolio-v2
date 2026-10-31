@@ -265,3 +265,25 @@ _(append dated notes here)_
 **2026-10-30 (from pre-flight follow-up)**
 - `package-lock.json` is already committed, and `.gitignore` no longer lists it; see the 00 hand-off log.
 - Step 3's `.gitignore` edit is therefore a no-op. Keep the `rm -rf node_modules package-lock.json && npm install` regeneration after removing the Payload packages, then commit the new lockfile.
+
+**2026-10-30 (chunk done)**
+- **Done as written, with three deviations:**
+  - **Lockfile.** Not regenerated from scratch. `npm uninstall` against the committed lockfile removed 418 packages and changed no other version, so `next` stays at 15.4.11. A fresh resolve would have bumped every caret dependency inside a removal PR. `sharp` moved to devDependencies with `npm install -D sharp@0.34.5`, the same version. `next` still pulls it in as an optional dependency.
+  - **`.env`.** The 9 Payload-era keys were moved into the gitignored `.env.payload-legacy` (neither Next nor Vitest loads it), not deleted. Vercel's sensitive variables can't be read back, and 09 Task 4 needs `DATABASE_URI` to identify the Turso database. 09 Task 5 deletes the file.
+  - **Comments.** `src/lib/projects/schema.ts` and `scripts/content/image.ts` no longer mention `scripts/export`.
+- **Build with every `.env*` moved away:**
+  - It passes.
+  - Every page is `○` or `●`. Only `/api/contact/verify` is `ƒ`.
+- **Server checks (`next start`):**
+  - `/admin`, `/api/graphql`, `/api/media/file/x` and the preview routes all return 404.
+  - The site pages and the four project pages return 200.
+  - `/resume` and `/blog/*` still return 308.
+  - Images are served as `/_next/image?url=%2Fprojects…`, with no Blob references.
+- **Pre-existing, not caused by this chunk:**
+  - **`/robots.txt` returns 404, locally and on production.** `src/app/(app)/robots.ts` sits in a route group, and Next only picks up `robots.ts` at the app root, so it never shows in the route table. It was moved there when Payload was added (`c1d9e41`). Fix in chunk 08 by moving it to `src/app/robots.ts`.
+  - **`/about` returns 404** because the page calls `notFound()` on purpose.
+- **Tests.** 447 run, 40 failing, no new failures. The baseline dropped the one failing `LivePreviewToolbar` test.
+- **Residual greps:**
+  - The Task 4 grep hits only marketing copy in `src/components/content/Services.tsx`. That's a dead component, deleted in chunk 08.
+  - The 09 Task 2 grep is empty.
+- **Installs.** `npm ci` adds 514 packages, down from 830, and passes clean-room with npm 10.9.2. `node_modules` went from 1.0G to 627M.

@@ -44,7 +44,7 @@ Content edits:
 
 The platform is no longer recorded; Tedana's "Tauri" chip conveys that it is a desktop app.
 
-**Archived project.** The owner has one professional project that shipped and is no longer active, to be added with status Archived. Its identity was not settled during the session. If it is a fifth project, the implementation plan includes authoring `content/projects/<slug>.json` and `public/projects/<slug>/<image>` by hand against the schema (the `new-project.ts` tool stays in chunk 08); the owner supplies the name, copy, image and whether a `liveUrl` still resolves. If it turns out to be one of the existing two, it is a status edit.
+**Archived project.** None of the four existing projects is archived. The Archived status exists for professional work the owner will add after this redesign ships (one such project is known), via the chunk 08 `new-project.ts` tool. This chunk adds no content beyond the four edits above.
 
 ## Data access (`src/lib/projects`)
 

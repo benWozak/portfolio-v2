@@ -261,3 +261,7 @@ PR `chunk-05-remove-payload` → `main` is open and green, merged, and the produ
 ## Hand-off log
 
 _(append dated notes here)_
+
+**2026-10-30 (from pre-flight follow-up)**
+- `package-lock.json` is already committed, and `.gitignore` no longer lists it; see the 00 hand-off log.
+- Step 3's `.gitignore` edit is therefore a no-op. Keep the `rm -rf node_modules package-lock.json && npm install` regeneration after removing the Payload packages, then commit the new lockfile.

@@ -31,7 +31,7 @@
 - Media docs store `url` as `/api/media/file/<filename>`, served through Payload. The real object is `https://ua4mmiw8i4jbla3y.public.blob.vercel-storage.com/<encodeURIComponent(filename)>` (no prefix, no random suffix).
 - The projects data path is `src/utils/getProjects.ts` plus the hand-written `Project` type in `src/types/index.ts`. `getProjects.ts:7` imports `generateSlug` from `src/collections/hooks/slug.ts`.
 - `src/app/(app)/projects/[slug]/page.tsx` is the only non-admin file importing `@payloadcms/*`. It also uses `draftMode`, `LivePreviewToolbar` and `MediaContainer`.
-- Lockfiles are gitignored. `package-lock.json` exists locally but is not committed.
+- `yarn.lock` is gitignored. `package-lock.json` has been committed since 2026-10-30; see the hand-off log.
 
 ## Conventions for every chunk
 
@@ -251,3 +251,14 @@ _(append dated notes here)_
   - `audit-improvements` has no remote yet, so pushing waits for the owner's go-ahead.
   - `chunk-01-export-content` and `chunk-02-json-data-layer` are already cut from it. Once it is on `main`, their PRs target `main`: 01 first, then 02 rebased onto `main`.
 - Task 3 Step 2: the choice is also recorded under Status in `planning/README.md`.
+
+**2026-10-30, later (Task 6 revised)**
+- The Vercel previews for PRs #2–#4 all failed at `npm install`. Vercel's npm crashed with `Cannot read properties of null (reading 'edgesOut')`; locally the same failure shows as `ERESOLVE`.
+- **Cause.** With the lockfile ignored, Vercel resolves from scratch. Today that picks `payload@3.92.1` alongside `@payloadcms/next@3.91.0`. Each Payload package pins an exact `payload` peer, so the two can't install together.
+  - A fresh resolve of `main`'s `package.json` fails the same way, so `main` can't deploy either until it has the lockfile.
+  - Every Preview deploy in the GitHub deployment history has failed, including `40d9f38` from 2026-02-12.
+- **Decision.** The owner chose to commit `package-lock.json` now instead of in chunk 05.
+  - Commit `5352255` on `audit-improvements` keeps the tested set: all Payload packages at 3.76.1, `next` 15.4.11.
+  - `npm ci` with npm 10.9.2 in a clean folder succeeds with it.
+  - Chunk 01 and chunk 02 were rebased on top. Chunk 02's lockfile drops `plaiceholder` in the same commit that uninstalls it.
+- Chunk 05 Step 3 still applies, but its `.gitignore` edit is already done. Its `rm -rf node_modules package-lock.json && npm install` now regenerates a lockfile that is tracked.

@@ -233,4 +233,14 @@ PR `chunk-03-remove-resume` → `main` is open and green.
 
 ## Hand-off log
 
-_(append dated notes here)_
+- 2026-10-30: Done as written, with the following notes.
+  - **Stacking.** Done in the same session as 04. `chunk-04-remove-blog` is stacked on this branch, and its PR targets `chunk-03-remove-resume`.
+  - **Type check.** The first `npx tsc --noEmit` after Task 1 failed on stale `.next/types` stubs for the deleted routes. They're generated, so I removed them and the build recreates the rest.
+  - **Verification.** `npm run build` no longer lists `/resume`, `/api/generate-resume` or `/api/resume-pdf`. With `next start`:
+    - `/resume` returns 308 to `/`;
+    - the nav shows only Projects and Contact;
+    - "View My CV" is gone.
+  - **Tests.** 496 run, 41 failing, no new failures. The baseline lost the 4 `Resume.test.tsx` failures, so it now holds 41.
+  - **Residual grep.** It also lists the following, all expected:
+    - `src/payload.config.ts`, `src/payload-types.ts` and `src/__tests__/collections/revalidation.test.ts`, which belong to chunk 05.
+    - `globals.css`, a false positive: `translateX` matches `latex` case-insensitively.

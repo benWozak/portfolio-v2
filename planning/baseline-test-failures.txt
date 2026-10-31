@@ -37,9 +37,5 @@ src/__tests__/components/layout/hero/TechOrbit.test.tsx :: TechOrbit Component R
 src/__tests__/components/layout/section/AnimatedSection.test.tsx :: AnimatedSection Component Rendering applies default className when none provided
 src/__tests__/components/layout/section/SectionHeading.test.tsx :: SectionHeading Component Edge Cases handles title with only whitespace
 src/__tests__/components/layout/section/SectionHeading.test.tsx :: SectionHeading Component Edge Cases handles titles with HTML entities
-src/__tests__/components/resume/Resume.test.tsx :: Resume Component Buttons disables download button when specified
-src/__tests__/components/resume/Resume.test.tsx :: Resume Component Buttons passes onExportPDF to button component but button is disabled
-src/__tests__/components/resume/Resume.test.tsx :: Resume Component Buttons renders contact me button with correct href
-src/__tests__/components/resume/Resume.test.tsx :: Resume Component Buttons shows different button state when generating PDF
 src/__tests__/components/ui/BackButton.test.tsx :: BackButton Component Accessibility has proper button role and is accessible
 src/__tests__/components/ui/BackButton.test.tsx :: BackButton Component Rendering renders as a button element

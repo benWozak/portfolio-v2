@@ -412,3 +412,8 @@ PR `chunk-08-cleanup` → `main` is open, green, merged, production verified.
 ## Hand-off log
 
 _(append dated notes here)_
+
+**2026-10-30 (from chunk 05)**
+- **Add a task: fix `/robots.txt`.** It returns 404 locally and on production.
+  - **Cause.** `src/app/(app)/robots.ts` sits in a route group, and Next only recognises `robots.ts` at the app root, so it never appears in the build's route table.
+  - **Fix.** `git mv "src/app/(app)/robots.ts" src/app/robots.ts`, then confirm that `/robots.txt` shows as `ƒ` in `npm run build` and returns 200 under `next start`.

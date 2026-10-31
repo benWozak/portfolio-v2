@@ -1,7 +1,7 @@
 // src/lib/projects/schema.ts
 // Runtime validator for content/projects/*.json. Hand-rolled on purpose: one
 // schema does not justify a dependency. Must stay free of Next.js imports
-// because scripts/export and scripts/content import it under tsx.
+// because the scripts/content tooling imports it under tsx.
 import {
   PROJECT_STATUSES,
   PROJECT_TYPES,

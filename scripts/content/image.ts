@@ -1,6 +1,6 @@
 // scripts/content/image.ts
-// Shared by scripts/export/convert-projects.ts (chunk 01) and
-// scripts/content/new-project.ts (chunk 08). Node-only (sharp).
+// Used by scripts/content/new-project.ts (chunk 08); chunk 01's export
+// script also used it. Node-only (sharp).
 import sharp from 'sharp'
 
 export interface ProjectImageMeta {

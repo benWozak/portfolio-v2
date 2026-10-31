@@ -167,4 +167,11 @@ PR `chunk-04-remove-blog` → `main` is open and green.
 
 ## Hand-off log
 
-_(append dated notes here)_
+- 2026-10-30: Done as written, stacked on `chunk-03-remove-resume`. The PR targets that branch until 03 merges.
+  - **Sitemap.** Written without `/resume`. It's now fully static: no revalidate, no data fetch.
+  - **Build and server checks.**
+    - `npm run build` no longer lists `/blog` or `/blog/[slug]`.
+    - With `next start`, `/blog`, `/blog/anything` and `/blog/a/b` all return 308 to `/`.
+    - `/sitemap.xml` holds 5 static routes plus 4 projects, with no blog or resume URLs.
+  - **Tests.** 496 run, 41 failing, no new failures. The baseline is unchanged.
+  - **Residual greps.** Both checklist greps still list `src/payload.config.ts`, which belongs to chunk 05 (for `payload-types`, through the `outputFile` path). The blog grep also lists `Footer.test.tsx` (a mocked `/blog` nav item) and `SectionHeading.test.tsx` (`title="Blog"`). Those are test fixture strings, not blog code.

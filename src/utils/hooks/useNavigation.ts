@@ -10,21 +10,9 @@ export interface NavItem {
 export function useNavigation(): NavItem[] {
 
   const navItems: NavItem[] = [
-    // {
-    //   href: "/about",
-    //   label: "About",
-    // },
     {
       href: "/projects",
       label: "Projects",
-    },
-    // {
-    //   href: "/blog",
-    //   label: "Blog",
-    // },
-    {
-      href: "/resume",
-      label: "Resume",
     },
     {
       href: "/contact",

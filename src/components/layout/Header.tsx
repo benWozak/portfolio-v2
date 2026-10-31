@@ -9,6 +9,11 @@ import { useNavigation } from "@/utils/hooks";
 import { usePathname } from "next/navigation";
 import { Socials } from "../content";
 
+/** True for the prefix itself and any path beneath it; never for `/projects-archive`. */
+function isUnderPath(pathname: string, prefix: string): boolean {
+  return pathname === prefix || pathname.startsWith(`${prefix}/`);
+}
+
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -50,7 +55,7 @@ export function Header() {
                   <li key={item.href}>
                     <LinkButton
                       href={item.href}
-                      isActive={pathname.includes(item.href)}
+                      isActive={isUnderPath(pathname, item.activePrefix ?? item.href)}
                     >
                       {item.label}
                     </LinkButton>
@@ -139,7 +144,7 @@ export function Header() {
                       <LinkButton
                         href={item.href}
                         onClick={toggleMobileMenu}
-                        isActive={pathname.includes(item.href)}
+                        isActive={isUnderPath(pathname, item.activePrefix ?? item.href)}
                       >
                         {item.label}
                       </LinkButton>

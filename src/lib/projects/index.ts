@@ -4,11 +4,14 @@
 // fails `next build`), and exposes a tiny synchronous API. No Next imports.
 import { projectFiles } from '../../../content/projects'
 import { parseProject } from './schema'
-import type { Project } from '../../types/project'
+import { assertOneFeaturedPerType, pickFeatured } from './select'
+import type { Project, ProjectType } from '../../types/project'
 
 const PROJECTS: readonly Project[] = Object.entries(projectFiles)
   .map(([slug, raw]) => parseProject(raw, `content/projects/${slug}.json`, slug))
   .sort((a, b) => a.order - b.order || a.name.localeCompare(b.name))
+
+assertOneFeaturedPerType(PROJECTS)
 
 export function getProjects(): Project[] {
   return [...PROJECTS]
@@ -22,9 +25,14 @@ export function getProjectBySlug(slug: string): Project | undefined {
   return PROJECTS.find((p) => p.slug === slug)
 }
 
-/** The project flagged `featured`; falls back to the first by order so the index page never has an empty hero. */
-export function getFeaturedProject(): Project | undefined {
-  return PROJECTS.find((p) => p.featured) ?? PROJECTS[0]
+/** All projects of one type, sorted by `order`. */
+export function getProjectsByType(type: ProjectType): Project[] {
+  return PROJECTS.filter((p) => p.type === type)
+}
+
+/** The type's `featured` project, else its lowest `order`; `undefined` only for an empty type. */
+export function getFeaturedProject(type: ProjectType): Project | undefined {
+  return pickFeatured(getProjectsByType(type))
 }
 
 export function getAdjacentProjects(slug: string): { prev: Project | null; next: Project | null } {

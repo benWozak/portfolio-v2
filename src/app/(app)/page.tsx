@@ -6,17 +6,18 @@ import {
   Experience,
 } from "@/components/content";
 import ContactCTA from "@/components/content/contact/ContactCTA";
-import { getProjects } from "@/lib/projects";
+import { getFeaturedProject } from "@/lib/projects";
 
 export default async function Home() {
-  const projects = getProjects().slice(0, 2);
+  const professional = getFeaturedProject("professional");
+  const personal = getFeaturedProject("personal");
 
   return (
     <article className="flex min-h-screen flex-col items-center justify-center">
       <Hero />
       {/* <Pitch /> */}
       <About />
-      <Projects projects={projects} />
+      {professional && personal && <Projects professional={professional} personal={personal} />}
       <Experience />
       <ContactCTA />
     </article>

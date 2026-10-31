@@ -32,53 +32,54 @@ git checkout -b chunk-06-projects-redesign
 
 ## Deviations from the spec (decided while writing this plan)
 
-| Spec says | Plan does | Why |
-|---|---|---|
-| The one-featured-per-type rule lives in `content/projects/index.ts`. | It lives in `src/lib/projects/select.ts` and runs in `src/lib/projects/index.ts` at module init. | `content/projects/index.ts` is a plain import map with no access to parsed projects. The loader is where every page imports from, so a violation still fails `next build` and `content:check`. |
-| `ProjectRow.test`: `reverse` flips DOM order. | `reverse` adds `lg:order-last` to the image; DOM order stays image-then-text. The test asserts that class. | Flipping DOM order would put text above the image on mobile for every other row. |
-| `page.tsx` passes `getFeaturedProject('professional')!`. | Both results are guarded; the section is omitted if either group is empty. | An empty group should not crash the build. |
-| Header nav href becomes `/projects/professional`. | Same, plus an `activePrefix: "/projects"` on the nav item so "Projects" stays underlined on `/projects/personal` and `/projects/<slug>`. | `Header` marks items active with `pathname.includes(item.href)`; without the prefix the personal page would show no active item. |
-| Chunk 07's prerequisite list names `ProjectLinks` from chunk 06. | `ProjectLinks` is not built here (the card has no direct links). Task 8 notes this in `07-projects-detail-redesign.md`. | Spec drops it from the card; YAGNI. |
-| Spec leaves room for an archived project in this chunk. | No content is added. None of the four existing projects is archived; the owner will add new projects (some Archived) after the redesign ships, using the schema this chunk defines. | Owner's decision, 2026-10-31. |
+| Spec says                                                            | Plan does                                                                                                                                                                           | Why                                                                                                                                                                                            |
+| -------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| The one-featured-per-type rule lives in `content/projects/index.ts`. | It lives in `src/lib/projects/select.ts` and runs in `src/lib/projects/index.ts` at module init.                                                                                    | `content/projects/index.ts` is a plain import map with no access to parsed projects. The loader is where every page imports from, so a violation still fails `next build` and `content:check`. |
+| `ProjectRow.test`: `reverse` flips DOM order.                        | `reverse` adds `lg:order-last` to the image; DOM order stays image-then-text. The test asserts that class.                                                                          | Flipping DOM order would put text above the image on mobile for every other row.                                                                                                               |
+| `page.tsx` passes `getFeaturedProject('professional')!`.             | Both results are guarded; the section is omitted if either group is empty.                                                                                                          | An empty group should not crash the build.                                                                                                                                                     |
+| Header nav href becomes `/projects/professional`.                    | Same, plus an `activePrefix: "/projects"` on the nav item so "Projects" stays underlined on `/projects/personal` and `/projects/<slug>`.                                            | `Header` marks items active with `pathname.includes(item.href)`; without the prefix the personal page would show no active item.                                                               |
+| Chunk 07's prerequisite list names `ProjectLinks` from chunk 06.     | `ProjectLinks` is not built here (the card has no direct links). Task 8 notes this in `07-projects-detail-redesign.md`.                                                             | Spec drops it from the card; YAGNI.                                                                                                                                                            |
+| Spec leaves room for an archived project in this chunk.              | No content is added. None of the four existing projects is archived; the owner will add new projects (some Archived) after the redesign ships, using the schema this chunk defines. | Owner's decision, 2026-10-31.                                                                                                                                                                  |
 
 ## File structure
 
-| Path | Change | Responsibility |
-|---|---|---|
-| `src/types/project.ts` | Modify | New `PROJECT_TYPES`, `PROJECT_STATUSES`. |
-| `src/lib/projects/select.ts` | **Create** | Pure: `pickFeatured`, `assertOneFeaturedPerType`. |
-| `src/lib/projects/index.ts` | Modify | `getProjectsByType(type)`, `getFeaturedProject(type)`, run the featured rule. |
-| `src/__tests__/lib/projectSchema.test.ts`, `projects.test.ts` | Modify | New values; per-type API. |
-| `src/__tests__/lib/projectSelect.test.ts` | **Create** | Featured fallback and the rule. |
-| `content/projects/*.json` | Modify | `type`, `status`, `featured` per the spec table. |
-| `src/components/content/projects/groups.ts` | **Create** | `PROJECT_GROUPS`, `GROUP_ORDER`: labels, headings, intros, hrefs, accent classes per type. |
-| `src/components/content/projects/ProjectImage.tsx` | **Create** | `next/image` with content width/height/blur. Server-safe. |
-| `src/components/content/projects/TechChips.tsx` | **Create** | `<ul>` of chips with `max` + "+N more"; `stackItems()` flattener. Server-safe. |
-| `src/components/ui/Badge.tsx`, `src/__tests__/components/ui/Badge.test.tsx` | Rewrite both | Status colours only; behaviour tests. |
-| `src/components/layout/section/SectionHeading.tsx` + test | Modify | `as?: 'h1' \| 'h2'`. |
-| `src/components/layout/section/index.tsx` | Modify | Apply `className`. |
-| `src/__tests__/setup.ts` | Modify | framer-motion mock gains `li`, `ul`, `article`, `section`, `useInView`. |
-| `src/components/content/projects/ProjectCard.tsx` | **Rewrite** | Editorial card. Server-safe. |
-| `src/components/content/projects/ProjectGrid.tsx` | **Create** | `<ul>` grid, `priorityCount`. Server-safe. |
-| `src/components/content/projects/ProjectRow.tsx` | **Create** | Home editorial row. Server-safe. |
-| `src/components/content/projects/ProjectTabs.tsx` | **Create** (client) | Two tabs, `aria-current`. |
-| `src/components/content/projects/index.tsx` | **Rewrite** (client) | Home section `{ professional, personal }`. |
-| `src/components/content/projects/ProjectsGrid.tsx`, `src/utils/functions/animations.ts` | **Delete** | Old waterfall grid. |
-| `src/__tests__/components/content/projects/{ProjectCard,ProjectRow,ProjectTabs}.test.tsx` | **Create** | |
-| `src/app/(app)/projects/professional/page.tsx`, `personal/page.tsx` | **Create** | Group pages. |
-| `src/app/(app)/projects/page.tsx`, `web/page.tsx`, `native/page.tsx` | **Delete** | Replaced by redirects. |
-| `src/app/(app)/projects/layout.tsx` | **Rewrite** (server) | Container only. |
-| `src/app/(app)/page.tsx` | Modify | Pass the two featured projects. |
-| `src/app/(app)/sitemap.ts` | Modify | Two group routes. |
-| `next.config.ts` | Modify | Three redirects. |
-| `src/utils/hooks/useNavigation.ts`, `src/components/layout/Header.tsx` | Modify | Nav href + `activePrefix`. |
-| `planning/*` | Modify | Baseline, README ticks, notes to 07 and 08, hand-off log. |
+| Path                                                                                      | Change               | Responsibility                                                                             |
+| ----------------------------------------------------------------------------------------- | -------------------- | ------------------------------------------------------------------------------------------ |
+| `src/types/project.ts`                                                                    | Modify               | New `PROJECT_TYPES`, `PROJECT_STATUSES`.                                                   |
+| `src/lib/projects/select.ts`                                                              | **Create**           | Pure: `pickFeatured`, `assertOneFeaturedPerType`.                                          |
+| `src/lib/projects/index.ts`                                                               | Modify               | `getProjectsByType(type)`, `getFeaturedProject(type)`, run the featured rule.              |
+| `src/__tests__/lib/projectSchema.test.ts`, `projects.test.ts`                             | Modify               | New values; per-type API.                                                                  |
+| `src/__tests__/lib/projectSelect.test.ts`                                                 | **Create**           | Featured fallback and the rule.                                                            |
+| `content/projects/*.json`                                                                 | Modify               | `type`, `status`, `featured` per the spec table.                                           |
+| `src/components/content/projects/groups.ts`                                               | **Create**           | `PROJECT_GROUPS`, `GROUP_ORDER`: labels, headings, intros, hrefs, accent classes per type. |
+| `src/components/content/projects/ProjectImage.tsx`                                        | **Create**           | `next/image` with content width/height/blur. Server-safe.                                  |
+| `src/components/content/projects/TechChips.tsx`                                           | **Create**           | `<ul>` of chips with `max` + "+N more"; `stackItems()` flattener. Server-safe.             |
+| `src/components/ui/Badge.tsx`, `src/__tests__/components/ui/Badge.test.tsx`               | Rewrite both         | Status colours only; behaviour tests.                                                      |
+| `src/components/layout/section/SectionHeading.tsx` + test                                 | Modify               | `as?: 'h1' \| 'h2'`.                                                                       |
+| `src/components/layout/section/index.tsx`                                                 | Modify               | Apply `className`.                                                                         |
+| `src/__tests__/setup.ts`                                                                  | Modify               | framer-motion mock gains `li`, `ul`, `article`, `section`, `useInView`.                    |
+| `src/components/content/projects/ProjectCard.tsx`                                         | **Rewrite**          | Editorial card. Server-safe.                                                               |
+| `src/components/content/projects/ProjectGrid.tsx`                                         | **Create**           | `<ul>` grid, `priorityCount`. Server-safe.                                                 |
+| `src/components/content/projects/ProjectRow.tsx`                                          | **Create**           | Home editorial row. Server-safe.                                                           |
+| `src/components/content/projects/ProjectTabs.tsx`                                         | **Create** (client)  | Two tabs, `aria-current`.                                                                  |
+| `src/components/content/projects/index.tsx`                                               | **Rewrite** (client) | Home section `{ professional, personal }`.                                                 |
+| `src/components/content/projects/ProjectsGrid.tsx`, `src/utils/functions/animations.ts`   | **Delete**           | Old waterfall grid.                                                                        |
+| `src/__tests__/components/content/projects/{ProjectCard,ProjectRow,ProjectTabs}.test.tsx` | **Create**           |                                                                                            |
+| `src/app/(app)/projects/professional/page.tsx`, `personal/page.tsx`                       | **Create**           | Group pages.                                                                               |
+| `src/app/(app)/projects/page.tsx`, `web/page.tsx`, `native/page.tsx`                      | **Delete**           | Replaced by redirects.                                                                     |
+| `src/app/(app)/projects/layout.tsx`                                                       | **Rewrite** (server) | Container only.                                                                            |
+| `src/app/(app)/page.tsx`                                                                  | Modify               | Pass the two featured projects.                                                            |
+| `src/app/(app)/sitemap.ts`                                                                | Modify               | Two group routes.                                                                          |
+| `next.config.ts`                                                                          | Modify               | Three redirects.                                                                           |
+| `src/utils/hooks/useNavigation.ts`, `src/components/layout/Header.tsx`                    | Modify               | Nav href + `activePrefix`.                                                                 |
+| `planning/*`                                                                              | Modify               | Baseline, README ticks, notes to 07 and 08, hand-off log.                                  |
 
 ---
 
 ### Task 1: Content model, loader API, content edits (TDD)
 
 **Files:**
+
 - Modify: `src/types/project.ts:5-6`
 - Create: `src/lib/projects/select.ts`
 - Modify: `src/lib/projects/index.ts`
@@ -112,67 +113,88 @@ Replace the two `it.each` rows `['bad type', …]` and `['bad status', …]` wit
 Add after the `it.each` block:
 
 ```ts
-  it.each(['professional', 'personal'])('accepts type %s', (type) => {
-    expect(parseProject({ ...valid, type }, 'x').type).toBe(type)
-  })
+it.each(["professional", "personal"])("accepts type %s", (type) => {
+  expect(parseProject({ ...valid, type }, "x").type).toBe(type);
+});
 
-  it.each(['In Progress', 'Prototype', 'Live', 'Archived'])('accepts status %s', (status) => {
-    expect(parseProject({ ...valid, status }, 'x').status).toBe(status)
-  })
+it.each(["In Progress", "Prototype", "Live", "Archived"])(
+  "accepts status %s",
+  (status) => {
+    expect(parseProject({ ...valid, status }, "x").status).toBe(status);
+  },
+);
 ```
 
 - [ ] **Step 2: Write the select tests**
 
 ```ts
 // src/__tests__/lib/projectSelect.test.ts
-import { describe, it, expect } from 'vitest'
-import { assertOneFeaturedPerType, pickFeatured } from '@/lib/projects/select'
-import { ProjectValidationError } from '@/lib/projects/schema'
-import type { Project } from '@/types'
+import { describe, it, expect } from "vitest";
+import { assertOneFeaturedPerType, pickFeatured } from "@/lib/projects/select";
+import { ProjectValidationError } from "@/lib/projects/schema";
+import type { Project } from "@/types";
 
-const make = (slug: string, type: Project['type'], featured: boolean, order: number) =>
-  ({ slug, type, featured, order }) as Project
+const make = (
+  slug: string,
+  type: Project["type"],
+  featured: boolean,
+  order: number,
+) => ({ slug, type, featured, order }) as Project;
 
-describe('pickFeatured', () => {
-  it('returns the featured project when one exists', () => {
-    const list = [make('a', 'personal', false, 1), make('b', 'personal', true, 2)]
-    expect(pickFeatured(list)?.slug).toBe('b')
-  })
+describe("pickFeatured", () => {
+  it("returns the featured project when one exists", () => {
+    const list = [
+      make("a", "personal", false, 1),
+      make("b", "personal", true, 2),
+    ];
+    expect(pickFeatured(list)?.slug).toBe("b");
+  });
 
-  it('falls back to the first entry (lowest order) when none is featured', () => {
-    const list = [make('a', 'personal', false, 1), make('b', 'personal', false, 2)]
-    expect(pickFeatured(list)?.slug).toBe('a')
-  })
+  it("falls back to the first entry (lowest order) when none is featured", () => {
+    const list = [
+      make("a", "personal", false, 1),
+      make("b", "personal", false, 2),
+    ];
+    expect(pickFeatured(list)?.slug).toBe("a");
+  });
 
-  it('returns undefined for an empty list', () => {
-    expect(pickFeatured([])).toBeUndefined()
-  })
-})
+  it("returns undefined for an empty list", () => {
+    expect(pickFeatured([])).toBeUndefined();
+  });
+});
 
-describe('assertOneFeaturedPerType', () => {
-  it('accepts one featured per type', () => {
+describe("assertOneFeaturedPerType", () => {
+  it("accepts one featured per type", () => {
     expect(() =>
       assertOneFeaturedPerType([
-        make('a', 'professional', true, 1),
-        make('b', 'personal', true, 2),
-        make('c', 'personal', false, 3),
+        make("a", "professional", true, 1),
+        make("b", "personal", true, 2),
+        make("c", "personal", false, 3),
       ]),
-    ).not.toThrow()
-  })
+    ).not.toThrow();
+  });
 
-  it('accepts a type with no featured project', () => {
-    expect(() => assertOneFeaturedPerType([make('a', 'professional', false, 1)])).not.toThrow()
-  })
+  it("accepts a type with no featured project", () => {
+    expect(() =>
+      assertOneFeaturedPerType([make("a", "professional", false, 1)]),
+    ).not.toThrow();
+  });
 
-  it('rejects two featured in the same type and names both files', () => {
+  it("rejects two featured in the same type and names both files", () => {
     expect(() =>
-      assertOneFeaturedPerType([make('a', 'personal', true, 1), make('b', 'personal', true, 2)]),
-    ).toThrow(ProjectValidationError)
+      assertOneFeaturedPerType([
+        make("a", "personal", true, 1),
+        make("b", "personal", true, 2),
+      ]),
+    ).toThrow(ProjectValidationError);
     expect(() =>
-      assertOneFeaturedPerType([make('a', 'personal', true, 1), make('b', 'personal', true, 2)]),
-    ).toThrow(/content\/projects\/b\.json: featured .*"a"/)
-  })
-})
+      assertOneFeaturedPerType([
+        make("a", "personal", true, 1),
+        make("b", "personal", true, 2),
+      ]),
+    ).toThrow(/content\/projects\/b\.json: featured .*"a"/);
+  });
+});
 ```
 
 - [ ] **Step 3: Update the loader tests**
@@ -187,39 +209,41 @@ import {
   getProjectSlugs,
   getProjects,
   getProjectsByType,
-} from '@/lib/projects'
-import { PROJECT_TYPES } from '@/types'
+} from "@/lib/projects";
+import { PROJECT_TYPES } from "@/types";
 ```
 
 ```ts
-  it('has at most one featured project per type', () => {
-    for (const type of PROJECT_TYPES) {
-      expect(getProjectsByType(type).filter((p) => p.featured).length).toBeLessThanOrEqual(1)
-    }
-  })
+it("has at most one featured project per type", () => {
+  for (const type of PROJECT_TYPES) {
+    expect(
+      getProjectsByType(type).filter((p) => p.featured).length,
+    ).toBeLessThanOrEqual(1);
+  }
+});
 
-  it('has at least one project in every type (the home page shows one per group)', () => {
-    for (const type of PROJECT_TYPES) {
-      expect(getProjectsByType(type).length, type).toBeGreaterThan(0)
-    }
-  })
+it("has at least one project in every type (the home page shows one per group)", () => {
+  for (const type of PROJECT_TYPES) {
+    expect(getProjectsByType(type).length, type).toBeGreaterThan(0);
+  }
+});
 ```
 
 ```ts
-  it('getProjectsByType filters and keeps order ascending', () => {
-    for (const type of PROJECT_TYPES) {
-      const list = getProjectsByType(type)
-      expect(list.every((p) => p.type === type)).toBe(true)
-      const orders = list.map((p) => p.order)
-      expect(orders).toEqual([...orders].sort((x, y) => x - y))
-    }
-  })
+it("getProjectsByType filters and keeps order ascending", () => {
+  for (const type of PROJECT_TYPES) {
+    const list = getProjectsByType(type);
+    expect(list.every((p) => p.type === type)).toBe(true);
+    const orders = list.map((p) => p.order);
+    expect(orders).toEqual([...orders].sort((x, y) => x - y));
+  }
+});
 
-  it('getFeaturedProject returns a project of the requested type', () => {
-    for (const type of PROJECT_TYPES) {
-      expect(getFeaturedProject(type)?.type).toBe(type)
-    }
-  })
+it("getFeaturedProject returns a project of the requested type", () => {
+  for (const type of PROJECT_TYPES) {
+    expect(getFeaturedProject(type)?.type).toBe(type);
+  }
+});
 ```
 
 Check that `src/types/index.ts` re-exports `PROJECT_TYPES` (`grep -n PROJECT_TYPES src/types/index.ts`); if it only re-exports types, add `export * from './project'` or the named constant.
@@ -234,8 +258,13 @@ Expected: FAIL. `projectSchema` rejects `professional`; `projectSelect` cannot r
 `src/types/project.ts` lines 5–6:
 
 ```ts
-export const PROJECT_TYPES = ['professional', 'personal'] as const
-export const PROJECT_STATUSES = ['In Progress', 'Prototype', 'Live', 'Archived'] as const
+export const PROJECT_TYPES = ["professional", "personal"] as const;
+export const PROJECT_STATUSES = [
+  "In Progress",
+  "Prototype",
+  "Live",
+  "Archived",
+] as const;
 ```
 
 - [ ] **Step 6: Create `select.ts`**
@@ -243,28 +272,30 @@ export const PROJECT_STATUSES = ['In Progress', 'Prototype', 'Live', 'Archived']
 ```ts
 // src/lib/projects/select.ts
 // Pure helpers over an already-parsed, order-sorted project list. No Next imports.
-import { ProjectValidationError } from './schema'
-import type { Project, ProjectType } from '../../types/project'
+import { ProjectValidationError } from "./schema";
+import type { Project, ProjectType } from "../../types/project";
 
 /** The `featured` project, else the first entry. Callers pass a list sorted by `order`. */
-export function pickFeatured(projects: readonly Project[]): Project | undefined {
-  return projects.find((p) => p.featured) ?? projects[0]
+export function pickFeatured(
+  projects: readonly Project[],
+): Project | undefined {
+  return projects.find((p) => p.featured) ?? projects[0];
 }
 
 /** At most one `featured: true` per `type`. Throws so `next build` and `content:check` fail on a violation. */
 export function assertOneFeaturedPerType(projects: readonly Project[]): void {
-  const seen = new Map<ProjectType, string>()
+  const seen = new Map<ProjectType, string>();
   for (const p of projects) {
-    if (!p.featured) continue
-    const prev = seen.get(p.type)
+    if (!p.featured) continue;
+    const prev = seen.get(p.type);
     if (prev !== undefined) {
       throw new ProjectValidationError(
         `content/projects/${p.slug}.json`,
-        'featured',
+        "featured",
         `is already true for ${p.type} project "${prev}"; at most one featured project per type`,
-      )
+      );
     }
-    seen.set(p.type, p.slug)
+    seen.set(p.type, p.slug);
   }
 }
 ```
@@ -278,46 +309,51 @@ export function assertOneFeaturedPerType(projects: readonly Project[]): void {
 // Single source of project content for the site. Reads the static import map in
 // content/projects/index.ts, validates every file once at module init (a bad file
 // fails `next build`), and exposes a tiny synchronous API. No Next imports.
-import { projectFiles } from '../../../content/projects'
-import { parseProject } from './schema'
-import { assertOneFeaturedPerType, pickFeatured } from './select'
-import type { Project, ProjectType } from '../../types/project'
+import { projectFiles } from "../../../content/projects";
+import { parseProject } from "./schema";
+import { assertOneFeaturedPerType, pickFeatured } from "./select";
+import type { Project, ProjectType } from "../../types/project";
 
 const PROJECTS: readonly Project[] = Object.entries(projectFiles)
-  .map(([slug, raw]) => parseProject(raw, `content/projects/${slug}.json`, slug))
-  .sort((a, b) => a.order - b.order || a.name.localeCompare(b.name))
+  .map(([slug, raw]) =>
+    parseProject(raw, `content/projects/${slug}.json`, slug),
+  )
+  .sort((a, b) => a.order - b.order || a.name.localeCompare(b.name));
 
-assertOneFeaturedPerType(PROJECTS)
+assertOneFeaturedPerType(PROJECTS);
 
 export function getProjects(): Project[] {
-  return [...PROJECTS]
+  return [...PROJECTS];
 }
 
 export function getProjectSlugs(): string[] {
-  return PROJECTS.map((p) => p.slug)
+  return PROJECTS.map((p) => p.slug);
 }
 
 export function getProjectBySlug(slug: string): Project | undefined {
-  return PROJECTS.find((p) => p.slug === slug)
+  return PROJECTS.find((p) => p.slug === slug);
 }
 
 /** All projects of one type, sorted by `order`. */
 export function getProjectsByType(type: ProjectType): Project[] {
-  return PROJECTS.filter((p) => p.type === type)
+  return PROJECTS.filter((p) => p.type === type);
 }
 
 /** The type's `featured` project, else its lowest `order`; `undefined` only for an empty type. */
 export function getFeaturedProject(type: ProjectType): Project | undefined {
-  return pickFeatured(getProjectsByType(type))
+  return pickFeatured(getProjectsByType(type));
 }
 
-export function getAdjacentProjects(slug: string): { prev: Project | null; next: Project | null } {
-  const i = PROJECTS.findIndex((p) => p.slug === slug)
-  if (i === -1) return { prev: null, next: null }
-  return { prev: PROJECTS[i - 1] ?? null, next: PROJECTS[i + 1] ?? null }
+export function getAdjacentProjects(slug: string): {
+  prev: Project | null;
+  next: Project | null;
+} {
+  const i = PROJECTS.findIndex((p) => p.slug === slug);
+  if (i === -1) return { prev: null, next: null };
+  return { prev: PROJECTS[i - 1] ?? null, next: PROJECTS[i + 1] ?? null };
 }
 
-export { parseProject, ProjectValidationError } from './schema'
+export { parseProject, ProjectValidationError } from "./schema";
 ```
 
 - [ ] **Step 8: Edit the content files**
@@ -325,6 +361,7 @@ export { parseProject, ProjectValidationError } from './schema'
 Each file's header block changes as follows (only these keys; everything else stays).
 
 `content/projects/calgary-folk-fest.json`:
+
 ```json
   "type": "professional",
   "status": "Live",
@@ -333,6 +370,7 @@ Each file's header block changes as follows (only these keys; everything else st
 ```
 
 `content/projects/vista-crossing.json`:
+
 ```json
   "type": "professional",
   "status": "Live",
@@ -341,6 +379,7 @@ Each file's header block changes as follows (only these keys; everything else st
 ```
 
 `content/projects/homechef-companion.json`:
+
 ```json
   "type": "personal",
   "status": "In Progress",
@@ -349,6 +388,7 @@ Each file's header block changes as follows (only these keys; everything else st
 ```
 
 `content/projects/tedana-app.json`:
+
 ```json
   "type": "personal",
   "status": "Prototype",
@@ -359,7 +399,7 @@ Each file's header block changes as follows (only these keys; everything else st
 - [ ] **Step 9: Run, expect pass**
 
 Run: `npm run content:check` (alias for `vitest run src/__tests__/lib`)
-Expected: PASS, all four lib test files. `npx tsc --noEmit` will now report two errors, in `web/page.tsx` and `native/page.tsx` (`project.type === "web"` has no overlap with the new union). Both files are deleted in Task 6; do not patch them here. `Badge.tsx` still compiles because its `status` prop is widened to `string`.
+Expected: PASS, all three lib test files (`projectSchema`, `projectSelect`, `projects`). `npx tsc --noEmit` will now report two errors, in `web/page.tsx` and `native/page.tsx` (`project.type === "web"` has no overlap with the new union). Both files are deleted in Task 6; do not patch them here. `Badge.tsx` still compiles because its `status` prop is widened to `string`.
 
 - [ ] **Step 10: Commit**
 
@@ -371,6 +411,7 @@ git commit -m "feat(projects): professional/personal types, Live/Archived status
 ### Task 2: Group constants and the framer-motion mock
 
 **Files:**
+
 - Create: `src/components/content/projects/groups.ts`
 - Modify: `src/__tests__/setup.ts:37-46`
 
@@ -407,8 +448,8 @@ export const PROJECT_GROUPS: Record<ProjectType, ProjectGroup> = {
     intro: "Sites and apps I've built for clients and employers.",
     href: "/projects/professional",
     allLabel: "All professional work",
-    accentText: "text-secondary-700 dark:text-secondary-400",
-    accentBorder: "border-secondary-700 dark:border-secondary-400",
+    accentText: "text-secondary-900 dark:text-secondary-400",
+    accentBorder: "border-secondary-800 dark:border-secondary-400",
   },
   personal: {
     type: "personal",
@@ -417,7 +458,7 @@ export const PROJECT_GROUPS: Record<ProjectType, ProjectGroup> = {
     intro: "Side projects and prototypes where I try things out.",
     href: "/projects/personal",
     allLabel: "All personal projects",
-    accentText: "text-primary dark:text-primary-400",
+    accentText: "text-primary-700 dark:text-primary-400",
     accentBorder: "border-primary dark:border-primary-400",
   },
 };
@@ -426,7 +467,7 @@ export const PROJECT_GROUPS: Record<ProjectType, ProjectGroup> = {
 export const GROUP_ORDER: readonly ProjectType[] = ["professional", "personal"];
 ```
 
-Note: the bare `secondary` token is grey in `globals.css`; the teal lives in `secondary-400`…`secondary-700`, hence the numbered classes.
+Note: the bare `secondary` token is grey in `globals.css`; the teal lives in the numbered `secondary-*` shades, hence the numbered classes. Light-mode text uses `secondary-900` and `primary-700` (and the tab border `secondary-800`) because `secondary-700` (about 2.9:1) and bare `primary` (about 3.7:1) fall short of the 4.5:1 contrast needed for small uppercase text on the light background.
 
 - [ ] **Step 2: Extend the framer-motion mock**
 
@@ -434,20 +475,20 @@ Replace lines 37–46 of `src/__tests__/setup.ts` with:
 
 ```ts
 // Mock framer-motion to avoid animation issues in tests
-vi.mock('framer-motion', () => ({
+vi.mock("framer-motion", () => ({
   motion: {
-    div: 'div',
-    span: 'span',
-    a: 'a',
-    button: 'button',
-    li: 'li',
-    ul: 'ul',
-    article: 'article',
-    section: 'section',
+    div: "div",
+    span: "span",
+    a: "a",
+    button: "button",
+    li: "li",
+    ul: "ul",
+    article: "article",
+    section: "section",
   },
   AnimatePresence: ({ children }: { children: React.ReactNode }) => children,
   useInView: () => true,
-}))
+}));
 ```
 
 - [ ] **Step 3: Run the whole suite once to confirm nothing new fails from the mock change**
@@ -474,6 +515,7 @@ git commit -m "feat(projects): group constants; framer-motion mock covers list a
 ### Task 3: Primitives: `ProjectImage`, `TechChips`, `Badge`, `SectionHeading as`, `Section className` (TDD for Badge and SectionHeading)
 
 **Files:**
+
 - Create: `src/components/content/projects/ProjectImage.tsx`, `src/components/content/projects/TechChips.tsx`
 - Rewrite: `src/components/ui/Badge.tsx`, `src/__tests__/components/ui/Badge.test.tsx`
 - Modify: `src/components/layout/section/SectionHeading.tsx`, `src/__tests__/components/layout/section/SectionHeading.test.tsx`
@@ -484,56 +526,56 @@ git commit -m "feat(projects): group constants; framer-motion mock covers list a
 Replace the whole of `src/__tests__/components/ui/Badge.test.tsx`:
 
 ```tsx
-import { describe, it, expect } from 'vitest'
-import { render, screen } from '@/test-utils'
-import { Badge } from '@/components/ui/Badge'
-import { PROJECT_STATUSES } from '@/types'
+import { describe, it, expect } from "vitest";
+import { render, screen } from "@/test-utils";
+import { Badge } from "@/components/ui/Badge";
+import { PROJECT_STATUSES } from "@/types";
 
-describe('Badge', () => {
-  it('renders the status text in a span', () => {
-    render(<Badge status="In Progress" />)
-    const badge = screen.getByText('In Progress')
-    expect(badge.tagName).toBe('SPAN')
-  })
+describe("Badge", () => {
+  it("renders the status text in a span", () => {
+    render(<Badge status='In Progress' />);
+    const badge = screen.getByText("In Progress");
+    expect(badge.tagName).toBe("SPAN");
+  });
 
-  it('renders an empty span without a status', () => {
-    const { container } = render(<Badge />)
-    expect(container.querySelector('span')).toBeEmptyDOMElement()
-  })
+  it("renders an empty span without a status", () => {
+    const { container } = render(<Badge />);
+    expect(container.querySelector("span")).toBeEmptyDOMElement();
+  });
 
-  it('applies a custom className', () => {
-    render(<Badge status="Live" className="custom-badge" />)
-    expect(screen.getByText('Live')).toHaveClass('custom-badge')
-    expect(screen.getByText('Live').className).not.toContain('undefined')
-  })
+  it("applies a custom className", () => {
+    render(<Badge status='Live' className='custom-badge' />);
+    expect(screen.getByText("Live")).toHaveClass("custom-badge");
+    expect(screen.getByText("Live").className).not.toContain("undefined");
+  });
 
-  it('gives every known status a distinct colour treatment', () => {
+  it("gives every known status a distinct colour treatment", () => {
     render(
       <div>
         {PROJECT_STATUSES.map((s) => (
           <Badge key={s} status={s} />
         ))}
       </div>,
-    )
-    const classes = PROJECT_STATUSES.map((s) => screen.getByText(s).className)
-    expect(new Set(classes).size).toBe(PROJECT_STATUSES.length)
-  })
+    );
+    const classes = PROJECT_STATUSES.map((s) => screen.getByText(s).className);
+    expect(new Set(classes).size).toBe(PROJECT_STATUSES.length);
+  });
 
-  it('styles unknown values neutrally but still renders them', () => {
-    render(<Badge status="Something Else" />)
-    const badge = screen.getByText('Something Else')
-    expect(badge.className).toMatch(/bg-/)
-    expect(badge.className).toMatch(/text-/)
-  })
+  it("styles unknown values neutrally but still renders them", () => {
+    render(<Badge status='Something Else' />);
+    const badge = screen.getByText("Something Else");
+    expect(badge.className).toMatch(/bg-/);
+    expect(badge.className).toMatch(/text-/);
+  });
 
-  it('includes a dark-mode variant for every status', () => {
+  it("includes a dark-mode variant for every status", () => {
     for (const s of PROJECT_STATUSES) {
-      const { unmount } = render(<Badge status={s} />)
-      expect(screen.getByText(s).className).toMatch(/dark:/)
-      unmount()
+      const { unmount } = render(<Badge status={s} />);
+      expect(screen.getByText(s).className).toMatch(/dark:/);
+      unmount();
     }
-  })
-})
+  });
+});
 ```
 
 - [ ] **Step 2: Add the `as="h1"` case to the SectionHeading test**
@@ -541,15 +583,15 @@ describe('Badge', () => {
 Append inside the top-level `describe` of `src/__tests__/components/layout/section/SectionHeading.test.tsx`:
 
 ```tsx
-  describe('Heading level', () => {
-    it('renders an h1 when as="h1"', () => {
-      render(<SectionHeading title="Professional work" as="h1" />)
-      const heading = screen.getByRole('heading', { level: 1 })
-      expect(heading.tagName).toBe('H1')
-      expect(heading).toHaveTextContent('Professional work')
-      expect(screen.queryByRole('heading', { level: 2 })).toBeNull()
-    })
-  })
+describe("Heading level", () => {
+  it('renders an h1 when as="h1"', () => {
+    render(<SectionHeading title='Professional work' as='h1' />);
+    const heading = screen.getByRole("heading", { level: 1 });
+    expect(heading.tagName).toBe("H1");
+    expect(heading).toHaveTextContent("Professional work");
+    expect(screen.queryByRole("heading", { level: 2 })).toBeNull();
+  });
+});
 ```
 
 - [ ] **Step 3: Run, expect failures**
@@ -572,11 +614,13 @@ type BadgeProps = {
 
 const STATUS_CLASSES: Record<ProjectStatus, string> = {
   Live: "bg-emerald-100 text-emerald-900 dark:bg-emerald-900/40 dark:text-emerald-200",
-  "In Progress": "bg-amber-100 text-amber-900 dark:bg-amber-900/40 dark:text-amber-200",
+  "In Progress":
+    "bg-amber-100 text-amber-900 dark:bg-amber-900/40 dark:text-amber-200",
   Prototype: "bg-sky-100 text-sky-900 dark:bg-sky-900/40 dark:text-sky-200",
   Archived: "bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-100",
 };
-const DEFAULT_CLASSES = "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100";
+const DEFAULT_CLASSES =
+  "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100";
 
 function isKnownStatus(value: string): value is ProjectStatus {
   // hasOwnProperty, not `in`: "constructor" and friends must not match prototype keys
@@ -587,7 +631,13 @@ export function Badge({ status, className }: BadgeProps) {
   const label = status === undefined || status === null ? "" : String(status);
   const colour = isKnownStatus(label) ? STATUS_CLASSES[label] : DEFAULT_CLASSES;
   return (
-    <span className={cn("inline-block rounded-full px-2 py-1 text-xs font-medium", colour, className)}>
+    <span
+      className={cn(
+        "inline-block rounded-full px-2 py-1 text-xs font-medium",
+        colour,
+        className,
+      )}
+    >
       {label}
     </span>
   );
@@ -614,11 +664,11 @@ export function SectionHeading({ title, as = "h2" }: SectionHeadingProps) {
   return (
     <AnimatedSection>
       <motion.div
-        className="relative mb-8 flex gap-4 items-center"
+        className='relative mb-8 flex gap-4 items-center'
         variants={itemVariants}
       >
-        <div className="w-8 lg:w-16 h-0.5 lg:h-1 rounded-full bg-primary"></div>
-        <Tag className="inline-block text-2xl font-bold py-2 lg:px-4 uppercase tracking-wider">
+        <div className='w-8 lg:w-16 h-0.5 lg:h-1 rounded-full bg-primary'></div>
+        <Tag className='inline-block text-2xl font-bold py-2 lg:px-4 uppercase tracking-wider'>
           {title}
         </Tag>
       </motion.div>
@@ -669,7 +719,12 @@ interface Props {
   className?: string;
 }
 
-export function ProjectImage({ image, sizes, priority = false, className }: Props) {
+export function ProjectImage({
+  image,
+  sizes,
+  priority = false,
+  className,
+}: Props) {
   return (
     <Image
       src={image.src}
@@ -678,7 +733,7 @@ export function ProjectImage({ image, sizes, priority = false, className }: Prop
       height={image.height}
       sizes={sizes}
       priority={priority}
-      placeholder="blur"
+      placeholder='blur'
       blurDataURL={image.blurDataURL}
       className={className}
     />
@@ -701,27 +756,36 @@ interface Props {
   className?: string;
 }
 
-/** Frontend, backend, other, in that order. */
+/** Frontend, backend, other, in that order; deduplicated because the schema does not forbid repeats across groups. */
 export function stackItems(stack: TechStack): string[] {
-  return [...stack.frontend, ...stack.backend, ...stack.other];
+  return [...new Set([...stack.frontend, ...stack.backend, ...stack.other])];
 }
 
-export function TechChips({ items, max, label = "Tech stack", className }: Props) {
+export function TechChips({
+  items,
+  max,
+  label = "Tech stack",
+  className,
+}: Props) {
   if (items.length === 0) return null;
   const shown = max ? items.slice(0, max) : items;
   const hidden = items.length - shown.length;
   return (
-    <ul className={cn("flex flex-wrap gap-2", className)} aria-label={label}>
+    <ul
+      role='list'
+      className={cn("flex flex-wrap gap-2", className)}
+      aria-label={label}
+    >
       {shown.map((item) => (
         <li
           key={item}
-          className="rounded-full border border-gray-300 bg-secondary-bg px-2.5 py-0.5 text-xs font-medium text-foreground dark:border-gray-600"
+          className='rounded-full border border-gray-300 bg-secondary-bg px-2.5 py-0.5 text-xs font-medium text-foreground dark:border-gray-600'
         >
           {item}
         </li>
       ))}
       {hidden > 0 && (
-        <li className="rounded-full px-2.5 py-0.5 text-xs font-medium text-gray-600 dark:text-gray-300">
+        <li className='rounded-full px-2.5 py-0.5 text-xs font-medium text-gray-600 dark:text-gray-300'>
           +{hidden} more
         </li>
       )}
@@ -750,6 +814,7 @@ git commit -m "feat(projects): ProjectImage and TechChips primitives; status-onl
 ### Task 4: `ProjectCard` and `ProjectGrid` (TDD)
 
 **Files:**
+
 - Rewrite: `src/components/content/projects/ProjectCard.tsx`
 - Create: `src/components/content/projects/ProjectGrid.tsx`
 - Create: `src/__tests__/components/content/projects/ProjectCard.test.tsx`
@@ -759,61 +824,83 @@ git commit -m "feat(projects): ProjectImage and TechChips primitives; status-onl
 
 ```tsx
 // src/__tests__/components/content/projects/ProjectCard.test.tsx
-import { describe, it, expect } from 'vitest'
-import { render, screen } from '@testing-library/react'
-import { ProjectCard } from '@/components/content/projects/ProjectCard'
-import type { Project } from '@/types'
+import { describe, it, expect } from "vitest";
+import { render, screen } from "@testing-library/react";
+import { ProjectCard } from "@/components/content/projects/ProjectCard";
+import type { Project } from "@/types";
 
 const project: Project = {
-  slug: 'demo-app',
-  name: 'Demo App',
-  type: 'professional',
-  status: 'Live',
+  slug: "demo-app",
+  name: "Demo App",
+  type: "professional",
+  status: "Live",
   featured: false,
   order: 1,
-  description: 'A demo project.',
-  techStack: { frontend: ['Next.js', 'Tailwind'], backend: ['Node'], other: ['Vercel', 'Stripe'] },
-  liveUrl: 'https://demo.example.com',
+  description: "A demo project.",
+  techStack: {
+    frontend: ["Next.js", "Tailwind"],
+    backend: ["Node"],
+    other: ["Vercel", "Stripe"],
+  },
+  liveUrl: "https://demo.example.com",
   githubUrl: null,
-  image: { src: '/projects/demo-app/demo.png', alt: 'Demo screenshot', width: 1200, height: 900, blurDataURL: 'data:image/webp;base64,AA==' },
-  overview: 'o',
-  challenge: 'c',
-  solution: 's',
-  keyTakeaways: ['k'],
-}
+  image: {
+    src: "/projects/demo-app/demo.png",
+    alt: "Demo screenshot",
+    width: 1200,
+    height: 900,
+    blurDataURL: "data:image/webp;base64,AA==",
+  },
+  overview: "o",
+  challenge: "c",
+  solution: "s",
+  keyTakeaways: ["k"],
+};
 
-describe('ProjectCard', () => {
-  it('links the name to the project page and it is the only link', () => {
-    render(<ProjectCard project={project} />)
-    const links = screen.getAllByRole('link')
-    expect(links).toHaveLength(1)
-    expect(links[0]).toHaveAttribute('href', '/projects/demo-app')
-    expect(links[0]).toHaveTextContent('Demo App')
-  })
+// The eyebrow wraps its middle dot in an aria-hidden span, so match the <p> by full textContent
+// (the default getByText matcher only reads an element's own text nodes).
+const eyebrow = (text: string) =>
+  screen.getByText((_, el) => el?.tagName === "P" && el.textContent === text);
 
-  it('shows group and status in one eyebrow line', () => {
-    render(<ProjectCard project={project} />)
-    expect(screen.getByText('Professional · Live')).toBeInTheDocument()
-  })
+describe("ProjectCard", () => {
+  it("links the name to the project page and it is the only link", () => {
+    render(<ProjectCard project={project} />);
+    const links = screen.getAllByRole("link");
+    expect(links).toHaveLength(1);
+    expect(links[0]).toHaveAttribute("href", "/projects/demo-app");
+    expect(links[0]).toHaveTextContent("Demo App");
+    expect(
+      screen.getByRole("heading", { level: 2, name: "Demo App" }),
+    ).toBeInTheDocument();
+  });
 
-  it('shows the description and the image alt', () => {
-    render(<ProjectCard project={project} />)
-    expect(screen.getByText('A demo project.')).toBeInTheDocument()
-    expect(screen.getByAltText('Demo screenshot')).toBeInTheDocument()
-  })
+  it("shows group and status in one eyebrow line", () => {
+    render(<ProjectCard project={project} />);
+    expect(eyebrow("Professional · Live")).toBeInTheDocument();
+  });
 
-  it('caps tech chips at three and counts the rest', () => {
-    render(<ProjectCard project={project} />)
-    const chips = screen.getByRole('list', { name: 'Tech stack' })
-    expect(chips.querySelectorAll('li')).toHaveLength(4) // 3 chips + "+2 more"
-    expect(screen.getByText('+2 more')).toBeInTheDocument()
-  })
+  it("shows the description and the image alt", () => {
+    render(<ProjectCard project={project} />);
+    expect(screen.getByText("A demo project.")).toBeInTheDocument();
+    expect(screen.getByAltText("Demo screenshot")).toBeInTheDocument();
+  });
 
-  it('uses the personal accent for personal projects', () => {
-    render(<ProjectCard project={{ ...project, type: 'personal', status: 'Prototype' }} />)
-    expect(screen.getByText('Personal · Prototype').className).toContain('text-primary')
-  })
-})
+  it("caps tech chips at three and counts the rest", () => {
+    render(<ProjectCard project={project} />);
+    const chips = screen.getByRole("list", { name: "Tech stack" });
+    expect(chips.querySelectorAll("li")).toHaveLength(4); // 3 chips + "+2 more"
+    expect(screen.getByText("+2 more")).toBeInTheDocument();
+  });
+
+  it("uses the personal accent for personal projects", () => {
+    render(
+      <ProjectCard
+        project={{ ...project, type: "personal", status: "Prototype" }}
+      />,
+    );
+    expect(eyebrow("Personal · Prototype").className).toContain("text-primary");
+  });
+});
 ```
 
 - [ ] **Step 2: Run, expect failure**
@@ -841,34 +928,47 @@ interface Props {
 export function ProjectCard({ project, priority = false }: Props) {
   const group = PROJECT_GROUPS[project.type];
   return (
-    <article className="group relative flex h-full flex-col gap-3 rounded-lg focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-4 focus-within:ring-offset-background">
-      <div className="aspect-[4/3] overflow-hidden rounded-lg bg-secondary-bg shadow-sm transition-[transform,box-shadow] duration-300 ease-out group-hover:-translate-y-1 group-hover:shadow-lg motion-reduce:transition-none motion-reduce:group-hover:translate-y-0">
+    <article className='group relative flex h-full flex-col gap-3 rounded-lg has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-primary has-[:focus-visible]:ring-offset-4 has-[:focus-visible]:ring-offset-background'>
+      <div className='aspect-[4/3] overflow-hidden rounded-lg bg-secondary-bg shadow-sm transition-[transform,box-shadow] duration-300 ease-out group-hover:-translate-y-1 group-hover:shadow-lg motion-reduce:transition-none motion-reduce:group-hover:translate-y-0'>
         <ProjectImage
           image={project.image}
-          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          sizes='(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw'
           priority={priority}
-          className="h-full w-full object-cover"
+          className='h-full w-full object-cover'
         />
       </div>
-      <p className={cn("text-xs font-semibold uppercase tracking-widest", group.accentText)}>
-        {group.label} · {project.status}
+      <p
+        className={cn(
+          "text-xs font-semibold uppercase tracking-widest",
+          group.accentText,
+        )}
+      >
+        {group.label}
+        <span aria-hidden='true'> · </span>
+        {project.status}
       </p>
-      <h3 className="text-xl font-semibold leading-snug">
+      <h2 className='text-xl font-semibold leading-snug'>
         <Link
           href={`/projects/${project.slug}`}
           className="focus:outline-none after:absolute after:inset-0 after:content-['']"
         >
           {project.name}
         </Link>
-      </h3>
-      <p className="line-clamp-2 text-gray-600 dark:text-gray-300">{project.description}</p>
-      <TechChips items={stackItems(project.techStack)} max={3} className="mt-auto pt-1" />
+      </h2>
+      <p className='line-clamp-2 text-gray-600 dark:text-gray-300'>
+        {project.description}
+      </p>
+      <TechChips
+        items={stackItems(project.techStack)}
+        max={3}
+        className='mt-auto pt-1'
+      />
     </article>
   );
 }
 ```
 
-The `after:absolute after:inset-0` pseudo-element on the name link stretches the hit area over the whole card while keeping one focusable element; `focus-within:ring` on the article shows keyboard focus. The hover lift is on the image box (`group-hover:-translate-y-1`) and switched off under `motion-reduce:`.
+The `after:absolute after:inset-0` pseudo-element on the name link stretches the hit area over the whole card while keeping one focusable element; `has-[:focus-visible]:ring` on the article shows keyboard focus only (plain `focus-within` would flash the ring on mouse clicks in Chromium). The heading is an `h2` because the card renders on the group pages directly under the page `h1`. The middle dot is `aria-hidden` so screen readers do not announce it. The hover lift is on the image box (`group-hover:-translate-y-1`) and switched off under `motion-reduce:`.
 
 - [ ] **Step 4: Create `ProjectGrid`**
 
@@ -885,10 +985,17 @@ interface Props {
 
 export function ProjectGrid({ projects, priorityCount = 0 }: Props) {
   if (projects.length === 0) {
-    return <p className="py-12 text-center text-gray-600 dark:text-gray-300">Nothing here yet.</p>;
+    return (
+      <p className='py-12 text-center text-gray-600 dark:text-gray-300'>
+        Nothing here yet.
+      </p>
+    );
   }
   return (
-    <ul className="grid grid-cols-1 gap-x-6 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
+    <ul
+      role='list'
+      className='grid grid-cols-1 gap-x-6 gap-y-10 md:grid-cols-2 lg:grid-cols-3'
+    >
       {projects.map((project, i) => (
         <li key={project.slug}>
           <ProjectCard project={project} priority={i < priorityCount} />
@@ -923,6 +1030,7 @@ git commit -m "feat(projects): editorial ProjectCard and ProjectGrid; drop water
 ### Task 5: `ProjectRow`, `ProjectTabs`, home section (TDD)
 
 **Files:**
+
 - Create: `src/components/content/projects/ProjectRow.tsx`, `src/components/content/projects/ProjectTabs.tsx`
 - Rewrite: `src/components/content/projects/index.tsx`
 - Create: `src/__tests__/components/content/projects/ProjectRow.test.tsx`, `ProjectTabs.test.tsx`
@@ -931,54 +1039,69 @@ git commit -m "feat(projects): editorial ProjectCard and ProjectGrid; drop water
 
 ```tsx
 // src/__tests__/components/content/projects/ProjectRow.test.tsx
-import { describe, it, expect } from 'vitest'
-import { render, screen } from '@testing-library/react'
-import { ProjectRow } from '@/components/content/projects/ProjectRow'
-import type { Project } from '@/types'
+import { describe, it, expect } from "vitest";
+import { render, screen } from "@testing-library/react";
+import { ProjectRow } from "@/components/content/projects/ProjectRow";
+import type { Project } from "@/types";
 
 const project: Project = {
-  slug: 'demo-app',
-  name: 'Demo App',
-  type: 'personal',
-  status: 'In Progress',
+  slug: "demo-app",
+  name: "Demo App",
+  type: "personal",
+  status: "In Progress",
   featured: true,
   order: 1,
-  description: 'A demo project.',
-  techStack: { frontend: ['Next.js'], backend: [], other: [] },
+  description: "A demo project.",
+  techStack: { frontend: ["Next.js"], backend: [], other: [] },
   liveUrl: null,
   githubUrl: null,
-  image: { src: '/projects/demo-app/demo.png', alt: 'Demo screenshot', width: 1200, height: 900, blurDataURL: 'data:image/webp;base64,AA==' },
-  overview: 'o',
-  challenge: 'c',
-  solution: 's',
-  keyTakeaways: ['k'],
-}
+  image: {
+    src: "/projects/demo-app/demo.png",
+    alt: "Demo screenshot",
+    width: 1200,
+    height: 900,
+    blurDataURL: "data:image/webp;base64,AA==",
+  },
+  overview: "o",
+  challenge: "c",
+  solution: "s",
+  keyTakeaways: ["k"],
+};
 
-describe('ProjectRow', () => {
-  it('links to the project and to its group page', () => {
-    render(<ProjectRow project={project} />)
-    expect(screen.getByRole('link', { name: 'View project' })).toHaveAttribute('href', '/projects/demo-app')
-    expect(screen.getByRole('link', { name: 'All personal projects' })).toHaveAttribute('href', '/projects/personal')
-  })
+describe("ProjectRow", () => {
+  it("links to the project and to its group page", () => {
+    render(<ProjectRow project={project} />);
+    expect(screen.getByRole("link", { name: /View project/ })).toHaveAttribute(
+      "href",
+      "/projects/demo-app",
+    );
+    expect(
+      screen.getByRole("link", { name: "All personal projects" }),
+    ).toHaveAttribute("href", "/projects/personal");
+  });
 
-  it('shows the group eyebrow, name, status badge, description and image', () => {
-    render(<ProjectRow project={project} />)
-    expect(screen.getByText('Personal')).toBeInTheDocument()
-    expect(screen.getByRole('heading', { level: 3, name: 'Demo App' })).toBeInTheDocument()
-    expect(screen.getByText('In Progress')).toBeInTheDocument()
-    expect(screen.getByText('A demo project.')).toBeInTheDocument()
-    expect(screen.getByAltText('Demo screenshot')).toBeInTheDocument()
-  })
+  it("shows the group eyebrow, name, status badge, description and image", () => {
+    render(<ProjectRow project={project} />);
+    expect(screen.getByText("Personal")).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { level: 3, name: "Demo App" }),
+    ).toBeInTheDocument();
+    expect(screen.getByText("In Progress")).toBeInTheDocument();
+    expect(screen.getByText("A demo project.")).toBeInTheDocument();
+    expect(screen.getByAltText("Demo screenshot")).toBeInTheDocument();
+  });
 
-  it('keeps the image first in the DOM and moves it right with a CSS order class when reversed', () => {
-    const { container, rerender } = render(<ProjectRow project={project} />)
-    const imageBox = () => container.querySelector('img')!.parentElement!
-    expect(imageBox().className).not.toContain('lg:order-last')
-    rerender(<ProjectRow project={project} reverse />)
-    expect(imageBox().className).toContain('lg:order-last')
-    expect(container.querySelector('article')!.firstElementChild).toBe(imageBox())
-  })
-})
+  it("keeps the image first in the DOM and moves it right with a CSS order class when reversed", () => {
+    const { container, rerender } = render(<ProjectRow project={project} />);
+    const imageBox = () => container.querySelector("img")!.parentElement!;
+    expect(imageBox().className).not.toContain("lg:order-last");
+    rerender(<ProjectRow project={project} reverse />);
+    expect(imageBox().className).toContain("lg:order-last");
+    expect(container.querySelector("article")!.firstElementChild).toBe(
+      imageBox(),
+    );
+  });
+});
 ```
 
 - [ ] **Step 2: Failing `ProjectTabs` test**
@@ -987,48 +1110,73 @@ The global `next/navigation` mock returns `/` from `usePathname`; this test over
 
 ```tsx
 // src/__tests__/components/content/projects/ProjectTabs.test.tsx
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { render, screen } from "@testing-library/react";
 
-let pathname = '/projects/professional'
-vi.mock('next/navigation', () => ({
+let pathname = "/projects/professional";
+vi.mock("next/navigation", () => ({
   usePathname: () => pathname,
-  useRouter: () => ({ push: vi.fn(), replace: vi.fn(), prefetch: vi.fn(), back: vi.fn(), forward: vi.fn(), refresh: vi.fn() }),
+  useRouter: () => ({
+    push: vi.fn(),
+    replace: vi.fn(),
+    prefetch: vi.fn(),
+    back: vi.fn(),
+    forward: vi.fn(),
+    refresh: vi.fn(),
+  }),
   useSearchParams: () => new URLSearchParams(),
   useParams: () => ({}),
-}))
+}));
 
-import { ProjectTabs } from '@/components/content/projects/ProjectTabs'
+import { ProjectTabs } from "@/components/content/projects/ProjectTabs";
 
-describe('ProjectTabs', () => {
+describe("ProjectTabs", () => {
   beforeEach(() => {
-    pathname = '/projects/professional'
-  })
+    pathname = "/projects/professional";
+  });
 
-  it('renders both group tabs with their hrefs', () => {
-    render(<ProjectTabs />)
-    expect(screen.getByRole('link', { name: 'Professional' })).toHaveAttribute('href', '/projects/professional')
-    expect(screen.getByRole('link', { name: 'Personal' })).toHaveAttribute('href', '/projects/personal')
-  })
+  it("renders both group tabs with their hrefs", () => {
+    render(<ProjectTabs />);
+    expect(screen.getByRole("link", { name: "Professional" })).toHaveAttribute(
+      "href",
+      "/projects/professional",
+    );
+    expect(screen.getByRole("link", { name: "Personal" })).toHaveAttribute(
+      "href",
+      "/projects/personal",
+    );
+  });
 
-  it('marks the current page with aria-current', () => {
-    render(<ProjectTabs />)
-    expect(screen.getByRole('link', { name: 'Professional' })).toHaveAttribute('aria-current', 'page')
-    expect(screen.getByRole('link', { name: 'Personal' })).not.toHaveAttribute('aria-current')
-  })
+  it("marks the current page with aria-current", () => {
+    render(<ProjectTabs />);
+    expect(screen.getByRole("link", { name: "Professional" })).toHaveAttribute(
+      "aria-current",
+      "page",
+    );
+    expect(screen.getByRole("link", { name: "Personal" })).not.toHaveAttribute(
+      "aria-current",
+    );
+  });
 
-  it('follows the pathname', () => {
-    pathname = '/projects/personal'
-    render(<ProjectTabs />)
-    expect(screen.getByRole('link', { name: 'Personal' })).toHaveAttribute('aria-current', 'page')
-    expect(screen.getByRole('link', { name: 'Professional' })).not.toHaveAttribute('aria-current')
-  })
+  it("follows the pathname", () => {
+    pathname = "/projects/personal";
+    render(<ProjectTabs />);
+    expect(screen.getByRole("link", { name: "Personal" })).toHaveAttribute(
+      "aria-current",
+      "page",
+    );
+    expect(
+      screen.getByRole("link", { name: "Professional" }),
+    ).not.toHaveAttribute("aria-current");
+  });
 
-  it('labels the navigation', () => {
-    render(<ProjectTabs />)
-    expect(screen.getByRole('navigation', { name: 'Project groups' })).toBeInTheDocument()
-  })
-})
+  it("labels the navigation", () => {
+    render(<ProjectTabs />);
+    expect(
+      screen.getByRole("navigation", { name: "Project groups" }),
+    ).toBeInTheDocument();
+  });
+});
 ```
 
 - [ ] **Step 3: Run, expect failure**
@@ -1056,25 +1204,40 @@ interface Props {
 export function ProjectRow({ project, reverse = false }: Props) {
   const group = PROJECT_GROUPS[project.type];
   return (
-    <article className="grid grid-cols-1 items-center gap-6 lg:grid-cols-5 lg:gap-10">
-      <div className={cn("overflow-hidden rounded-lg bg-secondary-bg shadow-sm lg:col-span-3", reverse && "lg:order-last")}>
+    <article className='grid grid-cols-1 items-center gap-6 lg:grid-cols-5 lg:gap-10'>
+      <div
+        className={cn(
+          "overflow-hidden rounded-lg bg-secondary-bg shadow-sm lg:col-span-3",
+          reverse && "lg:order-last",
+        )}
+      >
         <ProjectImage
           image={project.image}
-          sizes="(max-width: 1024px) 100vw, 60vw"
-          priority
-          className="h-full w-full object-cover"
+          sizes='(max-width: 1023px) 100vw, 600px'
+          className='h-full w-full object-cover'
         />
       </div>
-      <div className="flex flex-col gap-4 lg:col-span-2">
-        <p className={cn("text-xs font-semibold uppercase tracking-widest", group.accentText)}>{group.label}</p>
-        <div className="flex flex-wrap items-center gap-3">
-          <h3 className="text-2xl font-bold lg:text-3xl">{project.name}</h3>
+      <div className='flex flex-col gap-4 lg:col-span-2'>
+        <p
+          className={cn(
+            "text-xs font-semibold uppercase tracking-widest",
+            group.accentText,
+          )}
+        >
+          {group.label}
+        </p>
+        <div className='flex flex-wrap items-center gap-3'>
+          <h3 className='text-2xl font-bold lg:text-3xl'>{project.name}</h3>
           <Badge status={project.status} />
         </div>
-        <p className="text-gray-700 dark:text-gray-200 lg:text-lg">{project.description}</p>
-        <div className="mt-2 flex flex-col gap-3 sm:flex-row">
-          <CTAButton href={`/projects/${project.slug}`}>View project</CTAButton>
-          <CTAButton type="secondary" href={group.href}>
+        <p className='text-gray-700 dark:text-gray-200 lg:text-lg'>
+          {project.description}
+        </p>
+        <div className='mt-2 flex flex-col gap-3 sm:flex-row lg:flex-col'>
+          <CTAButton href={`/projects/${project.slug}`}>
+            View project<span className='sr-only'> {project.name}</span>
+          </CTAButton>
+          <CTAButton type='secondary' href={group.href}>
             {group.allLabel}
           </CTAButton>
         </div>
@@ -1084,7 +1247,7 @@ export function ProjectRow({ project, reverse = false }: Props) {
 }
 ```
 
-`CTAButton` is a client component; importing it from a server-safe file is fine (it becomes a client boundary).
+`CTAButton` is a client component; importing it from a server-safe file is fine (it becomes a client boundary). The CTAs stack again from `lg` because the text column is only about 386px wide there (the section is capped at `max-w-5xl`) and `CTAButton`'s `lg:px-16` padding would squash two side-by-side buttons onto two or three lines. The visually hidden project name makes the two "View project" links distinguishable in a screen reader's links list. The row image is not `priority`: both rows sit below the hero and about sections, so preloading them would compete with the hero's largest-contentful-paint image. The `600px` hint matches the image column (3/5 of the `max-w-5xl` section).
 
 - [ ] **Step 5: Create `ProjectTabs`**
 
@@ -1100,8 +1263,11 @@ import { GROUP_ORDER, PROJECT_GROUPS } from "./groups";
 export function ProjectTabs() {
   const pathname = usePathname();
   return (
-    <nav aria-label="Project groups" className="mb-8 border-b border-gray-200 pt-16 dark:border-gray-700">
-      <ul className="-mb-px flex gap-6">
+    <nav
+      aria-label='Project groups'
+      className='mb-8 border-b border-gray-200 pt-16 dark:border-gray-700'
+    >
+      <ul role='list' className='-mb-px flex gap-6'>
         {GROUP_ORDER.map((type) => {
           const group = PROJECT_GROUPS[type];
           const active = pathname === group.href;
@@ -1114,7 +1280,7 @@ export function ProjectTabs() {
                   "focus-ring inline-block border-b-2 px-1 pb-3 text-sm font-medium tracking-wider transition-colors",
                   active
                     ? cn("text-foreground", group.accentBorder)
-                    : "border-transparent text-gray-500 hover:text-foreground dark:text-gray-400",
+                    : "border-transparent text-gray-500 hover:border-gray-300 hover:text-foreground dark:text-gray-400 dark:hover:border-gray-600 dark:hover:text-foreground",
                 )}
               >
                 {group.label}
@@ -1128,7 +1294,7 @@ export function ProjectTabs() {
 }
 ```
 
-`pt-16` here replaces the `pt-16` the old layout put on its tab nav, so the detail page (which has no tabs) keeps its current spacing.
+`pt-16` here replaces the `pt-16` the old layout put on its tab nav, so the detail page (which has no tabs) keeps its current spacing. The explicit `dark:hover:` classes are needed because `dark:text-gray-400` has the same specificity as `hover:text-foreground` and is emitted later, so without them inactive tabs would not react to hover in dark mode.
 
 - [ ] **Step 6: Rewrite the home section**
 
@@ -1136,10 +1302,12 @@ export function ProjectTabs() {
 // src/components/content/projects/index.tsx
 "use client";
 
-import React from "react";
 import { motion } from "framer-motion";
 import Section from "../../layout/section";
-import { AnimatedSection, itemVariants } from "../../layout/section/AnimatedSection";
+import {
+  AnimatedSection,
+  itemVariants,
+} from "../../layout/section/AnimatedSection";
 import type { Project } from "@/types";
 import { ProjectRow } from "./ProjectRow";
 
@@ -1150,19 +1318,29 @@ interface ProjectsProps {
 
 export function Projects({ professional, personal }: ProjectsProps) {
   return (
-    <Section id="projects" title="Recent Work" className="max-w-5xl px-4 md:px-0">
-      <AnimatedSection className="flex flex-col gap-16 lg:gap-24">
-        <motion.div variants={itemVariants}>
-          <ProjectRow project={professional} />
-        </motion.div>
-        <motion.div variants={itemVariants}>
-          <ProjectRow project={personal} reverse />
-        </motion.div>
-      </AnimatedSection>
+    <Section
+      id='projects'
+      title='Recent Work'
+      className='max-w-5xl px-4 xl:px-0'
+    >
+      <div className='flex flex-col gap-16 lg:gap-24'>
+        <AnimatedSection>
+          <motion.div variants={itemVariants}>
+            <ProjectRow project={professional} />
+          </motion.div>
+        </AnimatedSection>
+        <AnimatedSection>
+          <motion.div variants={itemVariants}>
+            <ProjectRow project={personal} reverse />
+          </motion.div>
+        </AnimatedSection>
+      </div>
     </Section>
   );
 }
 ```
+
+Each row gets its own `AnimatedSection` rather than sharing one: `AnimatedSection` triggers at 30% visibility, and a single wrapper around both rows is 1100–1400px tall on phones, so on a landscape phone it could never reach 30% and the rows would stay invisible. `xl:px-0` rather than `md:px-0` keeps side padding until the viewport is wider than the `max-w-5xl` section.
 
 - [ ] **Step 7: Run, expect pass**
 
@@ -1181,6 +1359,7 @@ git commit -m "feat(projects): ProjectRow, ProjectTabs and two-row home section"
 ### Task 6: Routes, redirects, sitemap, nav
 
 **Files:**
+
 - Create: `src/app/(app)/projects/professional/page.tsx`, `src/app/(app)/projects/personal/page.tsx`
 - Delete: `src/app/(app)/projects/page.tsx`, `src/app/(app)/projects/web/page.tsx`, `src/app/(app)/projects/native/page.tsx`
 - Rewrite: `src/app/(app)/projects/layout.tsx`
@@ -1199,7 +1378,6 @@ import { getProjectsByType } from "@/lib/projects";
 
 const group = PROJECT_GROUPS.professional;
 
-// The root layout applies the "%s | Ben Wozak" title template.
 export const metadata: Metadata = {
   title: group.heading,
   description: group.intro,
@@ -1209,9 +1387,14 @@ export default function ProfessionalProjectsPage() {
   return (
     <>
       <ProjectTabs />
-      <SectionHeading title={group.heading} as="h1" />
-      <p className="-mt-4 mb-10 max-w-2xl text-gray-700 dark:text-gray-200 lg:text-lg">{group.intro}</p>
-      <ProjectGrid projects={getProjectsByType("professional")} priorityCount={3} />
+      <SectionHeading title={group.heading} as='h1' />
+      <p className='-mt-4 mb-10 max-w-2xl text-gray-700 dark:text-gray-200 lg:text-lg'>
+        {group.intro}
+      </p>
+      <ProjectGrid
+        projects={getProjectsByType("professional")}
+        priorityCount={3}
+      />
     </>
   );
 }
@@ -1232,7 +1415,6 @@ import { getProjectsByType } from "@/lib/projects";
 
 const group = PROJECT_GROUPS.personal;
 
-// The root layout applies the "%s | Ben Wozak" title template.
 export const metadata: Metadata = {
   title: group.heading,
   description: group.intro,
@@ -1242,8 +1424,10 @@ export default function PersonalProjectsPage() {
   return (
     <>
       <ProjectTabs />
-      <SectionHeading title={group.heading} as="h1" />
-      <p className="-mt-4 mb-10 max-w-2xl text-gray-700 dark:text-gray-200 lg:text-lg">{group.intro}</p>
+      <SectionHeading title={group.heading} as='h1' />
+      <p className='-mt-4 mb-10 max-w-2xl text-gray-700 dark:text-gray-200 lg:text-lg'>
+        {group.intro}
+      </p>
       <ProjectGrid projects={getProjectsByType("personal")} priorityCount={3} />
     </>
   );
@@ -1255,8 +1439,16 @@ export default function PersonalProjectsPage() {
 ```tsx
 // src/app/(app)/projects/layout.tsx
 // Shared container for the group pages and the detail page. Tabs live in the group pages.
-export default function ProjectsLayout({ children }: { children: React.ReactNode }) {
-  return <article className="container mx-auto my-16 px-4 lg:py-8">{children}</article>;
+export default function ProjectsLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <article className='container mx-auto my-16 px-4 lg:py-8'>
+      {children}
+    </article>
+  );
 }
 ```
 
@@ -1288,11 +1480,13 @@ export default async function Home() {
   const personal = getFeaturedProject("personal");
 
   return (
-    <article className="flex min-h-screen flex-col items-center justify-center">
+    <article className='flex min-h-screen flex-col items-center justify-center'>
       <Hero />
       {/* <Pitch /> */}
       <About />
-      {professional && personal && <Projects professional={professional} personal={personal} />}
+      {professional && personal && (
+        <Projects professional={professional} personal={personal} />
+      )}
       <Experience />
       <ContactCTA />
     </article>
@@ -1337,7 +1531,6 @@ export interface NavItem {
  * @returns Array of navigation items with path-aware URLs
  */
 export function useNavigation(): NavItem[] {
-
   const navItems: NavItem[] = [
     {
       href: "/projects/professional",
@@ -1398,10 +1591,86 @@ git commit -m "feat(projects): professional and personal group pages; redirects;
 - [ ] **Step 1:** In DevTools → Rendering → "Emulate CSS media feature prefers-reduced-motion: reduce", reload `/projects/professional` and `/`. Expected: hovering a card does not move the image; rows and heading still fade in via `AnimatedSection` (that is existing behaviour, not introduced here).
 - [ ] **Step 2:** Switch emulation off; hover a card: the image box lifts 4px and gains a shadow. No other motion was added, so nothing else to wrap in `useReducedMotion`.
 
-### Task 8: Tests baseline, planning docs, hand-off
+### Task 8: Nav hardening, tests baseline, planning docs, hand-off
 
 **Files:**
+
+- Modify: `src/components/layout/Header.tsx:53,142`, `src/__tests__/components/layout/Header.test.tsx`
 - Modify: `planning/baseline-test-failures.txt`, `planning/README.md`, `planning/07-projects-detail-redesign.md`, `planning/08-cleanup-and-hardening.md`, this file
+
+- [ ] **Step 0: Boundary-aware active prefix (from Task 6 review)**
+
+`pathname.includes(prefix)` is a substring test, so a future `/notes/projects` would light up "Projects". Add a tiny helper at the top of `src/components/layout/Header.tsx` (outside the component) and use it in both navs:
+
+```tsx
+/** True for the prefix itself and any path beneath it; never for `/projects-archive`. */
+function isUnderPath(pathname: string, prefix: string): boolean {
+  return pathname === prefix || pathname.startsWith(`${prefix}/`);
+}
+```
+
+```tsx
+isActive={isUnderPath(pathname, item.activePrefix ?? item.href)}
+```
+
+Add one case to the "Navigation Active States" block of `src/__tests__/components/layout/Header.test.tsx`:
+
+```tsx
+it("keeps an item active anywhere under its activePrefix", () => {
+  vi.mocked(useNavigation).mockReturnValueOnce([
+    {
+      href: "/projects/professional",
+      label: "Projects",
+      activePrefix: "/projects",
+    },
+    { href: "/contact", label: "Contact" },
+  ]);
+  vi.mocked(usePathname).mockReturnValue("/projects/personal");
+
+  render(<Header />);
+
+  expect(screen.getByTestId("link-/projects/professional")).toHaveAttribute(
+    "data-active",
+    "true",
+  );
+  expect(screen.getByTestId("link-/contact")).toHaveAttribute(
+    "data-active",
+    "false",
+  );
+});
+```
+
+And the negative cases, so a regression back to `includes()` fails:
+
+```tsx
+it.each([
+  ["/projects/demo-app", "true"],
+  ["/projects", "true"],
+  ["/projects-archive", "false"],
+  ["/notes/projects", "false"],
+])(
+  "matches activePrefix on path boundaries only (%s -> %s)",
+  (path, expected) => {
+    vi.mocked(useNavigation).mockReturnValueOnce([
+      {
+        href: "/projects/professional",
+        label: "Projects",
+        activePrefix: "/projects",
+      },
+    ]);
+    vi.mocked(usePathname).mockReturnValue(path);
+
+    render(<Header />);
+
+    expect(screen.getByTestId("link-/projects/professional")).toHaveAttribute(
+      "data-active",
+      expected,
+    );
+  },
+);
+```
+
+Run `npx vitest run src/__tests__/components/layout/Header.test.tsx`: the new cases and both existing active-state cases pass; the three mobile-menu failures are baseline lines 1–3 and stay.
 
 - [ ] **Step 1: Full suite and failing-set check**
 
@@ -1422,17 +1691,19 @@ The first `comm` must be empty. The baseline is expected to stay at 40 lines: no
 - [ ] **Step 2: Grep for leftovers**
 
 ```bash
-grep -rn "ProjectsGrid\|functions/animations\|projects/web\|projects/native\|\"Professional\"\|'web'\|'native'" src content | grep -v __tests__
+grep -rn "ProjectsGrid\|functions/animations\|projects/web\|projects/native\|status.*\"Professional\"\|'web'\|'native'" src content | grep -v __tests__
 ```
 
-Expected: nothing except the two legacy redirects in `next.config.ts` (which is outside `src`, so the grep should print nothing at all).
+Expected: nothing. (The legacy redirects live in `next.config.ts`, outside the grep; the tab label `"Professional"` in `groups.ts` is correct and is excluded by the `status.*` prefix.)
 
 - [ ] **Step 3: Planning docs**
 
 - `planning/README.md`: tick `05` and `06` in the checklist.
 - `planning/07-projects-detail-redesign.md`, Prerequisites (line 15): replace the primitives list with "primitives `ProjectImage`, `TechChips`, status-only `Badge`, `groups.ts` (`PROJECT_GROUPS` labels/hrefs), extended framer-motion mock. `ProjectLinks` was dropped from chunk 06; chunk 07 creates it. `Badge` no longer styles `type`; render the group with `PROJECT_GROUPS[project.type].label` instead of `<Badge status={project.type} />`." Add a dated line under its Hand-off log saying its task list needs the same rewrite pass before execution.
-- `planning/08-cleanup-and-hardening.md`: in the content-schema table (lines 264–265) change `type` to `"professional" \| "personal"` with "Drives the two group pages" and `status` to `"In Progress" \| "Prototype" \| "Live" \| "Archived"`; change the scaffold default at line 184 from `type: 'web'` to `type: 'personal'`.
-- This file: append to the Hand-off log (below) with the date, the PR number, anything that deviated from the plan, and the `/contact` spacing decision from Task 3 Step 6.
+- `planning/08-cleanup-and-hardening.md`: in the content-schema table (lines 264–266) change `type` to `"professional" \| "personal"` with "Drives the two group pages", `status` to `"In Progress" \| "Prototype" \| "Live" \| "Archived"`, and the `featured` row to "At most one `true` per `type`; it is that group's row on the home page" (it still says exactly one leads `/projects`); change the scaffold default at line 184 from `type: 'web'` to `type: 'personal'`.
+- `planning/07-projects-detail-redesign.md`: add to its Hand-off log that `getAdjacentProjects` walks the global `order`, so prev/next alternates between groups (homechef, calgary, tedana, vista); chunk 07 decides whether to keep that or stay within a group.
+- `planning/08-cleanup-and-hardening.md`, Hand-off log or a "Carried in from 06" note: (a) reserved slugs — a project slug of `professional`, `personal`, `web` or `native` would be shadowed by a static page or a redirect; have `new-project.ts` or `parseProject` reject them; (b) the group pages inherit the root layout's `openGraph` block (home title and URL); add per-page `openGraph` when 08 does its metadata pass; (c) `content:check` is a manual gate: `next build` does not run it, so the "at least one project per type" rule only fails locally.
+- This file: append to the Hand-off log (below) with the date, anything that deviated from the plan, and the `/contact` spacing decision from Task 3 Step 6 (or "not yet checked" if the owner has not looked).
 
 - [ ] **Step 4: Commit**
 
@@ -1495,3 +1766,6 @@ PR merged, production shows the two group pages and the new home rows, `planning
 ## Hand-off log
 
 - 2026-10-31 — Plan rewritten from `06-projects-redesign-spec.md` after the brainstorming session; the earlier featured-block-plus-`?type=`-filter design is superseded. Not yet executed.
+- 2026-10-31 — Executed subagent-driven on branch `chunk-06-projects-redesign`. Tasks 1–6 each had a spec-compliance review and a code-quality review; Task 8 had a spec review and was covered by the final whole-branch review; Task 7 (reduced-motion check in DevTools) is owner-only and still open. The final review re-ran tsc, lint, build, the failing-set check and a `next start` smoke test: all clean, failing set identical to the 40-line baseline. Per the owner's instruction nothing was committed; the work sits in the working tree (five `git rm` deletions staged, everything else unstaged/untracked).
+- 2026-10-31 — Deviations from the plan made during review: `groups.ts` light-mode accents darkened for contrast (`secondary-900`/`primary-700` text, `secondary-800` border); `ProjectCard` heading is `h2`, focus ring uses `has-[:focus-visible]`, middle dot is `aria-hidden`; `ProjectRow` CTAs stack again from `lg`, primary CTA carries a visually hidden project name, image not `priority`, `sizes` 600px at desktop; home section uses `px-4 xl:px-0` and one `AnimatedSection` per row; `ProjectTabs` has explicit `dark:hover:` classes; `TechChips`/`ProjectGrid`/`ProjectTabs` lists carry `role="list"` and `stackItems` dedupes; `ProjectCard` `sizes` breakpoints are `767px`/`1023px`; Header active check is boundary-aware (`isUnderPath`) with positive and negative tests. The plan's code blocks were updated to match; the tree is authoritative where they differ.
+- 2026-10-31 — Not yet checked by the owner (needs a browser): home rows at phone/tablet/desktop (professional row first with image left, personal row image right at `lg`, both fade in on a landscape phone, CTAs stacked at `lg`); the 4:3 card crop of the roughly 2:1 screenshots; keyboard focus rings on tabs, cards and row CTAs, and no ring on mouse click; reduced-motion emulation (no card lift, no entrance slide; Task 7); a dark-mode pass over eyebrow accents, the four badge colours, inactive-tab hover and chip borders; `/contact` heading spacing now that `Section` applies its `pt-32` (keep, or drop the prop); the `h1` re-animating when switching tabs (it now lives in each page rather than the persistent layout); header active state on `/projects/personal` and a detail page (already confirmed in server-rendered HTML, visual check only); and the Vercel preview before merge.

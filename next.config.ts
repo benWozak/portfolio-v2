@@ -30,6 +30,9 @@ const nextConfig: NextConfig = {
       { source: '/resume', destination: '/', permanent: true },
       { source: '/blog', destination: '/', permanent: true },
       { source: '/blog/:slug*', destination: '/', permanent: true },
+      { source: '/projects', destination: '/projects/professional', permanent: true },
+      { source: '/projects/web', destination: '/projects/professional', permanent: true },
+      { source: '/projects/native', destination: '/projects/personal', permanent: true },
     ]
   },
 };

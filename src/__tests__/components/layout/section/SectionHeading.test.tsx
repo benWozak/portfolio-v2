@@ -323,4 +323,14 @@ describe('SectionHeading Component', () => {
       expect(heading).toHaveTextContent('Q&amp;A Section')
     })
   })
+
+  describe('Heading level', () => {
+    it('renders an h1 when as="h1"', () => {
+      render(<SectionHeading title="Professional work" as="h1" />)
+      const heading = screen.getByRole('heading', { level: 1 })
+      expect(heading.tagName).toBe('H1')
+      expect(heading).toHaveTextContent('Professional work')
+      expect(screen.queryByRole('heading', { level: 2 })).toBeNull()
+    })
+  })
 })

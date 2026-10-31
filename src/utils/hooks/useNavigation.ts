@@ -1,6 +1,8 @@
 export interface NavItem {
   href: string;
   label: string;
+  /** Path prefix that keeps the item active; defaults to `href`. */
+  activePrefix?: string;
 }
 
 /**
@@ -11,8 +13,9 @@ export function useNavigation(): NavItem[] {
 
   const navItems: NavItem[] = [
     {
-      href: "/projects",
+      href: "/projects/professional",
       label: "Projects",
+      activePrefix: "/projects",
     },
     {
       href: "/contact",

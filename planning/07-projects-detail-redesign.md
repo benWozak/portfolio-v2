@@ -12,7 +12,7 @@
 
 ## Prerequisites
 
-- Chunk 06 merged to `main` (primitives `ProjectImage`, `TechChips`, `ProjectLinks`, token `Badge`, extended framer-motion mock).
+- Chunk 06 merged to `main` (primitives `ProjectImage`, `TechChips`, status-only `Badge`, `groups.ts` with `PROJECT_GROUPS` labels/hrefs, extended framer-motion mock). `ProjectLinks` was dropped from chunk 06; chunk 07 creates it. `Badge` no longer styles `type`; render the group with `PROJECT_GROUPS[project.type].label` instead of `<Badge status={project.type} />`.
 
 ## Start
 
@@ -625,4 +625,6 @@ PR `chunk-07-projects-detail` → `main` open, green, merged, production verifie
 
 ## Hand-off log
 
-_(append dated notes here)_
+- 2026-10-31 — Chunk 06 changed the data model (`type` is `professional | personal`; statuses `In Progress | Prototype | Live | Archived`; `getFeaturedProject(type)` now takes a type). This doc's task list needs the same rewrite pass against `06-projects-redesign-spec.md` before execution.
+- 2026-10-31 — `getAdjacentProjects` walks the global `order`, so prev/next alternates between groups (homechef, calgary, tedana, vista). Decide in this chunk whether prev/next should stay within a group.
+- 2026-10-31 — The detail page currently has no `h1` (`SectionHeading` defaults to `h2`); use `as="h1"` for the project name. Detail pages set only `openGraph.images`, which replaces the parent's whole `openGraph` block; revisit when adding metadata.

@@ -2,8 +2,8 @@
 // Content schema for content/projects/<slug>.json. Keep in sync with
 // src/lib/projects/schema.ts (the runtime validator).
 
-export const PROJECT_TYPES = ['web', 'native'] as const
-export const PROJECT_STATUSES = ['In Progress', 'Prototype', 'Professional'] as const
+export const PROJECT_TYPES = ['professional', 'personal'] as const
+export const PROJECT_STATUSES = ['In Progress', 'Prototype', 'Live', 'Archived'] as const
 
 export type ProjectType = (typeof PROJECT_TYPES)[number]
 export type ProjectStatus = (typeof PROJECT_STATUSES)[number]

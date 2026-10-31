@@ -181,7 +181,7 @@ async function main() {
   const skeleton = {
     slug,
     name: '',
-    type: 'web',
+    type: 'personal',
     status: 'Prototype',
     featured: false,
     order: 99,
@@ -261,9 +261,9 @@ There is no CMS. Edit the JSON, commit, push; Vercel rebuilds the site.
 |---|---|---|
 | `slug` | string | Must equal the file name. Lowercase kebab-case. Becomes the URL. |
 | `name` | string | |
-| `type` | `"web"` \| `"native"` | Drives the index filter. |
-| `status` | `"In Progress"` \| `"Prototype"` \| `"Professional"` | Badge on cards. |
-| `featured` | boolean | Exactly one project must be `true`; it leads `/projects` and the home page. |
+| `type` | `"professional"` \| `"personal"` | Drives the two group pages. |
+| `status` | `"In Progress"` \| `"Prototype"` \| `"Live"` \| `"Archived"` | Badge on cards. |
+| `featured` | boolean | At most one `true` per `type`; it is that group's row on the home page. |
 | `order` | integer | Lower first. |
 | `description` | string | One or two plain sentences; cards + meta description. No Markdown. |
 | `techStack.frontend/backend/other` | string[] | Chips. Empty groups are hidden. |
@@ -417,3 +417,8 @@ _(append dated notes here)_
 - **Add a task: fix `/robots.txt`.** It returns 404 locally and on production.
   - **Cause.** `src/app/(app)/robots.ts` sits in a route group, and Next only recognises `robots.ts` at the app root, so it never appears in the build's route table.
   - **Fix.** `git mv "src/app/(app)/robots.ts" src/app/robots.ts`, then confirm that `/robots.txt` shows as `ƒ` in `npm run build` and returns 200 under `next start`.
+
+- 2026-10-31 (carried in from 06) — Reserved slugs: a project slug of `professional`, `personal`, `web` or `native` would be shadowed by a static page or a redirect. Have `new-project.ts` or `parseProject` reject them.
+- 2026-10-31 (carried in from 06) — The group pages inherit the root layout's `openGraph` block (home title and URL). Add per-page `openGraph` in the metadata pass.
+- 2026-10-31 (carried in from 06) — `content:check` is a manual gate: `next build` does not run it, so the 'at least one project per type' rule only fails locally. Consider wiring it into `prebuild` or CI.
+- 2026-10-31 (carried in from 06) — `globals.css` still hand-defines `.line-clamp-2`/`.line-clamp-3`, which Tailwind 3.4 provides natively; remove in the cleanup pass. The `next/image` test mock in `src/__tests__/setup.ts` spreads `priority`/`blurDataURL` onto `<img>` and warns; strip those props in the mock.

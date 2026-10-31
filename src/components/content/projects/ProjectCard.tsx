@@ -1,78 +1,41 @@
-import React, { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { Project } from "@/types";
-import { Badge } from "../../ui/Badge";
+import { cn } from "@/lib/utils";
+import type { Project } from "@/types";
+import { PROJECT_GROUPS } from "./groups";
+import { ProjectImage } from "./ProjectImage";
+import { TechChips, stackItems } from "./TechChips";
 
-type Props = {
+interface Props {
   project: Project;
-  isAboveFold?: boolean;
-};
+  /** Above-the-fold cards load eagerly. */
+  priority?: boolean;
+}
 
-export function ProjectCard({ project, isAboveFold = false }: Props) {
-  const [imageLoaded, setImageLoaded] = useState(false);
-
-  // Use project's blur data if available, otherwise use fallback
-  const shimmerBlurDataUrl =
-    project.image.blurDataURL ||
-    `data:image/svg+xml;base64,${Buffer.from(
-      `<svg width="400" height="225" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="g">
-          <stop stop-color="#e5e7eb" offset="20%" />
-          <stop stop-color="#f3f4f6" offset="50%" />
-          <stop stop-color="#e5e7eb" offset="70%" />
-        </linearGradient>
-      </defs>
-      <rect width="400" height="225" fill="#e5e7eb"/>
-      <rect id="r" width="400" height="225" fill="url(#g)" />
-    </svg>`
-    ).toString("base64")}`;
-
+export function ProjectCard({ project, priority = false }: Props) {
+  const group = PROJECT_GROUPS[project.type];
   return (
-    <div className="bg-secondary-bg rounded-lg shadow-md overflow-hidden hover:shadow-md hover:shadow-slate-300 hover:dark:shadow-slate-500 transition-all duration-300">
-      <Link
-        href={`/projects/${project.slug}`}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="relative h-56 bg-gradient-to-br from-secondary-300 via-secondary-500 to-secondary-700">
-          {/* Ultra-light loading state - just a subtle animation */}
-          {!imageLoaded && (
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse" />
-          )}
-
-          <Image
-            src={project.image.src}
-            alt={project.image.alt}
-            fill
-            style={{ objectFit: "cover" }}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            priority={isAboveFold}
-            loading={isAboveFold ? "eager" : "lazy"}
-            onLoad={() => setImageLoaded(true)}
-            placeholder="blur"
-            blurDataURL={shimmerBlurDataUrl}
-            className={`transition-opacity duration-200 ${
-              imageLoaded ? "opacity-100" : "opacity-90"
-            }`}
-          />
-
-          <div
-            className={`absolute top-2 right-2 transition-opacity duration-200 ${
-              imageLoaded ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            <Badge status={project.status} />
-          </div>
-        </div>
-        <div className="p-4">
-          <h2 className="text-xl font-semibold">{project.name}</h2>
-          <Badge status={project.type} />
-          <p className="text-gray-600 dark:text-gray-200 mt-4">
-            {project.description}
-          </p>
-        </div>
-      </Link>
-    </div>
+    <article className="group relative flex h-full flex-col gap-3 rounded-lg has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-primary has-[:focus-visible]:ring-offset-4 has-[:focus-visible]:ring-offset-background">
+      <div className="aspect-[4/3] overflow-hidden rounded-lg bg-secondary-bg shadow-sm transition-[transform,box-shadow] duration-300 ease-out group-hover:-translate-y-1 group-hover:shadow-lg motion-reduce:transition-none motion-reduce:group-hover:translate-y-0">
+        <ProjectImage
+          image={project.image}
+          sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"
+          priority={priority}
+          className="h-full w-full object-cover"
+        />
+      </div>
+      <p className={cn("text-xs font-semibold uppercase tracking-widest", group.accentText)}>
+        {group.label}<span aria-hidden="true"> · </span>{project.status}
+      </p>
+      <h2 className="text-xl font-semibold leading-snug">
+        <Link
+          href={`/projects/${project.slug}`}
+          className="focus:outline-none after:absolute after:inset-0 after:content-['']"
+        >
+          {project.name}
+        </Link>
+      </h2>
+      <p className="line-clamp-2 text-gray-600 dark:text-gray-300">{project.description}</p>
+      <TechChips items={stackItems(project.techStack)} max={3} className="mt-auto pt-1" />
+    </article>
   );
 }

@@ -41,8 +41,13 @@ vi.mock('framer-motion', () => ({
     span: 'span',
     a: 'a',
     button: 'button',
+    li: 'li',
+    ul: 'ul',
+    article: 'article',
+    section: 'section',
   },
   AnimatePresence: ({ children }: { children: React.ReactNode }) => children,
+  useInView: () => true,
 }))
 
 // Mock IntersectionObserver

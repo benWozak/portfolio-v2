@@ -1,56 +1,31 @@
 "use client";
 
-import React from "react";
-import Section from "../../layout/section";
-import { CTAButton } from "../../ui";
-import { ProjectCard } from "./ProjectCard";
-import {
-  AnimatedSection,
-  itemVariants,
-} from "../../layout/section/AnimatedSection";
 import { motion } from "framer-motion";
-import { Project } from "@/types";
+import Section from "../../layout/section";
+import { AnimatedSection, itemVariants } from "../../layout/section/AnimatedSection";
+import type { Project } from "@/types";
+import { ProjectRow } from "./ProjectRow";
 
 interface ProjectsProps {
-  projects: Project[];
+  professional: Project;
+  personal: Project;
 }
 
-export function Projects({ projects }: ProjectsProps) {
+export function Projects({ professional, personal }: ProjectsProps) {
   return (
-    <Section
-      id="projects"
-      title="Recent Work"
-      className="flex items-center flex-1"
-    >
-      <AnimatedSection>
-        {/* <motion.div variants={itemVariants} className="mb-8">
-          <p className="mb-4 md:text-lg lg:text-xl text-gray-800 dark:text-gray-200">
-            This collection features my side projects where I explore different
-            web technologies and concepts outside of my day job.
-          </p>
-          <p className="md:text-lg lg:text-xl text-gray-800 dark:text-gray-200">
-            Through these prototypes, I satisfy my curiosity and expand my web
-            development skills through hands-on experimentation with technical
-            challenges and emerging tools.
-          </p>
-        </motion.div> */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-4 md:px-0 pt-4">
-          {projects.map((project, index) => (
-            <motion.div variants={itemVariants} key={index}>
-              <ProjectCard project={project} isAboveFold={true} />
-            </motion.div>
-          ))}
-        </div>
-
-        <motion.div
-          className="mt-8 lg:mt-12 flex justify-center"
-          variants={itemVariants}
-        >
-          <CTAButton type="secondary" href="/projects" className="w-72">
-            See More
-          </CTAButton>
-        </motion.div>
-      </AnimatedSection>
+    <Section id="projects" title="Recent Work" className="max-w-5xl px-4 xl:px-0">
+      <div className="flex flex-col gap-16 lg:gap-24">
+        <AnimatedSection>
+          <motion.div variants={itemVariants}>
+            <ProjectRow project={professional} />
+          </motion.div>
+        </AnimatedSection>
+        <AnimatedSection>
+          <motion.div variants={itemVariants}>
+            <ProjectRow project={personal} reverse />
+          </motion.div>
+        </AnimatedSection>
+      </div>
     </Section>
   );
 }

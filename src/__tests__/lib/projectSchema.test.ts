@@ -5,7 +5,7 @@ import { parseProject, ProjectValidationError } from '@/lib/projects/schema'
 const valid = {
   slug: 'demo-app',
   name: 'Demo App',
-  type: 'web',
+  type: 'professional',
   status: 'Prototype',
   featured: false,
   order: 1,
@@ -47,7 +47,10 @@ describe('parseProject', () => {
   it.each([
     ['non-object', 'nope'],
     ['bad type', { ...valid, type: 'desktop' }],
+    ['old type web', { ...valid, type: 'web' }],
+    ['old type native', { ...valid, type: 'native' }],
     ['bad status', { ...valid, status: 'Done' }],
+    ['old status Professional', { ...valid, status: 'Professional' }],
     ['bad slug format', { ...valid, slug: 'Demo App' }],
     ['non-boolean featured', { ...valid, featured: 'yes' }],
     ['non-integer order', { ...valid, order: 1.5 }],
@@ -62,6 +65,14 @@ describe('parseProject', () => {
     ['bad updatedAt', { ...valid, updatedAt: 'yesterday' }],
   ])('rejects %s', (_label, raw) => {
     expect(() => parseProject(raw, 'x')).toThrow(ProjectValidationError)
+  })
+
+  it.each(['professional', 'personal'])('accepts type %s', (type) => {
+    expect(parseProject({ ...valid, type }, 'x').type).toBe(type)
+  })
+
+  it.each(['In Progress', 'Prototype', 'Live', 'Archived'])('accepts status %s', (status) => {
+    expect(parseProject({ ...valid, status }, 'x').status).toBe(status)
   })
 
   it('rejects a slug that differs from the file name', () => {

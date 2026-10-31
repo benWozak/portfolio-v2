@@ -3,6 +3,7 @@ import { render, screen, fireEvent, waitFor } from '@/test-utils'
 import userEvent from '@testing-library/user-event'
 import { Header } from '@/components/layout/Header'
 import { usePathname } from 'next/navigation'
+import { useNavigation } from '@/utils/hooks'
 
 // Mock the navigation hook
 vi.mock('@/utils/hooks', () => ({
@@ -240,6 +241,35 @@ describe('Header Component', () => {
       
       const aboutLink = screen.getByTestId('link-/about')
       expect(aboutLink).toHaveAttribute('data-active', 'false')
+    })
+
+    it('keeps an item active anywhere under its activePrefix', () => {
+      vi.mocked(useNavigation).mockReturnValueOnce([
+        { href: '/projects/professional', label: 'Projects', activePrefix: '/projects' },
+        { href: '/contact', label: 'Contact' },
+      ])
+      vi.mocked(usePathname).mockReturnValue('/projects/personal')
+
+      render(<Header />)
+
+      expect(screen.getByTestId('link-/projects/professional')).toHaveAttribute('data-active', 'true')
+      expect(screen.getByTestId('link-/contact')).toHaveAttribute('data-active', 'false')
+    })
+
+    it.each([
+      ['/projects/demo-app', 'true'],
+      ['/projects', 'true'],
+      ['/projects-archive', 'false'],
+      ['/notes/projects', 'false'],
+    ])('matches activePrefix on path boundaries only (%s -> %s)', (path, expected) => {
+      vi.mocked(useNavigation).mockReturnValueOnce([
+        { href: '/projects/professional', label: 'Projects', activePrefix: '/projects' },
+      ])
+      vi.mocked(usePathname).mockReturnValue(path)
+
+      render(<Header />)
+
+      expect(screen.getByTestId('link-/projects/professional')).toHaveAttribute('data-active', expected)
     })
   })
 

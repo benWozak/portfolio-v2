@@ -8,7 +8,9 @@ import {
   getProjectBySlug,
   getProjectSlugs,
   getProjects,
+  getProjectsByType,
 } from '@/lib/projects'
+import { PROJECT_TYPES } from '@/types'
 
 const CONTENT_DIR = path.join(process.cwd(), 'content', 'projects')
 const PUBLIC_DIR = path.join(process.cwd(), 'public')
@@ -31,8 +33,16 @@ describe('content/projects integrity', () => {
     expect(new Set(slugs).size).toBe(slugs.length)
   })
 
-  it('has exactly one featured project', () => {
-    expect(getProjects().filter((p) => p.featured)).toHaveLength(1)
+  it('has at most one featured project per type', () => {
+    for (const type of PROJECT_TYPES) {
+      expect(getProjectsByType(type).filter((p) => p.featured).length).toBeLessThanOrEqual(1)
+    }
+  })
+
+  it('has at least one project in every type (the home page shows one per group)', () => {
+    for (const type of PROJECT_TYPES) {
+      expect(getProjectsByType(type).length, type).toBeGreaterThan(0)
+    }
   })
 
   it('every image file exists under public/', () => {
@@ -57,8 +67,19 @@ describe('loader API', () => {
     expect(getProjectBySlug('does-not-exist')).toBeUndefined()
   })
 
-  it('getFeaturedProject returns the featured one', () => {
-    expect(getFeaturedProject()?.featured).toBe(true)
+  it('getProjectsByType filters and keeps order ascending', () => {
+    for (const type of PROJECT_TYPES) {
+      const list = getProjectsByType(type)
+      expect(list.every((p) => p.type === type)).toBe(true)
+      const orders = list.map((p) => p.order)
+      expect(orders).toEqual([...orders].sort((x, y) => x - y))
+    }
+  })
+
+  it('getFeaturedProject returns a project of the requested type', () => {
+    for (const type of PROJECT_TYPES) {
+      expect(getFeaturedProject(type)?.type).toBe(type)
+    }
   })
 
   it('getAdjacentProjects walks the ordered list with nulls at the ends', () => {

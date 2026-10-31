@@ -2,6 +2,7 @@ import { getPayload } from 'payload'
 import configPromise from '../../../../payload.config'
 import { draftMode } from 'next/headers'
 import { redirect } from 'next/navigation'
+import { generateSlug } from '@/collections/hooks/slug'
 
 export async function GET(request: Request): Promise<Response> {
   const payload = await getPayload({
@@ -33,12 +34,24 @@ export async function GET(request: Request): Promise<Response> {
         const result = await payload.find({
           collection: 'projects' as any,
           where: {
-            name: {
+            slug: {
               equals: slug,
             },
           },
         })
         doc = result.docs[0]
+
+        if (!doc) {
+          // Fallback for projects saved before the stored slug existed:
+          // match the slug derived from the name.
+          const all = await payload.find({
+            collection: 'projects' as any,
+            limit: 100,
+          })
+          doc = all.docs.find(
+            (d: any) => d.slug === slug || generateSlug(d.name || '') === slug,
+          )
+        }
       }
     } else if (collection === 'resume') {
       if (id) {
@@ -78,7 +91,7 @@ export async function GET(request: Request): Promise<Response> {
   let redirectUrl = '/'
   
   if (collection === 'projects') {
-    const projectSlug = doc.name?.toLowerCase().replace(/\s+/g, '-') || slug
+    const projectSlug = doc.slug || generateSlug(doc.name || '') || slug
     redirectUrl = `/projects/${projectSlug}`
   } else if (collection === 'resume') {
     redirectUrl = '/resume'

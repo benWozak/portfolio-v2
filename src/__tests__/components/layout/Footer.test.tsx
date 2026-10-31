@@ -172,7 +172,7 @@ describe('Footer Component', () => {
     it('renders components in correct order', () => {
       render(<Footer />)
       
-      const container = screen.getByRole('contentinfo').firstChild
+      const container = screen.getByRole('contentinfo').firstChild as HTMLElement | null
       const children = Array.from(container?.children || [])
       
       expect(children).toHaveLength(4) // Logo, Nav, Socials, Copyright
@@ -187,7 +187,7 @@ describe('Footer Component', () => {
     it('centers all content properly', () => {
       render(<Footer />)
       
-      const container = screen.getByRole('contentinfo').firstChild
+      const container = screen.getByRole('contentinfo').firstChild as HTMLElement | null
       expect(container).toHaveClass('items-center', 'justify-center')
     })
   })

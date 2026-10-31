@@ -14,7 +14,7 @@ export function ProjectCard({ project, isAboveFold = false }: Props) {
 
   // Use project's blur data if available, otherwise use fallback
   const shimmerBlurDataUrl =
-    project.media.blurDataURL ||
+    project.image.blurDataURL ||
     `data:image/svg+xml;base64,${Buffer.from(
       `<svg width="400" height="225" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -32,7 +32,7 @@ export function ProjectCard({ project, isAboveFold = false }: Props) {
   return (
     <div className="bg-secondary-bg rounded-lg shadow-md overflow-hidden hover:shadow-md hover:shadow-slate-300 hover:dark:shadow-slate-500 transition-all duration-300">
       <Link
-        href={`/projects/${project.name.toLowerCase().replace(/\s+/g, "-")}`}
+        href={`/projects/${project.slug}`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="relative h-56 bg-gradient-to-br from-secondary-300 via-secondary-500 to-secondary-700">
@@ -42,8 +42,8 @@ export function ProjectCard({ project, isAboveFold = false }: Props) {
           )}
 
           <Image
-            src={project.media.staticImage}
-            alt={project.name}
+            src={project.image.src}
+            alt={project.image.alt}
             fill
             style={{ objectFit: "cover" }}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

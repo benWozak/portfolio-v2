@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { authenticated } from '../access'
 
 export const ProfessionalInsights: CollectionConfig = {
   slug: 'professionalInsights',
@@ -8,6 +9,7 @@ export const ProfessionalInsights: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
+    group: 'Content',
     defaultColumns: ['title', 'category', 'featured', 'updatedAt'],
     description: 'Insights and thoughts from your professional career experiences',
   },
@@ -22,6 +24,9 @@ export const ProfessionalInsights: CollectionConfig = {
         },
       }
     },
+    create: authenticated,
+    update: authenticated,
+    delete: authenticated,
   },
   fields: [
     {

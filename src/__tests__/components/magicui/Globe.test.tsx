@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render } from '@testing-library/react'
 import { Globe } from '@/components/magicui/globe'
-import createGlobe from 'cobe'
+import createGlobe, { type COBEOptions } from 'cobe'
 
 // Mock the cobe library
 vi.mock('cobe', () => {
@@ -17,8 +17,8 @@ vi.mock('cobe', () => {
 
 const mockCreateGlobe = vi.mocked(createGlobe)
 
-// Mock motion/react hooks
-vi.mock('motion/react', () => ({
+// Mock framer-motion hooks
+vi.mock('framer-motion', () => ({
   useMotionValue: vi.fn((initialValue) => ({
     get: vi.fn(() => initialValue),
     set: vi.fn()
@@ -104,7 +104,7 @@ describe('Globe Component', () => {
         markers: [{ location: [0, 0], size: 0.2 }]
       }
       
-      render(<Globe config={customConfig} />)
+      render(<Globe config={customConfig as unknown as COBEOptions} />)
       
       expect(mockCreateGlobe).toHaveBeenCalledWith(
         expect.any(Object),

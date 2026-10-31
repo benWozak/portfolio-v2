@@ -6,14 +6,17 @@ import {
   Experience,
 } from "@/components/content";
 import ContactCTA from "@/components/content/contact/ContactCTA";
+import { getProjects } from "@/lib/projects";
 
 export default async function Home() {
+  const projects = getProjects().slice(0, 2);
+
   return (
     <article className="flex min-h-screen flex-col items-center justify-center">
       <Hero />
       {/* <Pitch /> */}
       <About />
-      <Projects />
+      <Projects projects={projects} />
       <Experience />
       <ContactCTA />
     </article>

@@ -1,10 +1,22 @@
 import type { CollectionConfig } from 'payload'
+import { authenticated } from '../access'
 import { blogBeforeChangeHook } from './hooks/blogHooks'
+import { createRevalidationHooks } from './hooks/revalidation'
+
+const revalidation = createRevalidationHooks({
+  tags: ['blog-data'],
+  paths: (doc, previousDoc) => [
+    '/blog',
+    doc?.slug && `/blog/${doc.slug}`,
+    previousDoc?.slug && previousDoc.slug !== doc?.slug && `/blog/${previousDoc.slug}`,
+  ],
+})
 
 export const Blog: CollectionConfig = {
   slug: 'blog',
   admin: {
     useAsTitle: 'title',
+    group: 'Content',
     defaultColumns: ['title', 'status', 'publishedAt', 'updatedAt'],
   },
   access: {
@@ -18,9 +30,14 @@ export const Blog: CollectionConfig = {
         },
       }
     },
+    create: authenticated,
+    update: authenticated,
+    delete: authenticated,
   },
   hooks: {
     beforeChange: [blogBeforeChangeHook],
+    afterChange: [revalidation.afterChange],
+    afterDelete: [revalidation.afterDelete],
   },
   fields: [
     {

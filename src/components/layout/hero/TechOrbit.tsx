@@ -23,7 +23,7 @@ export function TechOrbit() {
     "hover:cursor-default text-secondary-700 dark:text-secondary-500 hover:text-secondary-900 hover:dark:text-secondary-300 filter hover:drop-shadow-[0_0_8px_rgba(59,130,246,0.5)] dark:hover:drop-shadow-[0_0_8px_rgba(148,163,184,0.5)] transition-all duration-300";
 
   return (
-    <div className="relative h-[500px] w-full">
+    <div className="relative h-[500px] w-full" aria-hidden="true">
       <OrbitingCircles radius={160} duration={50} path={true}>
         <SiNextdotjs size={iconSize} className={className} />
         <SiReact size={iconSize} className={className} />

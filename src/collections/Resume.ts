@@ -1,40 +1,14 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionBeforeChangeHook, CollectionConfig } from 'payload'
+import { authenticated } from '../access'
+import { createRevalidationHooks } from './hooks/revalidation'
 
-async function revalidateResume() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-  const secret = process.env.REVALIDATION_SECRET
-  
-  if (!secret) {
-    console.warn('REVALIDATION_SECRET not set, skipping cache revalidation')
-    return
-  }
-
-  try {
-    const response = await fetch(`${baseUrl}/api/revalidate?secret=${secret}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        collection: 'resume',
-        tag: 'resume-data',
-        path: '/resume'
-      }),
-    })
-
-    if (response.ok) {
-      const data = await response.json()
-      console.log('Resume cache revalidation successful:', data)
-    } else {
-      console.error('Resume cache revalidation failed:', response.status, response.statusText)
-    }
-  } catch (error) {
-    console.error('Error revalidating resume cache:', error)
-  }
-}
+const revalidation = createRevalidationHooks({
+  tags: ['resume-data'],
+  paths: () => ['/resume'],
+})
 
 // Hook to ensure only one resume can be active at a time
-const ensureSingleActiveResume = async ({ data, operation, req }: { data: any, operation: string, req: any }) => {
+const ensureSingleActiveResume: CollectionBeforeChangeHook = async ({ data, operation, req }) => {
   if (operation === 'create' || operation === 'update') {
     // Ensure arrays are properly formatted
     if (!Array.isArray(data.skills)) {
@@ -43,7 +17,7 @@ const ensureSingleActiveResume = async ({ data, operation, req }: { data: any, o
     if (!Array.isArray(data.experience)) {
       data.experience = []
     }
-    
+
     if (data.isActive) {
       // If setting this resume as active, deactivate all others
       await req.payload.update({
@@ -56,6 +30,7 @@ const ensureSingleActiveResume = async ({ data, operation, req }: { data: any, o
         data: {
           isActive: false,
         },
+        req, // same transaction as the triggering save
       })
     }
   }
@@ -66,6 +41,7 @@ export const Resume: CollectionConfig = {
   slug: 'resume',
   admin: {
     useAsTitle: 'version',
+    group: 'Portfolio',
     defaultColumns: ['version', 'isActive', 'full_name', 'updatedAt'],
     livePreview: {
       url: ({ data }) => {
@@ -85,24 +61,14 @@ export const Resume: CollectionConfig = {
         },
       }
     },
+    create: authenticated,
+    update: authenticated,
+    delete: authenticated,
   },
   hooks: {
     beforeChange: [ensureSingleActiveResume],
-    afterChange: [
-      async ({ doc, operation }) => {
-        // Revalidate cache after any change (create, update)
-        if (operation === 'create' || operation === 'update') {
-          console.log(`Resume ${operation}: ${doc.version}`)
-          await revalidateResume()
-        }
-      }
-    ],
-    afterDelete: [
-      async ({ doc }) => {
-        console.log(`Resume deleted: ${doc.version}`)
-        await revalidateResume()
-      }
-    ],
+    afterChange: [revalidation.afterChange],
+    afterDelete: [revalidation.afterDelete],
   },
   fields: [
     {

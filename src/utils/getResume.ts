@@ -58,7 +58,12 @@ const getCachedResumeFromPayload = unstable_cache(
 );
 
 export async function getActiveResume(isDraftMode?: boolean): Promise<ResumeData | null> {
-  const { isEnabled } = await draftMode();
+  let isEnabled = false;
+  try {
+    ({ isEnabled } = await draftMode());
+  } catch {
+    // draftMode() throws outside a request context (e.g. scripts) — default to false
+  }
   const shouldUseDraft = isDraftMode ?? isEnabled;
   
   // If in draft mode, bypass cache and fetch directly
@@ -99,9 +104,14 @@ export async function getResumeById(id: string, isDraftMode?: boolean): Promise<
   try {
     const payload = await getPayload({ config: configPromise });
     
-    const { isEnabled } = await draftMode();
+    let isEnabled = false;
+    try {
+      ({ isEnabled } = await draftMode());
+    } catch {
+      // draftMode() throws outside a request context (e.g. scripts) — default to false
+    }
     const shouldUseDraft = isDraftMode ?? isEnabled;
-    
+
     const doc = await payload.findByID({
       collection: 'resume' as any,
       id,

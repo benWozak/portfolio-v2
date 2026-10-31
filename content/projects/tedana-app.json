@@ -1,0 +1,42 @@
+{
+  "slug": "tedana-app",
+  "name": "Tedana App",
+  "type": "native",
+  "status": "Prototype",
+  "featured": false,
+  "order": 3,
+  "description": "A desktop application designed to provide an intuitive front-end for a specialized tool for processing data used in neuro-imaging research.",
+  "techStack": {
+    "frontend": [
+      "TailwindCSS/DaisyUI",
+      "React",
+      "TypeScript",
+      "Zustand"
+    ],
+    "backend": [
+      "Rust",
+      "Tokio (asynchronous runtime)"
+    ],
+    "other": [
+      "Tauri (Cross-platform Application Wrapper)"
+    ]
+  },
+  "liveUrl": null,
+  "githubUrl": "https://github.com/benWozak/tedana-gui",
+  "image": {
+    "src": "/projects/tedana-app/tedanaapp.webp",
+    "alt": "Tedana Image",
+    "width": 2056,
+    "height": 1256,
+    "blurDataURL": "data:image/webp;base64,UklGRkoAAABXRUJQVlA4ID4AAADwAQCdASoQAAoAA4BaJYgAAup4VjHcGAAA/vZGc7Mh1kuRnGQmniGPLjpW0eHyrciXllvazmk1v8KnuQAAAA=="
+  },
+  "overview": "A cross-platform desktop application built with Tauri, leveraging Rust for performance and React for the user interface, designed to provide an intuitive front-end for Tedana, which is a specialized tool for processing multi-echo functional MRI (fMRI) data used in neuroimaging research.",
+  "challenge": "Multi-echo fMRI is a newer technique for measuring brain activity. It works by taking multiple snapshots of the brain in quick succession, which helps scientists get a clearer picture of what’s really happening inside. This method can reduce noise and improve the quality of the data compared to older techniques. However, because it’s still relatively new, many researchers aren’t yet familiar with how to use it. Most existing software tools for analyzing brain data were built for older methods, so using multi-echo fMRI often requires extra work, custom code, or specialized programs. This makes it harder for researchers to take full advantage of the technology, and slows down its adoption in neuroscience research.",
+  "solution": "To address the challenges of working with multi-echo fMRI data, I developed a desktop application that provides a user-friendly interface for Tedana, a powerful but technically complex command-line tool for processing this type of data. Built using Tauri framework with a React frontend and Rust backend, the application bridges the gap between advanced fMRI processing capabilities and researchers or clinicians who may lack extensive technical experience with terminal commands or Python environments. The cross-platform tool guides users through processing steps, helps visualize results, and ultimately makes sophisticated multi-echo fMRI analysis more accessible to the broader scientific community by removing technical barriers that might otherwise exclude non-technical users from utilizing these advanced processing methods.",
+  "keyTakeaways": [
+    "This project gave me hands-on experience with the complexities of a low-level language like Rust, particularly around memory management, concurrency, and system-level programming.",
+    "I learned how to interface with the terminal to run subprocesses and handle command-line tools like Tedana, while also building a responsive UI that could stream and display real-time output from the operating system.",
+    "Bridging the gap between backend execution and frontend presentation was a valuable challenge that deepened my understanding of both system programming and user experience design."
+  ],
+  "updatedAt": "2025-09-01T21:09:48.146Z"
+}

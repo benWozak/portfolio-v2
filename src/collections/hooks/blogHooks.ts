@@ -1,4 +1,5 @@
 import type { CollectionBeforeChangeHook } from 'payload'
+import { ensureUniqueSlug, generateSlug } from './slug'
 
 // Helper function to extract text content from Lexical editor state
 function extractTextFromLexical(content: any): string {
@@ -36,44 +37,6 @@ function extractTextFromLexical(content: any): string {
   return text.trim()
 }
 
-// Helper function to generate URL-friendly slug
-function generateSlug(title: string): string {
-  return title
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
-    .replace(/\s+/g, '-') // Replace spaces with hyphens
-    .replace(/-+/g, '-') // Replace multiple hyphens with single
-    .replace(/^-|-$/g, '') // Remove leading/trailing hyphens
-}
-
-// Helper function to ensure unique slug
-async function ensureUniqueSlug(slug: string, docId: string | undefined, req: any): Promise<string> {
-  let uniqueSlug = slug
-  let counter = 1
-  
-  while (true) {
-    const existingDoc = await req.payload.find({
-      collection: 'blog',
-      where: {
-        and: [
-          { slug: { equals: uniqueSlug } },
-          ...(docId ? [{ id: { not_equals: docId } }] : [])
-        ]
-      },
-      limit: 1
-    })
-    
-    if (existingDoc.docs.length === 0) {
-      break
-    }
-    
-    uniqueSlug = `${slug}-${counter}`
-    counter++
-  }
-  
-  return uniqueSlug
-}
-
 export const blogBeforeChangeHook: CollectionBeforeChangeHook = async ({
   data,
   req,
@@ -94,7 +57,7 @@ export const blogBeforeChangeHook: CollectionBeforeChangeHook = async ({
   // Auto-generate slug from title
   if (data.title && !data.slug) {
     const baseSlug = generateSlug(data.title)
-    data.slug = await ensureUniqueSlug(baseSlug, originalDoc?.id, req)
+    data.slug = await ensureUniqueSlug('blog', baseSlug, originalDoc?.id, req)
   }
   
   // Auto-populate SEO metadata

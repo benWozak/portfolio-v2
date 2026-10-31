@@ -1,36 +1,19 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useTheme } from "@/contexts/ThemeContext";
+import { useTheme } from "next-themes";
 import { useSmoothScroll } from "@/utils/hooks/useSmoothScroll";
 
 export default function Logo() {
   const { scrollToTop } = useSmoothScroll();
-  const { theme } = useTheme();
-  const [logoSrc, setLogoSrc] = useState("/BW_logo.svg");
+  // resolvedTheme already accounts for the system preference; it is
+  // undefined until mounted, which matches the server-rendered default logo.
+  const { resolvedTheme } = useTheme();
+  const logoSrc =
+    resolvedTheme === "dark" ? "/BW_logo_light.svg" : "/BW_logo.svg";
   const pathname = usePathname();
-
-  useEffect(() => {
-    const updateLogoSrc = () => {
-      if (theme === "system") {
-        const isDarkMode = window.matchMedia(
-          "(prefers-color-scheme: dark)"
-        ).matches;
-        setLogoSrc(isDarkMode ? "/BW_logo_light.svg" : "/BW_logo.svg");
-      } else {
-        setLogoSrc(theme === "dark" ? "/BW_logo_light.svg" : "/BW_logo.svg");
-      }
-    };
-
-    updateLogoSrc();
-
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    mediaQuery.addListener(updateLogoSrc);
-
-    return () => mediaQuery.removeListener(updateLogoSrc);
-  }, [theme]);
 
   const handleLogoClick = (e: React.MouseEvent) => {
     if (pathname === "/") {

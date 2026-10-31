@@ -7,7 +7,7 @@ import { motion, Variants } from "framer-motion";
 import { Badge } from "../../ui/Badge";
 import { calculateReadingTime, isContentTechnical } from "@/utils/readingTime";
 import type { Media } from "@/payload-types";
-import type { Blog, Category, Tag } from "@/types/blog";
+import type { Blog, Category, Tag } from "@/payload-types";
 
 interface BlogCardProps {
   post: Blog;

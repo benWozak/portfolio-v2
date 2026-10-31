@@ -1,71 +1,54 @@
 import type { CollectionConfig } from 'payload'
+import { authenticated } from '../access'
+import { createRevalidationHooks } from './hooks/revalidation'
+import { ensureUniqueSlug, generateSlug } from './hooks/slug'
 
-async function revalidateProjects() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-  const secret = process.env.REVALIDATION_SECRET
-  
-  if (!secret) {
-    console.warn('REVALIDATION_SECRET not set, skipping cache revalidation')
-    return
-  }
-
-  try {
-    const response = await fetch(`${baseUrl}/api/revalidate?secret=${secret}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        collection: 'projects',
-        tag: 'projects-data',
-        path: '/projects'
-      }),
-    })
-
-    if (response.ok) {
-      const data = await response.json()
-      console.log('Cache revalidation successful:', data)
-    } else {
-      console.error('Cache revalidation failed:', response.status, response.statusText)
-    }
-  } catch (error) {
-    console.error('Error revalidating cache:', error)
-  }
-}
+const revalidation = createRevalidationHooks({
+  tags: ['projects-data'],
+  paths: (doc, previousDoc) => [
+    '/',
+    '/projects',
+    '/projects/web',
+    '/projects/native',
+    doc?.slug && `/projects/${doc.slug}`,
+    previousDoc?.slug && previousDoc.slug !== doc?.slug && `/projects/${previousDoc.slug}`,
+  ],
+})
 
 export const Projects: CollectionConfig = {
   slug: 'projects',
   defaultSort: 'order',
   hooks: {
-    afterChange: [
-      async ({ doc, operation }) => {
-        // Revalidate cache after any change (create, update, delete)
-        if (operation === 'create' || operation === 'update') {
-          console.log(`Project ${operation}: ${doc.name}`)
-          await revalidateProjects()
+    beforeChange: [
+      async ({ data, originalDoc, req }) => {
+        // Auto-generate slug from name when empty; never overwrite an existing
+        // slug on rename so published URLs stay stable.
+        if (data.name && !data.slug) {
+          data.slug = await ensureUniqueSlug('projects', generateSlug(data.name), originalDoc?.id, req)
         }
-      }
+        return data
+      },
     ],
-    afterDelete: [
-      async ({ doc }) => {
-        console.log(`Project deleted: ${doc.name}`)
-        await revalidateProjects()
-      }
-    ]
+    afterChange: [revalidation.afterChange],
+    afterDelete: [revalidation.afterDelete],
   },
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'type', 'status', 'order', 'featured', 'updatedAt'],
+    group: 'Portfolio',
+    defaultColumns: ['name', 'slug', 'type', 'status', 'order', 'featured', 'updatedAt'],
     livePreview: {
       url: ({ data }) => {
         const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-        const slug = data.name?.toLowerCase().replace(/\s+/g, '-')
+        const slug = data.slug || generateSlug(data.name || '')
         return `${baseUrl}/api/preview?collection=projects&slug=${slug}`
       },
     },
   },
   access: {
     read: () => true,
+    create: authenticated,
+    update: authenticated,
+    delete: authenticated,
   },
   fields: [
     {
@@ -74,6 +57,16 @@ export const Projects: CollectionConfig = {
       required: true,
       admin: {
         description: 'Project name as displayed on the website',
+      },
+    },
+    {
+      name: 'slug',
+      type: 'text',
+      unique: true,
+      index: true,
+      admin: {
+        position: 'sidebar',
+        description: 'URL slug (auto-generated from name if empty). Changing it changes the project URL.',
       },
     },
     {
@@ -154,6 +147,13 @@ export const Projects: CollectionConfig = {
       required: true,
       admin: {
         description: 'What you learned from this project and its impact',
+      },
+    },
+    {
+      name: 'content',
+      type: 'richText',
+      admin: {
+        description: 'Full project write-up. Supports headings, links, bold, italic, lists, etc.',
       },
     },
     {

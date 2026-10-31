@@ -47,7 +47,7 @@ export function LinkButton({
       onClick={handleClick}
       target={target}
       className={`
-        relative pb-1 tracking-wider text-sm
+        relative pb-1 tracking-wider text-sm rounded-sm focus-ring
         after:content-[''] after:absolute after:w-full
         after:h-0.5 after:bottom-0 after:left-0
         after:bg-primary-500 after:origin-right

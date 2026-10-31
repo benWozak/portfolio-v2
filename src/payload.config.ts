@@ -1,6 +1,5 @@
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import { sqliteAdapter } from '@payloadcms/db-sqlite'
-import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { buildConfig } from 'payload'
@@ -57,10 +56,12 @@ export default buildConfig({
       url: process.env.DATABASE_URI || '',
       authToken: process.env.DATABASE_AUTH_TOKEN || '',
     },
+    // Outside production, getPayload() runs a drizzle schema push on init.
+    // Scripts set PAYLOAD_DB_PUSH=false so they can never mutate the schema.
+    push: process.env.PAYLOAD_DB_PUSH === 'false' ? false : undefined,
   }),
   sharp,
   plugins: [
-    payloadCloudPlugin(),
     vercelBlobStorage({
       enabled: true,
       collections: {

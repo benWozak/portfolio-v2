@@ -3,9 +3,9 @@ import { render, screen, fireEvent } from '@/test-utils'
 import userEvent from '@testing-library/user-event'
 import Logo from '@/components/layout/Logo'
 
-// Mock the theme context
-vi.mock('@/contexts/ThemeContext', () => {
-  const mockTheme = { theme: 'light' }
+// Mock next-themes
+vi.mock('next-themes', () => {
+  const mockTheme = { theme: 'light', resolvedTheme: 'light' }
   return {
     useTheme: vi.fn(() => mockTheme),
     ThemeProvider: ({ children }: { children: React.ReactNode }) => <div>{children}</div>

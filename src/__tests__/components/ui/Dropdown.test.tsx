@@ -119,13 +119,7 @@ describe('Dropdown Component', () => {
       )
       
       const button = screen.getByRole('button')
-      expect(button).toHaveClass(
-        'hover:bg-primary/10',
-        'focus:outline-none',
-        'focus:ring-2',
-        'focus:ring-offset-2',
-        'focus:ring-primary'
-      )
+      expect(button).toHaveClass('hover:bg-primary/10', 'focus-ring')
     })
   })
 

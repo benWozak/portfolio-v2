@@ -1,35 +1,5 @@
-export type ProjectStatus = 'In Progress' | 'Prototype' | 'Professional';
-export type ProjectType = 'web' | 'native';
+// src/types/index.ts
+export * from './project';
 
-export interface TechStack {
-  frontend: string[];
-  backend: string[];
-  other: string[];
-}
-
-export interface ProjectMedia {
-  staticImage: string;
-  video?: string;
-  blurDataURL?: string
-}
-
-export interface Project {
-  id: number;
-  name: string;
-  type: ProjectType;
-  status: ProjectStatus;
-  description: string;
-  overview: string;
-  challenge: string;
-  solution: string;
-  techStack: TechStack;
-  keyTakeaways: string;
-  liveUrl: string | null;
-  githubUrl: string | null;
-  media: ProjectMedia;
-  order?: number;
-  featured?: boolean;
-}
-
-// Re-export YakPDF types
+// Re-export YakPDF types (resume-only; removed in chunk 03)
 export * from './yakpdf';

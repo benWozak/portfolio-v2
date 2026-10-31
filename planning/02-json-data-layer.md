@@ -682,3 +682,19 @@ With dev running, `curl -s http://localhost:3000/projects | grep -c "/api/media/
   - do the Task 6 Step 1 side-by-side against production
   - check the Vercel preview, which needs a push; ask the owner first
   - open the PR
+
+**2026-10-30 (Claude): verified on real content.**
+- **Rebase.** Rebased onto `chunk-01-export-content` after the content commit (`4f67396`). Clean. The pre-flight chose path **(a)**, so this PR targets `main` after chunk 01 merges.
+- **Checks.**
+  - `content:check` passes: 28 tests.
+  - tsc and lint are clean.
+  - The build passes, and `/projects/[slug]` is `●` SSG with homechef-companion, calgary-folk-fest, tedana-app and vista-crossing.
+  - Tests: 552 total, 45 failing, no new failures, none gone. Baseline unchanged.
+  - The removed-code grep finds nothing.
+- **Parity.** `parity.ts --from scripts/backups/2026-10-31T05-08-25-054Z` reports 4 mismatches, all `keyTakeaways`. They are the intentional sentence-boundary splits from chunk 01 Task 6. Every other field matches the dump.
+- **Task 6.** Compared each page's visible text between the local `next start` build and `https://www.benwozak.dev`:
+  - `/projects`: identical.
+  - Detail pages: the only differences are the dropped "Loading video..." placeholder and the takeaways now shown as list items. Both are intended.
+  - `/`, `/projects/web`, `/projects/native`: production currently renders **no project cards** on these. Vercel serves a prerender cached for about 21 days (`x-vercel-cache: HIT`, `age: 1876725`), and its HTML contains no project names. The local build renders them. This is an existing production bug that this chunk fixes, not a regression.
+  - Zero `/api/media/file` references on any local page.
+- **Still pending.** The Vercel preview needs a push; ask the owner first. Then open the PR.

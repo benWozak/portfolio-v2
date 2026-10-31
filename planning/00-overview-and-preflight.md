@@ -240,3 +240,14 @@ _(append dated notes here)_
 - Task 5: Claude ran the public GET. Live hrefs: `/projects/calgary-folk-fest`, `/projects/homechef-companion`, `/projects/tedana-app`, `/projects/vista-crossing`. `/projects/web` and `/projects/native` also appear; they are the filter routes.
 - Task 6: commit `package-lock.json` in chunk 05, as recommended.
 - Tasks 2 Step 3 and Task 3: **PENDING**, waiting for the owner to run `preflight.ts`. `chunk-01-export-content` was branched from `audit-improvements` in the meantime, which works for either merge path.
+
+**2026-10-30**
+- Task 2 Step 3, run by the owner. Pre-flight output:
+  - The `projects` table has 4 rows: Tedana App, Calgary Folk Fest, Vista Crossing and HomeChef Companion.
+  - `slug` is **PRESENT** and `content` is **PRESENT**. 31 tables in all.
+  - The dump shows both columns are null in all 4 rows. The live site's slugs are generated from names when pages are read.
+- Task 3: merge path **(a)**.
+  - Next: open the PR `audit-improvements → main`, merge it, and confirm the production deploy renders `/` and `/projects`.
+  - `audit-improvements` has no remote yet, so pushing waits for the owner's go-ahead.
+  - `chunk-01-export-content` and `chunk-02-json-data-layer` are already cut from it. Once it is on `main`, their PRs target `main`: 01 first, then 02 rebased onto `main`.
+- Task 3 Step 2: the choice is also recorded under Status in `planning/README.md`.

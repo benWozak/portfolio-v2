@@ -1098,3 +1098,29 @@ git commit -m "feat(content): export projects from Payload to JSON + public imag
 ## Hand-off log
 
 _(append dated notes here)_
+
+**2026-10-30 (Claude)**
+- **Backup.** The owner ran the dump on 2026-10-30. Stamp: `2026-10-31T05-08-25-054Z` (UTC).
+  - Off-repo copy: `~/Backups/portfolio-payload-2026-10-31T05-08-25-054Z`.
+  - 30 tables (`users_sessions` skipped), 20 blobs, 173.5 MB.
+  - No media row is missing its blob.
+  - 9 blobs have no media row: the logos, headshot crops, `recipe-catalogue.mov` and `vistacrossing.png`. No project uses them.
+  - Blob `list()` returned `vistacrossing.mov` twice, at the same size. Harmless.
+- **Schema.** It matched the `COLS` map, so the converter needed no changes.
+- **Slugs.** The `slug` column is null in every row, so the converter derived slugs from the names. All four match the live hrefs. No renames.
+- **Dropped.** Videos `recipe-app.mov`, `TedanaApp.mov` and `vistacrossing.mov`. Calgary Folk Fest's video field pointed to `CFMF.webp`, an image identical to its static image; also dropped.
+- **No sections.** `content` is empty in every row.
+- **Hand edits.** `keyTakeaways` was a single paragraph in every project. Each was split at sentence boundaries: homechef-companion 3 items, calgary-folk-fest 2, tedana-app 3, vista-crossing 2.
+  - The text is verbatim. The split script asserted that the rejoined items equal the original.
+  - No other edits.
+- **Featured.** HomeChef Companion, already flagged in Payload. Order 1–4 matches the live `/projects`.
+- **Images.** 1.0 MB total, none over 2 MB. HomeChef's image is a 3006×1364 PNG (586 KB), a candidate for a webp re-export in chunk 06.
+- **Noticed, not changed (owner's call):**
+  - The last homechef takeaway sentence looks truncated: "…required me to master not only a new language."
+  - The homechef overview says "an avenue for me learn".
+  - The alt texts are thin: "CFMF", "Tedana Image".
+- **Verification.**
+  - tsc and lint are clean.
+  - The build passes, and `/projects/[slug]` lists all four slugs.
+  - Tests: 576 total, 45 failing, no new failures, none gone.
+  - `scripts/backups/` is ignored.

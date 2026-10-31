@@ -1,0 +1,42 @@
+{
+  "slug": "calgary-folk-fest",
+  "name": "Calgary Folk Fest",
+  "type": "web",
+  "status": "Professional",
+  "featured": false,
+  "order": 2,
+  "description": "Calgary Folk Music Festival is a long-standing cultural event held annually in the heart of downtown Calgary, Alberta.",
+  "techStack": {
+    "frontend": [
+      "SCSS",
+      "Next.js",
+      "GSAP"
+    ],
+    "backend": [
+      "StrapiCMS",
+      "GraphQL"
+    ],
+    "other": [
+      "MySQL",
+      "AWS EC2",
+      "Custom bash scripts"
+    ]
+  },
+  "liveUrl": "https://calgaryfolkfest.com/",
+  "githubUrl": null,
+  "image": {
+    "src": "/projects/calgary-folk-fest/cfmf-1.webp",
+    "alt": "CFMF",
+    "width": 3016,
+    "height": 1548,
+    "blurDataURL": "data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAADQAQCdASoQAAgAA4BaJZwAAsYXznkBAAD+5frHZRNHbQeH4AkTd1aCj+5nIg+HbhoYakWwIVY5mjRO/2ZOp3kVhvDXZAAA"
+  },
+  "overview": "Calgary Folk Music Festival is a long-standing cultural event held annually in the heart of downtown Calgary, Alberta. With over 40 years of history, it has become a cherished part of the city’s artistic landscape, drawing audiences from across the country to celebrate folk and indie music on Prince’s Island Park. To match its vibrant and evolving presence in the community, the festival needed a modern online home that could reflect its legacy while meeting the expectations of today's digital audience.",
+  "challenge": "The original website for Calgary Folk Fest had become outdated, both in terms of design and functionality. It lacked the flexibility needed to manage dynamic content like artist lineups, schedules, blog posts, and festival updates—making it hard for staff to keep information current. Additionally, the site was not optimized for mobile use or accessibility, limiting the reach and experience for festival-goers. With a large volume of historical content and a passionate user base, the challenge was not just to redesign the site, but to reimagine the entire digital experience in a way that respected its legacy while moving it forward.",
+  "solution": "Working as part of a small team, we designed and developed a new website from the ground up using Next.js for a fast, modern frontend, Strapi CMS for flexible and user-friendly content management, and MySQL as the database; all deployed on AWS for scalability and reliability. I contributed to the frontend development and took the lead on planning the system architecture and deploying the infrastructure. This included setting up a secure, efficient hosting pipeline and ensuring seamless integration between services. The result was a clean, responsive, and maintainable platform tailored to the festival’s needs, with a content system that empowered their team to take full control of the site.",
+  "keyTakeaways": [
+    "This project gave me valuable hands-on experience architecting a full-stack web application including supporting infrastructure from scratch, balancing technical decisions with real-world usability needs.",
+    "It also marked my first time implementing Progressive Web App (PWA) features in a professional setting, enabling capabilities like push notifications and device-location awareness to give users a more native, app-like experience directly in the browser—especially useful during live festival events."
+  ],
+  "updatedAt": "2025-07-30T20:11:35.801Z"
+}

@@ -659,4 +659,42 @@ With dev running, `curl -s http://localhost:3000/projects | grep -c "/api/media/
 
 ## Hand-off log
 
-_(append dated notes here)_
+**2026-10-21 (Claude): code done, stacked on chunk 01, waiting on the production dump.**
+
+- **Branch.** `chunk-02-json-data-layer` is cut from `chunk-01-export-content`, not from a merged base. Chunk 01 can't finish until the owner runs `preflight.ts` and `dump.ts`. When chunk 01 gains its content commit, rebase this branch onto it. The PR base follows the 00 merge path.
+- **Verified against throwaway content.** `content/` and `public/projects/` were generated from a synthetic two-project fixture, using the converter's own output. Nothing from that fixture is committed. Results on that content:
+  - Lint and `tsc` are clean.
+  - The build passes, and `/projects/[slug]` is `●` SSG with one path per project.
+  - `content:check` passes: 28 tests.
+- **Failing-set check.** Total tests went from 576 to 552: 9 new loader tests, minus the 33 in the deleted `VideoLoader` and `transformPayloadProject` files.
+  - The set check shows no new failures and none gone. The deleted files had no failing tests.
+  - I regenerated the baseline and it came out byte-identical, so there's nothing to commit.
+- **Checklist greps.** The removed-code grep finds nothing. The `@payloadcms` grep also lists `src/utils/lexicalRenderer.tsx` and `src/components/content/blog/BlogContent.tsx`. Both matches are commented-out type imports in blog code, which is chunk 04's job, so the intent is met.
+- **Task 4 Step 4.** Staged by explicit path instead of `git add -A`, so the throwaway content couldn't be swept in.
+- **Task 5.** I smoke-tested `parity.ts` on the fixture. It passes when the content matches, and it flags a hand-edited name and an extra takeaway as two mismatches with exit code 1.
+- **Task 6 Step 2.** Ran against `next start` on the production build, not `next dev`, which avoids any dev-mode schema push.
+  - `/`, `/projects`, `/projects/web`, `/projects/native` and both detail pages returned 200 with zero `/api/media/file` references.
+  - An unknown slug returned 404, as `dynamicParams = false` should make it.
+  - The sitemap lists both project URLs.
+- **Still pending, all needing real content (after chunk 01 Phase C):**
+  - re-run `content:check` and the build
+  - run `parity.ts --from scripts/backups/<stamp>`
+  - do the Task 6 Step 1 side-by-side against production
+  - check the Vercel preview, which needs a push; ask the owner first
+  - open the PR
+
+**2026-10-30 (Claude): verified on real content.**
+- **Rebase.** Rebased onto `chunk-01-export-content` after the content commit (`4f67396`). Clean. The pre-flight chose path **(a)**, so this PR targets `main` after chunk 01 merges.
+- **Checks.**
+  - `content:check` passes: 28 tests.
+  - tsc and lint are clean.
+  - The build passes, and `/projects/[slug]` is `●` SSG with homechef-companion, calgary-folk-fest, tedana-app and vista-crossing.
+  - Tests: 552 total, 45 failing, no new failures, none gone. Baseline unchanged.
+  - The removed-code grep finds nothing.
+- **Parity.** `parity.ts --from scripts/backups/2026-10-31T05-08-25-054Z` reports 4 mismatches, all `keyTakeaways`. They are the intentional sentence-boundary splits from chunk 01 Task 6. Every other field matches the dump.
+- **Task 6.** Compared each page's visible text between the local `next start` build and `https://www.benwozak.dev`:
+  - `/projects`: identical.
+  - Detail pages: the only differences are the dropped "Loading video..." placeholder and the takeaways now shown as list items. Both are intended.
+  - `/`, `/projects/web`, `/projects/native`: production currently renders **no project cards** on these. Vercel serves a prerender cached for about 21 days (`x-vercel-cache: HIT`, `age: 1876725`), and its HTML contains no project names. The local build renders them. This is an existing production bug that this chunk fixes, not a regression.
+  - Zero `/api/media/file` references on any local page.
+- **Still pending.** The Vercel preview needs a push; ask the owner first. Then open the PR.

@@ -1,0 +1,42 @@
+{
+  "slug": "vista-crossing",
+  "name": "Vista Crossing",
+  "type": "web",
+  "status": "Professional",
+  "featured": false,
+  "order": 4,
+  "description": "Vista Crossing is a residential community located in Crossfield, Alberta, designed as part of a larger portfolio of developments by Dream Homes.",
+  "techStack": {
+    "frontend": [
+      "SCSS",
+      "JavaScript/JQuery",
+      "GSAP"
+    ],
+    "backend": [
+      "PHP",
+      "Laravel",
+      "Wordpress"
+    ],
+    "other": [
+      "MySQL",
+      "AWS EC2"
+    ]
+  },
+  "liveUrl": "https://vistacrossing.ca/",
+  "githubUrl": null,
+  "image": {
+    "src": "/projects/vista-crossing/vistacrossing.webp",
+    "alt": "Vista Crossing",
+    "width": 3016,
+    "height": 1542,
+    "blurDataURL": "data:image/webp;base64,UklGRkwAAABXRUJQVlA4IEAAAADQAQCdASoQAAgAA4BaJYwCdACqK2x7GAD43k0x4fhO8qnwYFICrqD6kyeFlJG0yX24TInlFjV8HVq9hpqpOYAA"
+  },
+  "overview": "Vista Crossing is a residential community located in Crossfield, Alberta, designed as part of a larger portfolio of developments by Dream Homes. To help promote the neighborhood and provide essential resources for prospective buyers and residents, we created a dedicated community website tailored to showcase the area's amenities, homes, and lifestyle in a clean, engaging format.",
+  "challenge": "As a newly developed community, Vista Crossing needed a digital presence that could support both marketing and resident communication. The website had to reflect the brand identity of Dream Homes while functioning within a larger ecosystem of property sites. It needed to be easy for non-technical stakeholders to manage, while also supporting future growth—including the ability to accommodate multiple developments under a single system.",
+  "solution": "Working in a small, agile team, we delivered a modern, fully responsive website built using WordPress for content management and Laravel (PHP) for backend logic and custom functionality. The site utilized jQuery and Sass for a dynamic, styled front-end, and MySQL for data management. We hosted the entire platform on AWS for scalability and performance. The system was designed with multi-tenant support, enabling Dream Homes to manage multiple community sites through a shared backend structure; streamlining content updates while preserving flexibility for each unique development.",
+  "keyTakeaways": [
+    "This was my first major project working with both Laravel and WordPress in tandem, giving me valuable experience integrating traditional CMS tools with modern backend frameworks.",
+    "Architecting the platform to support multi-tenant functionality introduced me to the complexities of managing shared resources across multiple domains, which strengthened my understanding of scalable web architecture and reusable infrastructure."
+  ],
+  "updatedAt": "2025-07-30T20:11:23.240Z"
+}

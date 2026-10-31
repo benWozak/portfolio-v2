@@ -1,0 +1,48 @@
+{
+  "slug": "homechef-companion",
+  "name": "HomeChef Companion",
+  "type": "web",
+  "status": "In Progress",
+  "featured": true,
+  "order": 1,
+  "description": "A comprehensive recipe management application for storing, organizing, and planning meal prep with recipes from various sources.",
+  "techStack": {
+    "frontend": [
+      "TailwindCSS",
+      "React/TypeScript",
+      "Vite",
+      "Motion",
+      "Zustand",
+      "tanstack-query (React-Query)"
+    ],
+    "backend": [
+      "Python/FastAPI",
+      "OpenAI",
+      "beautifulsoup4",
+      "Pillow (Python Imaging Library)"
+    ],
+    "other": [
+      "Vercel/Railway.app",
+      "PostgreSQL",
+      "Claude Code/MCP"
+    ]
+  },
+  "liveUrl": "https://homechef-companion.vercel.app/",
+  "githubUrl": "https://github.com/benWozak/homechef-companion-frontend",
+  "image": {
+    "src": "/projects/homechef-companion/recipe-app.png",
+    "alt": "HomeChef Companion",
+    "width": 3006,
+    "height": 1364,
+    "blurDataURL": "data:image/webp;base64,UklGRjgAAABXRUJQVlA4ICwAAAAwAQCdASoQAAcAA4BaJaQAA3AA/vItUK5Nt8N4seazRVAONfCwrhlTKAAAAA=="
+  },
+  "overview": "HomeChef Companion is a passion project of mine that I built to solve a personal need for recipe storage and organization. It also served as an avenue for me learn some new technical concepts around web scraping and natural language processing (NLP). Built as a modern full-stack application, it features intelligent recipe parsing from various sources including websites, images, and Instagram posts, along with weekly meal planning to help stay organized in the kitchen throughout the week. I also wanted to treat this like a product that could potentially compete in the existing market.",
+  "challenge": "We cook a lot at home, and are always experimenting with different recipes we find online or through Instagram. This application was brought about by the continued frustration I face when using these recipes, particularly on the web, when I would constantly need to scroll back to my place when the page reloads all of its advertisements every few minutes. There were also often times when I might be wanting to make a recipe I hadn't used for a while, but couldn't remember if it was from Instagram or a website, and I would have to try to remember the name of it, or scroll through long reading lists or saved collections to find it.",
+  "solution": "HomeChef Companion delivers a clean, ad-free interface that filters out the distractions and keeps you focused on the task and with intelligent recipe parsing from any website, Instagram post, or photo, all your recipes are instantly accessible in one unified, searchable location. The app features smart organization tools that actually help you find saved recipes, plus intuitive meal planning capabilities that eliminate the struggle of keeping on top of what's for dinner. It is a Progressive Web App (PWA) that can function effectively as a mobile app, and grants access to features like photo-scanning.",
+  "keyTakeaways": [
+    "Over the past year, I've been developing this application concept through numerous iterations. My GitHub is filled with early prototypes that each brought me closer to the current solution.",
+    "As a primarily frontend developer, this project pushed me far beyond my general expertise and into a more comprehensive backend development than I have previously experienced.",
+    "Initially, I built the backend entirely in Node.js, leveraging my existing JavaScript knowledge, but I quickly discovered that Python offered superior tools for web scraping, intelligent parsing, and image-to-text processing. Making the transition to Python became an exciting challenge that required me to master not only a new language."
+  ],
+  "updatedAt": "2025-09-07T17:19:31.397Z"
+}

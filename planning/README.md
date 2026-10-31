@@ -31,6 +31,8 @@ sequential. The site must build and deploy cleanly after every chunk.
 
 Tick a box when the chunk's PR is merged to `main`.
 
+Pre-flight merge path: **(a)**, since both `slug` and `content` are present (2026-10-30). Merge `audit-improvements → main` first; every chunk then targets `main`.
+
 - [ ] 00 — Overview and pre-flight (`00-overview-and-preflight.md`)
 - [ ] 01 — Export content (`01-export-content.md`)
 - [ ] 02 — JSON data layer (`02-json-data-layer.md`)

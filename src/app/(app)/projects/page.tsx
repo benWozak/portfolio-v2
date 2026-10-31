@@ -1,8 +1,7 @@
-import { getProjects } from "@/utils/getProjects";
+import { getProjects } from "@/lib/projects";
 import { ProjectsGrid } from "@/components/content/projects/ProjectsGrid";
 
-export default async function ProjectsPage() {
-  const projects = await getProjects();
-
+export default function ProjectsPage() {
+  const projects = getProjects();
   return <ProjectsGrid projects={projects} />;
 }

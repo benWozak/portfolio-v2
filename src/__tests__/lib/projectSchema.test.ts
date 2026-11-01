@@ -77,6 +77,10 @@ describe('parseProject', () => {
     expect(parseProject({ ...valid, status }, 'x').status).toBe(status)
   })
 
+  it('rejects an empty keyTakeaways array', () => {
+    expect(() => parseProject({ ...valid, keyTakeaways: [] }, 'test')).toThrow(/at least one/)
+  })
+
   it.each(['professional', 'personal', 'web', 'native'])('rejects the reserved slug "%s"', (slug) => {
     expect(() => parseProject({ ...valid, slug, image: { ...valid.image, src: `/projects/${slug}/x.png` } }, 'test')).toThrow(/reserved/)
   })

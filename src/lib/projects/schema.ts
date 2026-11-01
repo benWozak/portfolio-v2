@@ -102,6 +102,7 @@ export function parseProject(raw: unknown, source: string, expectedSlug?: string
   }
 
   const keyTakeaways = strArray(r, 'keyTakeaways', 'keyTakeaways')
+  if (keyTakeaways.length === 0) fail('keyTakeaways', 'must have at least one item')
 
   let sections: ProjectSection[] | undefined
   if (r.sections !== undefined) {

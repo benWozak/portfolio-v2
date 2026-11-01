@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import Link from "next/link";
 
@@ -52,7 +51,7 @@ export function CTAButton({
       <span
         className="
         relative w-full text-center transition-all duration-300
-        hover:text-primary-foreground hover:border-primary-foreground z-20 px-8 py-2 lg:px-16 lg:py-2 lg:text-lg
+        hover:text-primary-foreground z-20 px-8 py-2 lg:px-16 lg:text-lg
         "
       >
         {children}

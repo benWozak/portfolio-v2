@@ -1,8 +1,8 @@
 // src/lib/site.ts
 // One home for the strings the metadata blocks repeat. Next replaces a nested
-// `openGraph` or `twitter` object wholesale per segment, so every page that sets
-// one has to restate siteName, url, title, description and images; the shared
-// values live here.
+// `openGraph` or `twitter` object wholesale per segment, so a page that sets one
+// restates everything: openGraph needs type, siteName, locale, url, title,
+// description and images; twitter needs card, title, description and images.
 export const SITE_URL = "https://benwozak.dev";
 export const SITE_NAME = "Ben Wozaks Portfolio";
 export const SITE_LOCALE = "en_US";

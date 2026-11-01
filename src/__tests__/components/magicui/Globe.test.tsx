@@ -94,6 +94,15 @@ describe('Globe Component', () => {
           baseColor: [1, 1, 1],
           markerColor: [251 / 255, 100 / 255, 21 / 255],
           glowColor: [1, 1, 1],
+          // cobe 2 raises markers into domes by default; keep them flat and
+          // tiny, they only remain as the no-anchor-support fallback.
+          markerElevation: 0,
+          markers: [
+            expect.objectContaining({ id: 'yvr', size: 0.02, location: [49.2827, -123.1207] }),
+            expect.objectContaining({ id: 'yyc', size: 0.02, location: [51.0447, -114.0719] }),
+            expect.objectContaining({ id: 'den', size: 0.02, location: [39.7392, -104.9903] }),
+            expect.objectContaining({ id: 'san', size: 0.02, location: [32.715736, -117.161087] }),
+          ],
         })
       )
       // v2 has no onRender: the component drives frames through globe.update()
@@ -200,8 +209,77 @@ describe('Globe Component', () => {
       // React detaches host; the canvas must sit directly under it again so a
       // re-run of the effect (Strict Mode) does not nest a second wrapper.
       expect(canvas.parentElement).toBe(host)
-      expect(host!.children).toHaveLength(1)
+      // canvas, then the pin list
+      expect(host!.children).toHaveLength(2)
+      expect(host!.children[0]).toBe(canvas)
       expect(wrapper.contains(canvas)).toBe(false)
+    })
+  })
+
+  describe('Pins', () => {
+    it('renders one pin per city, in order, with its label', () => {
+      const { container } = render(<Globe />)
+
+      const pins = container.querySelectorAll('li.globe-pin')
+      expect(pins).toHaveLength(4)
+      expect([...pins].map((p) => p.querySelector('.globe-pin-label')!.textContent)).toEqual([
+        'Vancouver, BC',
+        'Calgary, AB',
+        'Denver, CO',
+        'San Diego, CA',
+      ])
+      expect(container.querySelector('ul.globe-pins')).toHaveAttribute('aria-label', 'Places I have worked')
+    })
+
+    it("binds each pin to cobe's anchor and visibility variable for its id", () => {
+      const { container } = render(<Globe />)
+      const pins = [...container.querySelectorAll('li.globe-pin')] as HTMLElement[]
+      expect(pins.map((p) => [p.style.getPropertyValue('--pin-anchor'), p.style.getPropertyValue('--pin-visible'), p.textContent])).toEqual([
+        ['--cobe-yvr', 'var(--cobe-visible-yvr, 0)', 'Vancouver, BC'],
+        ['--cobe-yyc', 'var(--cobe-visible-yyc, 0)', 'Calgary, AB'],
+        ['--cobe-den', 'var(--cobe-visible-den, 0)', 'Denver, CO'],
+        ['--cobe-san', 'var(--cobe-visible-san, 0)', 'San Diego, CA'],
+      ])
+    })
+
+    it("places the list after cobe's wrapper, unpositioned, so the anchors share the pins' containing block", () => {
+      const { container } = render(<Globe />)
+
+      const host = container.firstElementChild!
+      const list = container.querySelector('ul.globe-pins')!
+      const wrapper = document.querySelector('canvas')!.parentElement
+      expect(list.parentElement).toBe(host)
+      expect(list.previousElementSibling).toBe(wrapper)
+      // exact class list: a positioning utility here would make the ul the pins' containing block and break anchor resolution
+      expect(list.className).toBe('globe-pins')
+    })
+
+    it('contains the pin icon, the leader line and the label in each pin', () => {
+      const { container } = render(<Globe />)
+
+      const pin = container.querySelector('li.globe-pin')!
+      expect(pin.querySelector('svg.globe-pin-icon')).toHaveAttribute('aria-hidden', 'true')
+      expect(pin.querySelector('svg.globe-pin-lead')).toHaveAttribute('aria-hidden', 'true')
+      expect(pin.querySelector('span.globe-pin-label')).toBeInTheDocument()
+    })
+
+    it('inverts only the canvas in dark mode, never the pins', () => {
+      const { container } = render(<Globe />)
+
+      expect(document.querySelector('canvas')).toHaveClass('dark:invert')
+      expect(container.querySelector('ul.globe-pins')).not.toHaveClass('dark:invert')
+    })
+
+    it('accepts a custom pin list', () => {
+      const { container } = render(
+        <Globe pins={[{ id: 'nyc', label: 'New York, NY', location: [40.7128, -74.006] }]} />,
+      )
+
+      const pins = container.querySelectorAll('li.globe-pin')
+      expect(pins).toHaveLength(1)
+      expect(pins[0].textContent).toBe('New York, NY')
+      expect((pins[0] as HTMLElement).style.getPropertyValue('--pin-anchor')).toBe('--cobe-nyc')
+      expect(mockCreateGlobe.mock.calls[0][1].markers).toEqual([{ id: 'nyc', location: [40.7128, -74.006], size: 0.02 }])
     })
   })
 
@@ -214,9 +292,10 @@ describe('Globe Component', () => {
 
       expect(canvas).toBeInTheDocument()
       expect(host).toBeInTheDocument()
-      // One child: cobe's wrapper div, which holds the canvas
-      expect(host?.children).toHaveLength(1)
+      // Two children: cobe's wrapper div (holding the canvas), then the pin list
+      expect(host?.children).toHaveLength(2)
       expect(canvas?.parentElement?.parentElement).toBe(host)
+      expect(host?.children[1].tagName).toBe('UL')
     })
   })
 

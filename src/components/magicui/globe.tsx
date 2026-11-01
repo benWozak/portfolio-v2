@@ -2,11 +2,26 @@
 
 import createGlobe, { COBEOptions } from "cobe";
 import { useMotionValue, useSpring } from "motion/react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
 
 import { cn } from "@/lib/utils";
 
 const MOVEMENT_DAMPING = 1400;
+
+export type GlobePin = {
+  /** Used for the cobe anchor name `--cobe-<id>`; letters, digits and dashes only. */
+  id: string;
+  label: string;
+  /** [latitude, longitude] */
+  location: [number, number];
+};
+
+export const GLOBE_PINS: GlobePin[] = [
+  { id: "yvr", label: "Vancouver, BC", location: [49.2827, -123.1207] },
+  { id: "yyc", label: "Calgary, AB", location: [51.0447, -114.0719] },
+  { id: "den", label: "Denver, CO", location: [39.7392, -104.9903] },
+  { id: "san", label: "San Diego, CA", location: [32.715736, -117.161087] },
+];
 
 const GLOBE_CONFIG: COBEOptions = {
   width: 800,
@@ -21,20 +36,19 @@ const GLOBE_CONFIG: COBEOptions = {
   baseColor: [1, 1, 1],
   markerColor: [251 / 255, 100 / 255, 21 / 255],
   glowColor: [1, 1, 1],
-  markers: [
-    { location: [51.0447, -114.0719], size: 0.1 },
-    { location: [49.2827, -123.1207], size: 0.1 },
-    { location: [32.715736, -117.161087], size: 0.1 },
-    { location: [39.7392, -104.9903], size: 0.1 },
-  ],
+  // cobe 2 raises markers into domes by default; keep them on the surface.
+  markerElevation: 0,
 };
 
 export function Globe({
   className,
   config = GLOBE_CONFIG,
+  pins = GLOBE_PINS,
 }: {
   className?: string;
   config?: COBEOptions;
+  /** Pass a stable reference; a new array each render recreates the globe. */
+  pins?: GlobePin[];
 }) {
   const phi = useRef(0);
   const width = useRef(0);
@@ -80,6 +94,12 @@ export function Globe({
     const host = canvas.parentElement;
     const globe = createGlobe(canvas, {
       ...config,
+      // Flat, tiny markers: the DOM pins sit on top of them, and the dots are
+      // all that shows in a browser without CSS anchor positioning. An explicit
+      // config.markers still wins.
+      markers:
+        config.markers ??
+        pins.map(({ id, location }) => ({ id, location, size: 0.02 })),
       width: width.current,
       height: width.current,
     });
@@ -114,7 +134,7 @@ export function Globe({
       cobeWrapper?.replaceWith(canvas);
       window.removeEventListener("resize", onResize);
     };
-  }, [rs, config]);
+  }, [rs, config, pins]);
 
   return (
     <div
@@ -126,7 +146,7 @@ export function Globe({
       <canvas
         aria-hidden="true"
         className={cn(
-          "size-full opacity-0 transition-opacity duration-500 [contain:layout_paint_size]",
+          "size-full opacity-0 transition-opacity duration-500 [contain:layout_paint_size] dark:invert",
         )}
         ref={canvasRef}
         onPointerDown={(e) => {
@@ -140,6 +160,42 @@ export function Globe({
           e.touches[0] && updateMovement(e.touches[0].clientX)
         }
       />
+      {/*
+        cobe 2 keeps a 1px anchor named --cobe-<id> for every marker with an id
+        and, while that point faces the viewer, sets --cobe-visible-<id> on
+        :root to a non-numeric token (it deletes it otherwise). Each pin gets
+        the anchor name and the visibility as custom properties; globals.css
+        registers --pin-visible as a <number> so the token normalises to 1 and
+        the absent case to 0, then positions the pin with CSS anchor
+        positioning. The list must stay an unpositioned sibling after cobe's
+        wrapper so the anchors are inside the pins' containing block.
+      */}
+      <ul className="globe-pins" aria-label="Places I have worked">
+        {pins.map(({ id, label }) => (
+          <li
+            key={id}
+            className="globe-pin"
+            style={
+              {
+                "--pin-anchor": `--cobe-${id}`,
+                "--pin-visible": `var(--cobe-visible-${id}, 0)`,
+              } as CSSProperties
+            }
+          >
+            <svg className="globe-pin-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                fill="#fb6415"
+                d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8Z"
+              />
+              <circle cx="12" cy="10" r="3" fill="#fff" />
+            </svg>
+            <svg className="globe-pin-lead" viewBox="0 0 64 36" aria-hidden="true">
+              <path d="M8 36 L20 12 H60" fill="none" />
+            </svg>
+            <span className="globe-pin-label">{label}</span>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

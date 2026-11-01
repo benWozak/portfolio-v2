@@ -45,7 +45,7 @@ Pre-flight merge path: **(a)**, since both `slug` and `content` are present (202
 - [x] 08 — Cleanup and hardening (`08-cleanup-and-hardening.md`)
 - [ ] 09 — Decommission services (`09-decommission-services.md`)
 - [ ] 10 — Dependency upgrades (`10-dependency-upgrades.md`) — tiers done on `deps-upgrades`: ☑1 ☑2 ☑3 ☑4 ☐5 (5 deferred)
-- [ ] 11 — Globe pins (`11-globe-pins-spec.md`, plan in `11-globe-pins.md`) — on `deps-upgrades`; follows the cobe 2 upgrade in 10
+- [x] 11 — Globe pins (`11-globe-pins-spec.md`, plan in `11-globe-pins.md`) — done on `deps-upgrades`, unpushed; follows the cobe 2 upgrade in 10
 
 ## Starting a chunk session
 

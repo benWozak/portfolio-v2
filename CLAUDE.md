@@ -24,6 +24,7 @@ Next.js 16 App Router (Turbopack) + React 19, TypeScript strict, Tailwind 3.4 (H
 
 - Interactive elements use the `.focus-ring` utility.
 - Motion: `MotionConfig reducedMotion="user"` is global. Entrance pattern is `AnimatedSection` (fades in at 30% in view) + `itemVariants`.
+- Globe pins (`src/components/magicui/globe.tsx`): cobe 2 markers with an `id` get a CSS anchor `--cobe-<id>` and a `:root` variable `--cobe-visible-<id>` (a non-numeric token while visible, deleted otherwise); the `.globe-pin*` rules at the end of `globals.css` (unlayered on purpose) register `--pin-visible` with `@property` and position the DOM pins with CSS anchor positioning. The pin list must stay an unpositioned sibling after the canvas.
 - Tests live in `src/__tests__/`, mirrored by path. `src/__tests__/setup.ts` mocks next/navigation, next/image, next/link and motion/react; the motion/react mock renders any `motion.<tag>` as the plain tag via a Proxy, so new elements need no mock changes. The content tests in `src/__tests__/lib/` declare `@vitest-environment node` (one reads the filesystem, none needs a DOM); under jsdom with `NODE_ENV=production` (Vercel) a `node:` import resolves to nothing.
 - `src/lib/projects/schema.ts` and `scripts/content/*` must stay free of Next imports; the scripts run under `tsx`.
 - Env vars: only EmailJS (`NEXT_PUBLIC_KEY`, `NEXT_PUBLIC_SERVICE_ID`, `NEXT_PUBLIC_TEMPLATE_ID`) and Turnstile (`NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`). See `.env.example`.

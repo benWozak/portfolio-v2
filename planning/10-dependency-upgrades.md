@@ -768,7 +768,7 @@ Expected: `tailwindcss ^4.3.3`, `@tailwindcss/postcss ^4.3.3`, `@tailwindcss/typ
 }
 ```
 
-The `.prose` block is the existing one from `globals.css` moved out of `@layer components` with its contents unchanged. Remove the old `@layer components { .focus-ring … .prose … }` and `@layer utilities { .h-screen-dvh … }` blocks, and any `@config "./tailwind.config.ts";` line the tool added. Then:
+The `.prose` block is the existing one from `globals.css` moved out of `@layer components` with its contents unchanged. The `.globe-pin*` block from chunk 11 is already unlayered at the end of the file; leave it where it is. Remove the old `@layer components { .focus-ring … .prose … }` and `@layer utilities { .h-screen-dvh … }` blocks, and any `@config "./tailwind.config.ts";` line the tool added. Then:
 
 ```bash
 git rm tailwind.config.ts

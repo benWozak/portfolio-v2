@@ -47,6 +47,20 @@ Rejected alternative: projecting lat/long to screen in JavaScript each frame. It
 - `planning/10-dependency-upgrades.md` Tier 5: note that the `.globe-pin*` block moves out of `@layer components` with the `.prose` block when Tailwind 4 lands.
 - `CLAUDE.md` Conventions: one line on how the globe pins are bound.
 
+## As built (2026-11-01)
+
+Differences from the sections above, found during implementation and review:
+
+- **cobe's visibility variable is not 1/0.** cobe 2.0.1 sets `--cobe-visible-<id>` to the literal token `N` while the point faces the viewer and deletes it otherwise. `globals.css` registers `--pin-visible` with `@property { syntax: "<number>"; inherits: false; initial-value: 1 }`, so the token normalises to 1 and the absent case (inline fallback) to 0.
+- **Pins rest at full opacity and siblings do not dim on hover.** Because of the point above, the mockups never rendered the "75% at rest, dim to 30%" CSS; what the owner approved on screen was full-opacity pins with the lift, line and label, so that is what shipped. The 75%/dim variant is a three-line change recorded in the plan's hand-off.
+- **Inline properties** are `--pin-anchor` and `--pin-visible` (React writes custom properties through `setProperty`, which jsdom records); the CSS reads `position-anchor: var(--pin-anchor)`.
+- **The CSS block is unlayered** at the end of `globals.css` (`@property`, `@container` and `@supports` blocks are not utilities Tailwind 3 can layer).
+- **Only the icon is a hit target** (`pointer-events` off on the pin, on for the icon, off again for hidden pins via `@container style(--pin-visible: 0)`), and the canvas captures the pointer on pointerdown so a drag that crosses a pin continues.
+- **Vancouver's label sits on the left** (`side: "left"` → `data-side`), because it is 2° from Calgary and the always-on touch labels overlapped.
+- **The leader line has `max-width: none`**: `src/styles/normalization.css` sets `svg { max-width: 100% }`, which had collapsed the 64px lead to the 14px width of the pin.
+- **No-anchor fallback keeps the list for screen readers** (visually hidden), rather than `display: none`.
+- **Known limitation:** About's wrapper is `overflow-hidden` and only 320px wide, so a label is clipped when its pin is within ~120px of the right edge (Vancouver: left edge), roughly the outer third of each city's visible arc. Owner decision pending; options in the plan's hand-off.
+
 ## Out of scope
 
 Tap-to-toggle labels, keyboard focus on pins, arcs between cities, changing the globe's size, rotation speed or colours.

@@ -1,13 +1,10 @@
-"use client";
 import React from "react";
 import Link from "next/link";
-// import { useSmoothScroll } from "../../utils/hooks/useSmoothScroll";
 
 interface CTAButtonProps {
   href: string;
   children: React.ReactNode;
   className?: string;
-  onClick?: () => void;
   type?: "primary" | "secondary";
   /** Open in a new tab with rel="noopener noreferrer" and an sr-only hint. */
   external?: boolean;
@@ -17,30 +14,9 @@ export function CTAButton({
   href,
   children,
   className = "",
-  // onClick,
   type = "primary",
   external = false,
 }: CTAButtonProps) {
-  // const { scrollToElement } = useSmoothScroll();
-
-  // const handleClick = useCallback(
-  //   (e: React.MouseEvent<HTMLAnchorElement>) => {
-  //     e.preventDefault();
-  //     if (onClick) {
-  //       onClick();
-  //     }
-
-  //     if (href.startsWith("#")) {
-  //       const targetId = href.replace("#", "");
-  //       scrollToElement(targetId);
-  //     } else {
-  //       // For non-hash links, use the default Link behavior
-  //       window.location.href = href;
-  //     }
-  //   },
-  //   [href, onClick, scrollToElement]
-  // );
-
   const buttonStyles =
     type === "primary"
       ? `
@@ -59,7 +35,6 @@ export function CTAButton({
     <Link
       href={href}
       {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-      // onClick={handleClick}
       className={`
         group font-semibold focus-ring
         relative flex justify-center items-center rounded-md
@@ -75,8 +50,8 @@ export function CTAButton({
     >
       <span
         className="
-        relative w-full text-center transition-all duration-300 
-        hover:text-primary-foreground hover:border-primary-foreground text-md z-20 px-8 py-2 lg:px-16 lg:py-2 lg:text-lg
+        relative w-full text-center transition-all duration-300
+        hover:text-primary-foreground z-20 px-8 py-2 lg:px-16 lg:text-lg
         "
       >
         {children}

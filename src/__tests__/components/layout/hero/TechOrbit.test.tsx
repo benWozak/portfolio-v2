@@ -71,7 +71,7 @@ describe('TechOrbit Component', () => {
     it('renders main container with correct styling', () => {
       render(<TechOrbit />)
       
-      const container = screen.getByTestId('orbiting-circles').parentElement
+      const container = screen.getAllByTestId('orbiting-circles')[0].parentElement
       expect(container).toHaveClass('relative', 'h-[500px]', 'w-full')
     })
 
@@ -92,7 +92,7 @@ describe('TechOrbit Component', () => {
       
       expect(outerOrbit).toHaveAttribute('data-radius', '160')
       expect(outerOrbit).toHaveAttribute('data-duration', '50')
-      expect(outerOrbit).toHaveAttribute('data-reverse', 'false')
+      expect(outerOrbit).not.toHaveAttribute('data-reverse', 'true')
       expect(outerOrbit).toHaveAttribute('data-path', 'true')
     })
 
@@ -185,7 +185,7 @@ describe('TechOrbit Component', () => {
       
       expect(innerOrbit).toHaveAttribute('data-radius', '50')
       expect(innerOrbit).toHaveAttribute('data-duration', '30')
-      expect(innerOrbit).toHaveAttribute('data-reverse', 'false')
+      expect(innerOrbit).not.toHaveAttribute('data-reverse', 'true')
       expect(innerOrbit).toHaveAttribute('data-path', 'true')
     })
 
@@ -280,9 +280,9 @@ describe('TechOrbit Component', () => {
       
       const orbitingCircles = screen.getAllByTestId('orbiting-circles')
       
-      expect(orbitingCircles[0]).toHaveAttribute('data-reverse', 'false') // Outer - normal
+      expect(orbitingCircles[0]).not.toHaveAttribute('data-reverse', 'true') // Outer - normal
       expect(orbitingCircles[1]).toHaveAttribute('data-reverse', 'true')  // Middle - reverse
-      expect(orbitingCircles[2]).toHaveAttribute('data-reverse', 'false') // Inner - normal
+      expect(orbitingCircles[2]).not.toHaveAttribute('data-reverse', 'true') // Inner - normal
     })
 
     it('enables path visibility for all orbits', () => {

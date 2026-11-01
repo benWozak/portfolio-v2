@@ -48,6 +48,8 @@ npm run build
 npm run test:run
 ```
 
+**Retired in chunk 08:** the suite is green and the baseline file is deleted. `npm run test:run` must pass; the `comm` workflow below is history.
+
 **Failing-set check.** There are pre-existing test failures. Compare *sets*, never counts. The baseline is recorded by pre-flight Task 4 into `planning/baseline-test-failures.txt`. After your changes:
 
 ```bash

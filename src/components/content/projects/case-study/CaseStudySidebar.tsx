@@ -14,6 +14,7 @@ const ROW = "flex items-center justify-between gap-3 py-3 first:pt-0";
 
 export function CaseStudySidebar({ project, className }: { project: Project; className?: string }) {
   const group = PROJECT_GROUPS[project.type];
+  const stack = stackItems(project.techStack);
   return (
     <aside aria-labelledby="project-details" className={className}>
       <h2 id="project-details" className="sr-only">
@@ -34,12 +35,14 @@ export function CaseStudySidebar({ project, className }: { project: Project; cla
             </Link>
           </dd>
         </div>
-        <div className="py-3">
-          <dt className={cn(LABEL, "mb-2.5")}>Stack</dt>
-          <dd>
-            <TechChips items={stackItems(project.techStack)} />
-          </dd>
-        </div>
+        {stack.length > 0 && (
+          <div className="py-3">
+            <dt className={cn(LABEL, "mb-2.5")}>Stack</dt>
+            <dd>
+              <TechChips items={stack} />
+            </dd>
+          </div>
+        )}
       </dl>
       <ProjectLinks
         liveUrl={project.liveUrl}

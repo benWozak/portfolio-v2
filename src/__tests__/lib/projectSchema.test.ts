@@ -1,4 +1,6 @@
 // src/__tests__/lib/projectSchema.test.ts
+// @vitest-environment node
+// Node-only, like the other content tests; see projects.test.ts for why.
 import { describe, it, expect } from 'vitest'
 import { parseProject, ProjectValidationError } from '@/lib/projects/schema'
 
@@ -73,6 +75,14 @@ describe('parseProject', () => {
 
   it.each(['In Progress', 'Prototype', 'Live', 'Archived'])('accepts status %s', (status) => {
     expect(parseProject({ ...valid, status }, 'x').status).toBe(status)
+  })
+
+  it('rejects an empty keyTakeaways array', () => {
+    expect(() => parseProject({ ...valid, keyTakeaways: [] }, 'test')).toThrow(/at least one/)
+  })
+
+  it.each(['professional', 'personal', 'web', 'native'])('rejects the reserved slug "%s"', (slug) => {
+    expect(() => parseProject({ ...valid, slug, image: { ...valid.image, src: `/projects/${slug}/x.png` } }, 'test')).toThrow(/reserved/)
   })
 
   it('rejects a slug that differs from the file name', () => {

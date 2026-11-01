@@ -29,23 +29,17 @@ vi.mock('next/link', () => {
 
 // Mock Next.js Image component
 vi.mock('next/image', () => ({
-  default: (props: any) => {
+  // Strip Next-only props so React does not warn about unknown DOM attributes.
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  default: ({ priority, blurDataURL, placeholder, fill, ...props }: any) => {
     return React.createElement('img', { ...props, alt: props.alt })
   },
 }))
 
 // Mock framer-motion to avoid animation issues in tests
 vi.mock('framer-motion', () => ({
-  motion: {
-    div: 'div',
-    span: 'span',
-    a: 'a',
-    button: 'button',
-    li: 'li',
-    ul: 'ul',
-    article: 'article',
-    section: 'section',
-  },
+  // Any motion.<tag> renders as the plain <tag>; nothing to maintain when a component uses a new element.
+  motion: new Proxy({}, { get: (_, tag) => tag as string }),
   AnimatePresence: ({ children }: { children: React.ReactNode }) => children,
   useInView: () => true,
 }))
@@ -57,36 +51,41 @@ global.IntersectionObserver = vi.fn().mockImplementation(() => ({
   unobserve: vi.fn(),
 }))
 
-// Mock window methods
-Object.defineProperty(window, 'scrollTo', {
-  value: vi.fn(),
-  writable: true,
-})
+// Browser-only mocks. The content tests in src/__tests__/lib/ run in the
+// `node` environment (see their `@vitest-environment` directive), where there
+// is no window.
+if (typeof window !== 'undefined') {
+  // Mock window methods
+  Object.defineProperty(window, 'scrollTo', {
+    value: vi.fn(),
+    writable: true,
+  })
 
-// Mock matchMedia
-const mockMatchMedia = vi.fn().mockImplementation((query) => ({
-  matches: false,
-  media: query,
-  onchange: null,
-  addListener: vi.fn(),
-  removeListener: vi.fn(),
-  addEventListener: vi.fn(),
-  removeEventListener: vi.fn(),
-  dispatchEvent: vi.fn(),
-}))
+  // Mock matchMedia
+  const mockMatchMedia = vi.fn().mockImplementation((query) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  }))
 
-Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  value: mockMatchMedia,
-})
+  Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    value: mockMatchMedia,
+  })
 
-// Mock localStorage
-const localStorageMock = {
-  getItem: vi.fn(),
-  setItem: vi.fn(),
-  removeItem: vi.fn(),
-  clear: vi.fn(),
+  // Mock localStorage
+  const localStorageMock = {
+    getItem: vi.fn(),
+    setItem: vi.fn(),
+    removeItem: vi.fn(),
+    clear: vi.fn(),
+  }
+  Object.defineProperty(window, 'localStorage', {
+    value: localStorageMock,
+  })
 }
-Object.defineProperty(window, 'localStorage', {
-  value: localStorageMock,
-})

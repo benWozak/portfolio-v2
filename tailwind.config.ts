@@ -2,7 +2,6 @@ import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
@@ -92,8 +91,6 @@ const config: Config = {
   		},
   		animation: {
   			orbit: 'orbit calc(var(--duration)*1s) linear infinite',
-				shimmer: 'shimmer 2s infinite',
-        fadeIn: 'fadeIn 0.5s ease-out forwards',
   		},
   		keyframes: {
 				orbit: {
@@ -104,24 +101,10 @@ const config: Config = {
 						transform: 'rotate(calc(var(--angle) * 1deg + 360deg)) translateX(calc(var(--radius) * 1px)) rotate(calc((var(--angle) * -1deg) - 360deg))'
 					}
 				},
-				shimmer: {
-          '0%': { transform: 'translateX(-100%)' },
-          '100%': { transform: 'translateX(100%)' },
-        },
-				fadeIn: {
-          from: { 
-            opacity: '0',
-            transform: 'translateY(10px)'
-          },
-          to: { 
-            opacity: '1',
-            transform: 'translateY(0)'
-          },
-        },
 			}
   	}
   },
-  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
+  plugins: [require("@tailwindcss/typography")],
 };
 
 export default config;

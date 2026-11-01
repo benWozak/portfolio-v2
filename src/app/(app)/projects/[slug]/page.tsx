@@ -11,6 +11,7 @@ import { KeyTakeaways } from "@/components/content/projects/case-study/KeyTakeaw
 import { ProjectPagination } from "@/components/content/projects/case-study/ProjectPagination";
 import { Reveal } from "@/components/content/projects/case-study/Reveal";
 import { getAdjacentProjects, getProjectBySlug, getProjectSlugs } from "@/lib/projects";
+import { SITE_LOCALE, SITE_NAME } from "@/lib/site";
 
 type Params = Promise<{ slug: string }>;
 
@@ -34,14 +35,14 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     // Replaces the root layout's openGraph block wholesale, so restate type, siteName, locale and url.
     openGraph: {
       type: "article",
-      siteName: "Ben Wozaks Portfolio",
-      locale: "en_US",
+      siteName: SITE_NAME,
+      locale: SITE_LOCALE,
       url: `/projects/${slug}`,
       title,
       description,
       images: [image],
     },
-    twitter: { card: "summary_large_image", title, description, images: [project.image.src] },
+    twitter: { card: "summary_large_image", title, description, images: [image] },
   };
 }
 

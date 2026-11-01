@@ -1,7 +1,6 @@
 import { Hero } from "@/components/layout";
 import {
   Projects,
-  // Pitch
   About,
   Experience,
 } from "@/components/content";
@@ -15,7 +14,6 @@ export default async function Home() {
   return (
     <article className="flex min-h-screen flex-col items-center justify-center">
       <Hero />
-      {/* <Pitch /> */}
       <About />
       {professional && personal && <Projects professional={professional} personal={personal} />}
       <Experience />

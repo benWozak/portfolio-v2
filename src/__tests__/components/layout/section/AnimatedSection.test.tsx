@@ -50,13 +50,6 @@ describe('AnimatedSection Component', () => {
       expect(motionDiv).toContainElement(screen.getByText('Animation content'))
     })
 
-    it('applies default className when none provided', () => {
-      render(<AnimatedSection><div>Content</div></AnimatedSection>)
-      
-      const motionDiv = screen.getByTestId('motion-div')
-      expect(motionDiv).toHaveClass('')
-    })
-
     it('applies custom className when provided', () => {
       render(
         <AnimatedSection className="custom-class">

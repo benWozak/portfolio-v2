@@ -23,6 +23,13 @@ describe('CaseStudySidebar', () => {
     expect(screen.queryByRole('list', { name: /frontend/i })).toBeNull()
   })
 
+  it('omits the Stack row when the project has no tech stack', () => {
+    render(<CaseStudySidebar project={{ ...project, techStack: { frontend: [], backend: [], other: [] } }} />)
+    expect(screen.queryByText('Stack')).toBeNull()
+    expect(screen.queryByRole('list', { name: /tech stack/i })).toBeNull()
+    expect(screen.getByText('Status')).toBeInTheDocument()   // the other rows stay
+  })
+
   it('shows the live button and the rights note when there is no code link', () => {
     render(<CaseStudySidebar project={project} />)
     expect(screen.getByRole('link', { name: /visit live site/i })).toHaveAttribute('href', 'https://example.com')

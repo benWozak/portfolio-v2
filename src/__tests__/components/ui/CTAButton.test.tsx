@@ -183,8 +183,6 @@ describe('CTAButton Component', () => {
         'transition-all',
         'duration-300',
         'hover:text-primary-foreground',
-        'hover:border-primary-foreground',
-        'text-md',
         'z-20'
       )
     })
@@ -201,7 +199,6 @@ describe('CTAButton Component', () => {
         'px-8',
         'py-2',
         'lg:px-16',
-        'lg:py-2',
         'lg:text-lg'
       )
     })

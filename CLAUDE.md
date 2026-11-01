@@ -1,0 +1,43 @@
+# portfolio-v2
+
+Personal portfolio for Ben Wozak at https://benwozak.dev. Statically generated Next.js site plus one route handler that verifies Turnstile; no CMS, no database.
+
+## Stack
+
+Next.js 15 App Router + React 19, TypeScript strict, Tailwind 3.4 (HSL tokens in `src/app/globals.css`), framer-motion, next-themes, Vitest + Testing Library. Deployed on Vercel. Node 22, npm, `package-lock.json` is committed.
+
+## Commands
+
+- `npm run dev` / `npm run build` / `npm run start`
+- `npm run lint`, `npx tsc --noEmit` (run `rm -rf .next` first; stale route type stubs cause false errors)
+- `npm run test:run` (all; must be green), `npm run content:check` (content integrity; also runs as `prebuild`, locally and on Vercel)
+- `npm run content:new -- --slug <slug> --image <path>` scaffolds a project
+
+## Content model
+
+- Projects: `content/projects/<slug>.json` + `public/projects/<slug>/`, loaded by `src/lib/projects/` and validated by `src/lib/projects/schema.ts`. See `docs/adding-a-project.md`.
+- Everything else (hero, about, experience, socials, nav) is hard-coded in `src/components/`.
+- Markdown in project text is rendered by `src/components/content/markdown/Markdown.tsx` (react-markdown + remark-gfm, server component, no raw HTML).
+- Site-wide metadata strings live in `src/lib/site.ts`. A page that sets `openGraph` or `twitter` replaces the root block wholesale, so restate `type`, `siteName`, `locale`, `url`, `title`, `description` and `images` in `openGraph`, and `card`, `title`, `description` and `images` in `twitter`. A `"use client"` page cannot export metadata; give it a `layout.tsx` (see `src/app/(app)/contact/layout.tsx`).
+
+## Conventions
+
+- Interactive elements use the `.focus-ring` utility.
+- Motion: `MotionConfig reducedMotion="user"` is global. Entrance pattern is `AnimatedSection` (fades in at 30% in view) + `itemVariants`.
+- Tests live in `src/__tests__/`, mirrored by path. `src/__tests__/setup.ts` mocks next/navigation, next/image, next/link and framer-motion; the framer-motion mock renders any `motion.<tag>` as the plain tag via a Proxy, so new elements need no mock changes. The content tests in `src/__tests__/lib/` declare `@vitest-environment node` (one reads the filesystem, none needs a DOM); under jsdom with `NODE_ENV=production` (Vercel) a `node:` import resolves to nothing.
+- `src/lib/projects/schema.ts` and `scripts/content/*` must stay free of Next imports; the scripts run under `tsx`.
+- Env vars: only EmailJS (`NEXT_PUBLIC_KEY`, `NEXT_PUBLIC_SERVICE_ID`, `NEXT_PUBLIC_TEMPLATE_ID`) and Turnstile (`NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`). See `.env.example`.
+
+## Working with the owner
+
+- **Ask how commits should be handled before starting a piece of work.** The default is that the owner commits: leave the tree uncommitted and hand off the list of changed files with a suggested message. Subagents never run `git add`, `git commit` or `git stash` in any mode; `git rm` / `git mv` are fine.
+- **Ask before pushing or opening a PR.** Never merge; the owner merges and verifies production.
+- **The owner runs anything that touches production services** (Vercel settings and env vars, Vercel Blob, Turso). Prepare the command, mark it **OWNER RUNS**, and stop.
+- `scripts/backups/` contains personal data from the old CMS. Never stage, commit or print it.
+- `.env*` files hold secrets. Never print their values and never commit them (`.env.example` is the only tracked one).
+- The Vercel CLI is not logged in here. Ask the owner for the build log before reproducing a deploy failure locally.
+- Larger pieces of work are planned in `planning/` (one doc per chunk; `planning/README.md` is the index). Record decisions and hand-off notes in the chunk doc.
+
+## History
+
+Until 2026 the site ran on Payload CMS (Turso + Vercel Blob). The removal is documented in `planning/`.

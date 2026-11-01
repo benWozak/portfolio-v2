@@ -119,8 +119,29 @@ describe('Globe Component', () => {
   describe('Cleanup', () => {
     it('calls createGlobe on mount', () => {
       render(<Globe />)
-      
+
       expect(mockCreateGlobe).toHaveBeenCalledTimes(1)
+    })
+
+    it('fades the canvas in, and cancels the fade-in when unmounted first', () => {
+      vi.useFakeTimers()
+      try {
+        const { unmount } = render(<Globe />)
+        vi.runAllTimers()
+        expect(document.querySelector('canvas')!.style.opacity).toBe('1')
+
+        const { destroy } = mockCreateGlobe.mock.results[0].value
+        unmount()
+        expect(() => vi.runAllTimers()).not.toThrow()
+        expect(destroy).toHaveBeenCalledTimes(1)
+
+        // Regression: unmounting before the fade-in timer fires used to throw on
+        // the null canvas ref.
+        render(<Globe />).unmount()
+        expect(() => vi.runAllTimers()).not.toThrow()
+      } finally {
+        vi.useRealTimers()
+      }
     })
   })
 

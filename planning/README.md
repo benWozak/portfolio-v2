@@ -44,7 +44,7 @@ Pre-flight merge path: **(a)**, since both `slug` and `content` are present (202
 - [x] 07 — Projects detail redesign (`07-projects-detail-redesign.md`)
 - [x] 08 — Cleanup and hardening (`08-cleanup-and-hardening.md`)
 - [ ] 09 — Decommission services (`09-decommission-services.md`)
-- [ ] 10 — Dependency upgrades (`10-dependency-upgrades.md`) — tiers done on `deps-upgrades`: ☐1 ☐2 ☐3 ☐4 ☐5 (5 deferred)
+- [ ] 10 — Dependency upgrades (`10-dependency-upgrades.md`) — tiers done on `deps-upgrades`: ☑1 ☐2 ☐3 ☐4 ☐5 (5 deferred)
 
 ## Starting a chunk session
 

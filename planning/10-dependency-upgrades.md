@@ -103,7 +103,7 @@ Nothing in this tier should need a source change. If a step does, stop and recor
 
 ### Task 1: In-range updates and the audit
 
-- [ ] **Step 1: Record the before state**
+- [x] **Step 1: Record the before state**
 
 ```bash
 npm outdated --long > /tmp/outdated-before.txt; npm audit 2>&1 | tail -3
@@ -111,7 +111,7 @@ npm outdated --long > /tmp/outdated-before.txt; npm audit 2>&1 | tail -3
 
 Expected: `24 vulnerabilities (2 low, 6 moderate, 13 high, 3 critical)`.
 
-- [ ] **Step 2: Update everything inside its caret range**
+- [x] **Step 2: Update everything inside its caret range**
 
 ```bash
 npm update
@@ -121,7 +121,7 @@ npm audit 2>&1 | tail -3
 
 Expected: `found 0 vulnerabilities`. If anything remains, `npm audit` names the path; it will be under `vite` or `jsdom/node_modules/undici`. Do **not** run `npm audit fix --force` (it would jump majors). Note the leftover for Tier 4 instead.
 
-- [ ] **Step 3: Confirm what moved**
+- [x] **Step 3: Confirm what moved**
 
 ```bash
 npm ls --depth=0 2>/dev/null | grep -E "vitest|coverage-v8|plugin-react|eslint|framer-motion|react@|react-dom|@types/react|postcss|react-icons|tailwind-merge|tsx|testing-library"
@@ -130,33 +130,33 @@ npm ls vite undici 2>/dev/null | grep -E "vite@|undici@" | sort -u
 
 Expected: vitest and coverage-v8 `4.1.12`, plugin-react `5.2.0`, eslint `9.39.5`, eslint-config-next `15.5.28`, framer-motion `12.43.0`, react/react-dom `19.3.1`, @types/react `19.3.0`, @types/react-dom `19.3.0`, postcss `8.5.32`, react-icons `5.7.0`, tailwind-merge `3.7.0`, tsx `4.23.15`, @testing-library/react `16.3.3`, user-event `14.6.8`; vite `7.3.7` or later; undici no longer in the vulnerable range.
 
-- [ ] **Step 4: Gate.** Run the gate block. Expected: all green, identical route table.
+- [x] **Step 4: Gate.** Run the gate block. Expected: all green, identical route table.
 
 Commit: `chore(deps): update in-range dependencies and fix audit findings`
 
 ### Task 2: `@types/node` back to the runtime major
 
-- [ ] **Step 1: Install**
+- [x] **Step 1: Install**
 
 ```bash
 npm install -D @types/node@^22
 grep -n '"@types/node"' package.json   # "^22.20.5" or later 22.x
 ```
 
-- [ ] **Step 2: Gate.** `rm -rf .next && npx tsc --noEmit` is the only step that can react. Expected: silent.
+- [x] **Step 2: Gate.** `rm -rf .next && npx tsc --noEmit` is the only step that can react. Expected: silent.
 
 Commit: `chore(deps): pin @types/node to the Node 22 line`
 
 ### Task 3: Majors with no API change
 
-- [ ] **Step 1: Install**
+- [x] **Step 1: Install**
 
 ```bash
 npm install @vercel/analytics@2.0.1 @vercel/speed-insights@2.0.0 @emailjs/browser@5.0.3
 npm install -D sharp@0.35.5
 ```
 
-- [ ] **Step 2: Confirm the three imports still resolve.** `src/app/layout.tsx` imports `@vercel/analytics/react` and `@vercel/speed-insights/next`; `src/components/content/contact/ContactForm.tsx` imports the default export of `@emailjs/browser`; `scripts/content/image.ts` and `src/__tests__/scripts/image.test.ts` import `sharp`.
+- [x] **Step 2: Confirm the three imports still resolve.** `src/app/layout.tsx` imports `@vercel/analytics/react` and `@vercel/speed-insights/next`; `src/components/content/contact/ContactForm.tsx` imports the default export of `@emailjs/browser`; `scripts/content/image.ts` and `src/__tests__/scripts/image.test.ts` import `sharp`.
 
 ```bash
 npx tsc --noEmit
@@ -166,13 +166,13 @@ npm run content:new -- --slug zz-smoke --image public/android-chrome-512x512.png
 
 Expected: tsc silent; image test passes; `content:new` writes two files (sharp 0.35 works under tsx) and the cleanup leaves `git status --short` showing only `package*.json`.
 
-- [ ] **Step 3: Gate.** Expected: green. In the build output, confirm `/contact` is still `○` (static).
+- [x] **Step 3: Gate.** Expected: green. In the build output, confirm `/contact` is still `○` (static).
 
 Commit: `chore(deps): @vercel/analytics 2, @vercel/speed-insights 2, @emailjs/browser 5, sharp 0.35`
 
 ### Task 4: Test tooling majors
 
-- [ ] **Step 1: Install**
+- [x] **Step 1: Install**
 
 ```bash
 npm install -D @testing-library/jest-dom@7.0.1 @testing-library/dom@^10.4.1 jsdom@29.1.1
@@ -180,7 +180,7 @@ npm install -D @testing-library/jest-dom@7.0.1 @testing-library/dom@^10.4.1 jsdo
 
 `@testing-library/dom` is now a required peer of jest-dom 7. It was already in the tree (10.4.1, via `@testing-library/react`); listing it makes the peer explicit so a future `npm ci` cannot drop it.
 
-- [ ] **Step 2: Run the suite**
+- [x] **Step 2: Run the suite**
 
 ```bash
 npm run test:run 2>&1 | tail -15
@@ -188,13 +188,13 @@ npm run test:run 2>&1 | tail -15
 
 Expected: green. Known jsdom 29 differences if something fails: it ships its own `PointerEvent` (a test that polyfills `PointerEvent` should remove the polyfill), and `window.getComputedStyle` knows prefixed animation properties. Fix the test, not the component, and record each fix in the hand-off log.
 
-- [ ] **Step 3: Gate.**
+- [x] **Step 3: Gate.**
 
 Commit: `chore(deps): jest-dom 7 (explicit @testing-library/dom peer) and jsdom 29`
 
 ### Task 5: `lucide-react` 1
 
-- [ ] **Step 1: Install and type-check**
+- [x] **Step 1: Install and type-check**
 
 ```bash
 npm install lucide-react@1.66.0
@@ -203,7 +203,7 @@ npx tsc --noEmit
 
 Expected: silent. The four icons in use (`ChevronDown` in `src/components/ui/Dropdown.tsx:51`; `Sun`, `Moon`, `Laptop` in `src/components/layout/ThemeToggle.tsx:11-13`) are core icons, not brand icons.
 
-- [ ] **Step 2: Check the accessibility default.** lucide 1 renders `aria-hidden="true"` on every icon by default. Both call sites pair the icon with visible text (the dropdown's selected label; the theme option labels), so hidden icons are correct.
+- [x] **Step 2: Check the accessibility default.** lucide 1 renders `aria-hidden="true"` on every icon by default. Both call sites pair the icon with visible text (the dropdown's selected label; the theme option labels), so hidden icons are correct.
 
 ```bash
 npx vitest run src/__tests__/components/layout/ThemeToggle.test.tsx src/__tests__/components/ui/Dropdown.test.tsx 2>&1 | tail -4
@@ -211,13 +211,13 @@ npx vitest run src/__tests__/components/layout/ThemeToggle.test.tsx src/__tests_
 
 Expected: pass. If a test queried an icon by role `img`, change it to query the text label instead.
 
-- [ ] **Step 3: Gate.**
+- [x] **Step 3: Gate.**
 
 Commit: `chore(deps): lucide-react 1`
 
 ### Task 6: Dependabot (keeps this from recurring)
 
-- [ ] **Step 1: Create `.github/dependabot.yml`**
+- [x] **Step 1: Create `.github/dependabot.yml`**
 
 ```yaml
 # Grouped, monthly, so the repo gets one PR for routine bumps instead of one per package.
@@ -237,7 +237,7 @@ updates:
 
 Majors arrive as their own grouped PR, so the owner can decline them without blocking the routine group.
 
-- [ ] **Step 2: Tier hand-off note.** Append to the hand-off log: the `npm outdated` before/after counts and the audit result. Do not push. When the owner later deploys the branch, they check that `/`, `/projects/professional` and `/contact` render and that Vercel Analytics still records a page view.
+- [x] **Step 2: Tier hand-off note.** Append to the hand-off log: the `npm outdated` before/after counts and the audit result. Do not push. When the owner later deploys the branch, they check that `/`, `/projects/professional` and `/contact` render and that Vercel Analytics still records a page view.
 
 Commit: `chore: dependabot config, grouped monthly`
 
@@ -841,3 +841,11 @@ Commit: `feat(styles): tailwind 4 with tokens in @theme inline`
 ## Hand-off log
 
 _(append dated notes here)_
+
+**2026-11-01 — Tier 1 (Tasks 1–6), branch `deps-upgrades`, not pushed**
+- `npm outdated` before: 27 packages. After Tier 1: @types/node 22.20.5→26.6.6,@vitejs/plugin-react 5.2.0→6.1.2,@vitest/coverage-v8 4.1.12→5.0.5,cobe 0.6.5→2.0.1,eslint 9.39.5→10.14.0,eslint-config-next 15.5.28→16.4.3,framer-motion 12.43.0→14.9.0,next 15.4.11→16.4.3,tailwindcss 3.4.19→4.3.3,typescript 5.9.3→7.0.2,vitest 4.1.12→5.0.5.
+- `npm audit`: 24 advisories → 1 moderate (`minimatch` under ESLint 9's own tree: `@eslint/config-array`, typescript-eslint). npm's only offer is `--force` to a downgraded eslint, so it is left for Tier 3, where ESLint 10 and eslint-config-next 16 replace that tree.
+- One source change, contrary to the tier's expectation: `react-icons` 5.7 removed `SiLinkedin` (Simple Icons dropped the LinkedIn mark). `src/components/content/Socials.tsx` now uses `FaLinkedin` from `react-icons/fa`, the same set TechOrbit uses for AWS. Same square "in" glyph, Font Awesome's rounded-corner version.
+- `npm update` already moved `vite` to 8.3.5 (Vitest 4.1.12's peer range allows ^8), so Tier 4's explicit `vite@^8` is a formality.
+- `@testing-library/dom` is now an explicit devDependency (`^10.4.2`), as jest-dom 7 requires.
+- Gate after every task: tsc silent, lint clean, 30 files / 430 tests, same route table.

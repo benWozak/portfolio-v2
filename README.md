@@ -1,6 +1,6 @@
 # benwozak.dev
 
-Personal portfolio. Static Next.js 15 site deployed on Vercel.
+Personal portfolio. Static Next.js 16 site deployed on Vercel.
 
 ## Develop
 

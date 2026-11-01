@@ -22,6 +22,7 @@ and the verification commands every chunk uses.
                      └─ 07 projects detail redesign
                          └─ 08 cleanup + hardening
                              └─ 09 decommission services (owner-run, irreversible)
+                                 └─ 10 dependency upgrades (one branch, four tiers; after 08, independent of 09)
 ```
 
 03 and 04 can be done in the same session on two branches. Everything else is strictly
@@ -41,8 +42,9 @@ Pre-flight merge path: **(a)**, since both `slug` and `content` are present (202
 - [x] 05 — Remove Payload (`05-remove-payload.md`)
 - [x] 06 — Projects index redesign (`06-projects-index-redesign.md`)
 - [x] 07 — Projects detail redesign (`07-projects-detail-redesign.md`)
-- [ ] 08 — Cleanup and hardening (`08-cleanup-and-hardening.md`)
+- [x] 08 — Cleanup and hardening (`08-cleanup-and-hardening.md`)
 - [ ] 09 — Decommission services (`09-decommission-services.md`)
+- [ ] 10 — Dependency upgrades (`10-dependency-upgrades.md`) — tiers done on `deps-upgrades`: ☐1 ☐2 ☐3 ☐4 ☐5 (5 deferred)
 
 ## Starting a chunk session
 

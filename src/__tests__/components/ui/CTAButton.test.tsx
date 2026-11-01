@@ -221,13 +221,23 @@ describe('CTAButton Component', () => {
 
     it('handles external links correctly', () => {
       render(
-        <CTAButton href="https://external.com">
+        <CTAButton href="https://external.com" external>
           External Link
         </CTAButton>
       )
-      
-      const link = screen.getByRole('link')
+
+      const link = screen.getByRole('link', { name: /external link/i })
       expect(link).toHaveAttribute('href', 'https://external.com')
+      expect(link).toHaveAttribute('target', '_blank')
+      expect(link).toHaveAttribute('rel', 'noopener noreferrer')
+      expect(link).toHaveAccessibleName(/opens in a new tab/i)
+    })
+
+    it('does not add target or rel without external', () => {
+      render(<CTAButton href="/internal">Internal</CTAButton>)
+      const link = screen.getByRole('link', { name: 'Internal' })
+      expect(link).not.toHaveAttribute('target')
+      expect(link).not.toHaveAttribute('rel')
     })
 
     it('handles hash links correctly', () => {

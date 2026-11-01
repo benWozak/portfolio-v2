@@ -1,11 +1,16 @@
 // src/app/(app)/projects/[slug]/page.tsx
-import Image from "next/image";
-import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { SectionHeading } from "@/components/layout/section/SectionHeading";
-import { BackButton } from "@/components/ui/BackButton";
-import { getProjectBySlug, getProjectSlugs } from "@/lib/projects";
+import { AnimatedSection } from "@/components/layout/section/AnimatedSection";
+import { Markdown } from "@/components/content/markdown/Markdown";
+import { PROJECT_GROUPS } from "@/components/content/projects/groups";
+import { CaseStudyHero } from "@/components/content/projects/case-study/CaseStudyHero";
+import { CaseStudySection } from "@/components/content/projects/case-study/CaseStudySection";
+import { CaseStudySidebar } from "@/components/content/projects/case-study/CaseStudySidebar";
+import { KeyTakeaways } from "@/components/content/projects/case-study/KeyTakeaways";
+import { ProjectPagination } from "@/components/content/projects/case-study/ProjectPagination";
+import { Reveal } from "@/components/content/projects/case-study/Reveal";
+import { getAdjacentProjects, getProjectBySlug, getProjectSlugs } from "@/lib/projects";
 
 type Params = Promise<{ slug: string }>;
 
@@ -19,128 +24,81 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const { slug } = await params;
   const project = getProjectBySlug(slug);
   if (!project) return { title: "Project not found" };
+  const title = project.seo?.title ?? project.name;
+  const description = project.seo?.description ?? project.description;
+  const image = { url: project.image.src, width: project.image.width, height: project.image.height, alt: project.image.alt };
   return {
-    title: project.seo?.title ?? `${project.name} | Projects`,
-    description: project.seo?.description ?? project.description,
-    openGraph: { images: [project.image.src] },
+    // seo.title is a full <title> override; project.name takes the root "%s | Ben Wozak" template.
+    title: project.seo?.title ? { absolute: project.seo.title } : project.name,
+    description,
+    // Replaces the root layout's openGraph block wholesale, so restate type, siteName, locale and url.
+    openGraph: {
+      type: "article",
+      siteName: "Ben Wozaks Portfolio",
+      locale: "en_US",
+      url: `/projects/${slug}`,
+      title,
+      description,
+      images: [image],
+    },
+    twitter: { card: "summary_large_image", title, description, images: [project.image.src] },
   };
 }
-
-const PARAGRAPH = "text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-line";
-const HEADING = "text-2xl font-semibold mb-4";
 
 export default async function ProjectPage({ params }: { params: Params }) {
   const { slug } = await params;
   const project = getProjectBySlug(slug);
   if (!project) notFound();
+  const { prev, next } = getAdjacentProjects(slug);
+  const group = PROJECT_GROUPS[project.type];
 
-  const stackGroups = [
-    ["Frontend", project.techStack.frontend],
-    ["Backend", project.techStack.backend],
-    ["Other", project.techStack.other],
-  ] as const;
+  const sections = [
+    { id: "overview", heading: "Overview", body: project.overview },
+    { id: "challenge", heading: "Challenge", body: project.challenge },
+    { id: "solution", heading: "Solution", body: project.solution },
+  ];
 
   return (
-    <div className="container mx-auto px-4">
-      <SectionHeading title={project.name} />
-      <BackButton />
+    <>
+      <CaseStudyHero project={project} />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 space-y-8">
-          <Image
-            src={project.image.src}
-            alt={project.image.alt}
-            width={project.image.width}
-            height={project.image.height}
-            placeholder="blur"
-            blurDataURL={project.image.blurDataURL}
-            priority
-            sizes="(max-width: 1024px) 100vw, 66vw"
-            className="rounded-md w-full h-auto"
-          />
+      <div className="lg:grid lg:grid-cols-3 lg:gap-12">
+        {/* DOM order: details, then the story. Below lg that is also the visual order. */}
+        <CaseStudySidebar
+          project={project}
+          className="mb-12 lg:col-start-3 lg:row-start-1 lg:mb-0 lg:sticky lg:top-24 lg:self-start"
+        />
 
-          <section>
-            <h2 className={HEADING}>Overview</h2>
-            <p className={PARAGRAPH}>{project.overview}</p>
-          </section>
-          <section>
-            <h2 className={HEADING}>Challenge</h2>
-            <p className={PARAGRAPH}>{project.challenge}</p>
-          </section>
-          <section>
-            <h2 className={HEADING}>Solution</h2>
-            <p className={PARAGRAPH}>{project.solution}</p>
-          </section>
-          <section>
-            <h2 className={HEADING}>Key Takeaways</h2>
-            <ul className="list-disc pl-5 space-y-2 text-gray-600 dark:text-gray-300">
-              {project.keyTakeaways.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </section>
-          {project.sections?.map((section) => (
-            <section key={section.heading}>
-              <h2 className={HEADING}>{section.heading}</h2>
-              <p className={PARAGRAPH}>{section.body}</p>
-            </section>
+        <div className="space-y-16 lg:col-span-2 lg:col-start-1 lg:row-start-1">
+          {sections.map((s) => (
+            <AnimatedSection key={s.id}>
+              <Reveal>
+                <CaseStudySection id={s.id} heading={s.heading}>
+                  <Markdown>{s.body}</Markdown>
+                </CaseStudySection>
+              </Reveal>
+            </AnimatedSection>
+          ))}
+
+          <AnimatedSection>
+            <Reveal>
+              <KeyTakeaways items={project.keyTakeaways} />
+            </Reveal>
+          </AnimatedSection>
+
+          {project.sections?.map((s, i) => (
+            <AnimatedSection key={`${i}-${s.heading}`}>
+              <Reveal>
+                <CaseStudySection id={`extra-${i}`} heading={s.heading}>
+                  <Markdown>{s.body}</Markdown>
+                </CaseStudySection>
+              </Reveal>
+            </AnimatedSection>
           ))}
         </div>
-
-        <aside className="lg:col-span-1">
-          <div className="sticky top-20 space-y-4">
-            <section>
-              <h2 className={HEADING}>Tech Stack</h2>
-              <div className="space-y-6">
-                {stackGroups
-                  .filter(([, items]) => items.length > 0)
-                  .map(([label, items]) => (
-                    <div key={label}>
-                      <h3 className="font-medium text-gray-900 dark:text-gray-100">{label}</h3>
-                      <ul className="space-y-1">
-                        {items.map((tech) => (
-                          <li key={tech} className="text-gray-600 dark:text-gray-300 text-sm">
-                            • {tech}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-              </div>
-            </section>
-
-            <section>
-              <div className="space-y-3">
-                {project.liveUrl && (
-                  <Link
-                    href={project.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="focus-ring block w-full bg-primary-500 text-primary-foreground px-4 py-3 rounded-md hover:bg-primary-600 transition-colors text-center font-medium"
-                  >
-                    Live Demo
-                  </Link>
-                )}
-                {project.githubUrl && (
-                  <Link
-                    href={project.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="focus-ring block w-full bg-secondary-400 dark:bg-secondary-600 text-foreground px-4 py-3 rounded-md hover:bg-secondary-600 hover:dark:bg-secondary-800 transition-colors text-center font-medium"
-                  >
-                    View Code
-                  </Link>
-                )}
-              </div>
-              {!project.githubUrl && (
-                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-4 italic">
-                  I do not own the rights to the code for this project.
-                </p>
-              )}
-            </section>
-          </div>
-        </aside>
       </div>
-    </div>
+
+      <ProjectPagination prev={prev} next={next} group={group} />
+    </>
   );
 }

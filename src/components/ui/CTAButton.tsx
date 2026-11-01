@@ -9,6 +9,8 @@ interface CTAButtonProps {
   className?: string;
   onClick?: () => void;
   type?: "primary" | "secondary";
+  /** Open in a new tab with rel="noopener noreferrer" and an sr-only hint. */
+  external?: boolean;
 }
 
 export function CTAButton({
@@ -17,6 +19,7 @@ export function CTAButton({
   className = "",
   // onClick,
   type = "primary",
+  external = false,
 }: CTAButtonProps) {
   // const { scrollToElement } = useSmoothScroll();
 
@@ -55,6 +58,7 @@ export function CTAButton({
   return (
     <Link
       href={href}
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       // onClick={handleClick}
       className={`
         group font-semibold focus-ring
@@ -76,6 +80,7 @@ export function CTAButton({
         "
       >
         {children}
+        {external && <span className="sr-only"> (opens in a new tab)</span>}
       </span>
     </Link>
   );

@@ -7,6 +7,29 @@
   .focus-ring {
     @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2;
   }
+
+  /* Typography plugin → design tokens. Both light and dark (prose-invert) sets. */
+  .prose {
+    --tw-prose-body: hsl(var(--foreground));
+    --tw-prose-invert-body: hsl(var(--foreground));
+    --tw-prose-headings: hsl(var(--foreground));
+    --tw-prose-invert-headings: hsl(var(--foreground));
+    --tw-prose-bold: hsl(var(--foreground));
+    --tw-prose-invert-bold: hsl(var(--foreground));
+    --tw-prose-links: hsl(var(--primary));
+    --tw-prose-invert-links: hsl(var(--primary));
+    --tw-prose-bullets: hsl(var(--secondary-500));
+    --tw-prose-invert-bullets: hsl(var(--secondary-500));
+    /* counters: darker teal on the light background for contrast */
+    --tw-prose-counters: hsl(var(--secondary-700));
+    --tw-prose-invert-counters: hsl(var(--secondary-500));
+    --tw-prose-quote-borders: hsl(var(--primary));
+    --tw-prose-invert-quote-borders: hsl(var(--primary));
+  }
+  .prose a {
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
 }
 
 @layer base {

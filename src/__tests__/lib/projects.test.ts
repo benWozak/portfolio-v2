@@ -82,15 +82,21 @@ describe('loader API', () => {
     }
   })
 
-  it('getAdjacentProjects walks the ordered list with nulls at the ends', () => {
-    const all = getProjects()
-    const first = getAdjacentProjects(all[0].slug)
-    const last = getAdjacentProjects(all[all.length - 1].slug)
-    expect(first.prev).toBeNull()
-    expect(last.next).toBeNull()
-    if (all.length > 1) {
-      expect(first.next?.slug).toBe(all[1].slug)
-      expect(last.prev?.slug).toBe(all[all.length - 2].slug)
+  it('getAdjacentProjects stays within the project type, with nulls at the ends', () => {
+    for (const type of PROJECT_TYPES) {
+      const group = getProjectsByType(type)
+      if (group.length === 0) continue
+      const first = getAdjacentProjects(group[0].slug)
+      const last = getAdjacentProjects(group[group.length - 1].slug)
+      expect(first.prev).toBeNull()
+      expect(last.next).toBeNull()
+      for (const [i, p] of group.entries()) {
+        const { prev, next } = getAdjacentProjects(p.slug)
+        expect(prev?.slug ?? null).toBe(group[i - 1]?.slug ?? null)
+        expect(next?.slug ?? null).toBe(group[i + 1]?.slug ?? null)
+        if (prev) expect(prev.type).toBe(type)
+        if (next) expect(next.type).toBe(type)
+      }
     }
     expect(getAdjacentProjects('does-not-exist')).toEqual({ prev: null, next: null })
   })

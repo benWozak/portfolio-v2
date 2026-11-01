@@ -35,10 +35,13 @@ export function getFeaturedProject(type: ProjectType): Project | undefined {
   return pickFeatured(getProjectsByType(type))
 }
 
+/** Previous/next within the same `type`, by `order`. Nulls at the ends and for unknown slugs. */
 export function getAdjacentProjects(slug: string): { prev: Project | null; next: Project | null } {
-  const i = PROJECTS.findIndex((p) => p.slug === slug)
-  if (i === -1) return { prev: null, next: null }
-  return { prev: PROJECTS[i - 1] ?? null, next: PROJECTS[i + 1] ?? null }
+  const current = getProjectBySlug(slug)
+  if (!current) return { prev: null, next: null }
+  const group = getProjectsByType(current.type)
+  const i = group.findIndex((p) => p.slug === slug)
+  return { prev: group[i - 1] ?? null, next: group[i + 1] ?? null }
 }
 
 export { parseProject, ProjectValidationError } from './schema'

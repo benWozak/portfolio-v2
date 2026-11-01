@@ -26,7 +26,7 @@ Expected: tsc silent, lint clean, `Test Files  30 passed`, build prints the same
 | `src/__tests__/components/magicui/Globe.test.tsx` | 1 | Config assertions, structure assertions updated for the list, new `Pins` block |
 | `src/app/globals.css` | 2 | Unlayered `.globe-pin*` block at the end of the file |
 | `src/components/content/About.tsx` | 2 | Drop `dark:invert` from the Globe wrapper |
-| `CLAUDE.md`, `planning/10-dependency-upgrades.md`, `planning/README.md`, this file | 3 | Convention line, Tier 5 note, status, hand-off |
+| `CLAUDE.md`, `planning/10-dependency-upgrades.md`, `planning/README.md`, `planning/11-globe-pins-spec.md`, this file | 3 | Convention line, Tier 5 note, status, hand-off |
 
 ---
 
@@ -307,6 +307,10 @@ Commit: `feat(globe): city pins bound to cobe 2 anchors, flat small markers`
 
 - [ ] **Step 1: Append the pin styles to `globals.css`.** Unlayered on purpose: Tailwind 3 drops rules inside `@layer components` whose selectors it cannot match to class names in the content files, and nothing here needs to be overridable by a utility.
 
+Two facts found in review that shape this CSS:
+- cobe 2.0.1 sets `--cobe-visible-<id>` to the literal token `N` while the point faces the viewer and deletes it otherwise (its README says 1/0; the bundle says `N`). `@property` registers `--pin-visible` as a `<number>` with initial value 1, so the token normalises to 1 and the absent case to the inline fallback 0. Without that, any `calc()` on it silently resolves to the property's initial value.
+- Because of the above, the brainstorm mockups never rendered the "75% at rest, dim siblings on hover" part; what the owner approved was full-opacity pins with the lift, line and label. Build that. (The 75%/dim variant is a two-line change recorded in the hand-off.)
+
 ```css
 
 /* About globe pins (src/components/magicui/globe.tsx). cobe 2 keeps a 1px
@@ -318,6 +322,14 @@ Commit: `feat(globe): city pins bound to cobe 2 anchors, flat small markers`
   pointer-events: none;
 }
 
+/* cobe writes a non-numeric token while visible and nothing while hidden;
+   registering the property turns that into 1 / 0 (the inline fallback). */
+@property --pin-visible {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1;
+}
+
 .globe-pin {
   position: absolute;
   position-anchor: var(--pin-anchor);
@@ -325,8 +337,8 @@ Commit: `feat(globe): city pins bound to cobe 2 anchors, flat small markers`
   top: anchor(center);
   translate: -50% -100%; /* tip of the pin on the city */
   pointer-events: auto;
-  opacity: calc(var(--pin-visible, 0) * 0.75);
-  filter: blur(calc((1 - var(--pin-visible, 0)) * 6px));
+  opacity: var(--pin-visible);
+  filter: blur(calc((1 - var(--pin-visible)) * 6px));
   transition:
     opacity 0.25s,
     filter 0.25s;
@@ -378,13 +390,9 @@ Commit: `feat(globe): city pins bound to cobe 2 anchors, flat small markers`
 @media (hover: hover) {
   .globe-pin:hover {
     z-index: 1;
-    opacity: var(--pin-visible, 0);
   }
   .globe-pin:hover .globe-pin-icon {
     transform: scale(1.25);
-  }
-  .globe-pins:has(.globe-pin:hover) .globe-pin:not(:hover) {
-    opacity: calc(var(--pin-visible, 0) * 0.3);
   }
   .globe-pin:hover .globe-pin-lead path {
     stroke-dashoffset: 0;
@@ -396,9 +404,6 @@ Commit: `feat(globe): city pins bound to cobe 2 anchors, flat small markers`
 
 /* No hover on touch screens: lines and labels stay on. */
 @media (hover: none) {
-  .globe-pin {
-    opacity: var(--pin-visible, 0);
-  }
   .globe-pin-lead path {
     stroke-dashoffset: 0;
   }
@@ -417,10 +422,16 @@ Commit: `feat(globe): city pins bound to cobe 2 anchors, flat small markers`
 }
 
 /* Without CSS anchor positioning the pins cannot be placed; cobe's own small
-   dots remain. */
+   dots remain. Keep the list for screen readers (visually hidden, not
+   display: none). */
 @supports not (anchor-name: --x) {
   .globe-pins {
-    display: none;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 }
 ```
@@ -449,14 +460,15 @@ grep -rn "dark:invert" src   # expect: only globe.tsx (and its test)
 rm -rf .next && npm run build 2>&1 | tail -6
 grep -o "position-anchor:var(--pin-anchor)" .next/static/css/*.css | head -1
 grep -o "anchor(center)" .next/static/css/*.css | head -1
+grep -o "@property --pin-visible{[^}]*}" .next/static/css/*.css | head -1
 grep -c "globe-pin" .next/static/css/*.css
 ```
 
-Expected: build green; both greps print a match; the count is at least 10.
+Expected: build green; the three greps print a match (the `@property` rule must survive minification with its `syntax`, `inherits` and `initial-value`); the count is at least 10.
 
 - [ ] **Step 4: Look at it.** `npm run dev` (background, note the PID), open `/` in Chrome and in Safari, scroll to About.
-  - Four small orange pins sit on Vancouver, Calgary, Denver and San Diego, tips on the cities, 75% opacity, in both themes (toggle the theme switch; pins and labels must not invert).
-  - Hover a pin: it lifts, the other three dim, the elbow line draws, the uppercase label appears to the upper right. Leave: everything reverts.
+  - Four small orange pins sit on Vancouver, Calgary, Denver and San Diego, tips on the cities, full opacity, in both themes (toggle the theme switch; pins and labels must not invert).
+  - Hover a pin: it lifts, the elbow line draws, the uppercase label appears to the upper right. Leave: everything reverts.
   - Drag the globe: it still spins with the spring; the pins follow and fade/blur out as their city goes behind.
   - DevTools → toggle device emulation (touch): all four lines and labels visible.
   - DevTools → Rendering → emulate `prefers-reduced-motion: reduce`: hover switches states without animation.
@@ -484,9 +496,11 @@ Commit: `feat(globe): pin styles with leader-line labels; invert only the canvas
 
 - [ ] **Step 3: Status.** In `planning/README.md` change the chunk 11 line to `- [x] 11 — Globe pins (…) — done on `deps-upgrades`, unpushed`.
 
-- [ ] **Step 4: Hand-off log** in this file: date, commits, what the visual pass showed, and the OWNER CHECKS: on the Vercel preview, in Chrome, Safari and one phone, confirm the four pins, the hover label, the touch labels, and that dark mode does not invert the pins.
+- [ ] **Step 4: Spec reconciliation.** Update `planning/11-globe-pins-spec.md` to the as-built facts: pins rest at full opacity and siblings do not dim (what the mockup actually showed and the owner approved; cobe's visibility token made the 75%/dim CSS inert); the inline properties are `--pin-anchor` / `--pin-visible` and `@property` normalises the latter; the CSS block is unlayered at the end of `globals.css`; the no-anchor fallback keeps the list for screen readers. Add a short "As built" section rather than rewriting history.
 
-- [ ] **Step 5: Gate.**
+- [ ] **Step 5: Hand-off log** in this file: date, commits, what the visual pass showed, the optional 75%/dim variant (`.globe-pin { opacity: calc(var(--pin-visible) * 0.75) }` plus `.globe-pins:has(.globe-pin:hover) .globe-pin:not(:hover) { opacity: calc(var(--pin-visible) * 0.3) }` and `.globe-pin:hover { opacity: var(--pin-visible) }` inside the hover block), and the OWNER CHECKS: on the Vercel preview, in Chrome, Safari and one phone, confirm the four pins, the hover label, the touch labels, and that dark mode does not invert the pins.
+
+- [ ] **Step 6: Gate.**
 
 Commit: `docs: globe pins convention and chunk 11 hand-off`
 

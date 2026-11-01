@@ -11,7 +11,6 @@ const MOVEMENT_DAMPING = 1400;
 const GLOBE_CONFIG: COBEOptions = {
   width: 800,
   height: 800,
-  onRender: () => {},
   devicePixelRatio: 2,
   phi: 0,
   theta: 0.3,
@@ -66,33 +65,53 @@ export function Globe({
   };
 
   useEffect(() => {
-    const onResize = () => {
-      if (canvasRef.current) {
-        width.current = canvasRef.current.offsetWidth;
-      }
-    };
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
+    const onResize = () => {
+      width.current = canvas.offsetWidth;
+    };
     window.addEventListener("resize", onResize);
     onResize();
 
-    const globe = createGlobe(canvasRef.current!, {
+    // cobe 2 has no onRender and no internal frame loop: the component asks for
+    // each frame with update(). cobe 2 multiplies width/height by
+    // devicePixelRatio itself, so pass CSS pixels.
+    const host = canvas.parentElement;
+    const globe = createGlobe(canvas, {
       ...config,
-      width: width.current * 2,
-      height: width.current * 2,
-      onRender: (state) => {
-        if (!pointerInteracting.current) phi.current += 0.001;
-        state.phi = phi.current + rs.get();
-        state.width = width.current * 2;
-        state.height = width.current * 2;
-      },
+      width: width.current,
+      height: width.current,
     });
+    // cobe wraps the canvas in a div that destroy() leaves; unwrap so re-runs don't nest.
+    const cobeWrapper =
+      canvas.parentElement !== host ? canvas.parentElement : null;
+
+    let frame = 0;
+    let lastWidth = width.current;
+    const tick = () => {
+      if (!pointerInteracting.current) phi.current += 0.001;
+      const next: Partial<COBEOptions> = { phi: phi.current + rs.get() };
+      // update() reassigns canvas.width/height whenever it gets a size, which
+      // can rebuild the drawing buffer, so only send the size when it changed.
+      if (width.current !== lastWidth) {
+        next.width = width.current;
+        next.height = width.current;
+        lastWidth = width.current;
+      }
+      globe.update(next);
+      frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
 
     const fadeIn = setTimeout(() => {
-      if (canvasRef.current) canvasRef.current.style.opacity = "1";
+      canvas.style.opacity = "1";
     }, 0);
     return () => {
+      cancelAnimationFrame(frame);
       clearTimeout(fadeIn);
       globe.destroy();
+      cobeWrapper?.replaceWith(canvas);
       window.removeEventListener("resize", onResize);
     };
   }, [rs, config]);

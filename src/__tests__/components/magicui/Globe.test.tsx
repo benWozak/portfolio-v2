@@ -3,16 +3,16 @@ import { render } from '@testing-library/react'
 import { Globe } from '@/components/magicui/globe'
 import createGlobe, { type COBEOptions } from 'cobe'
 
-// Mock the cobe library
+// Mock the cobe library. Like cobe 2, createGlobe moves the canvas into a
+// wrapper div that destroy() leaves in place.
 vi.mock('cobe', () => {
-  const mockDestroy = vi.fn()
-  const mockCreateGlobe = vi.fn(() => ({
-    destroy: mockDestroy
-  }))
-  
-  return {
-    default: mockCreateGlobe
-  }
+  const mockCreateGlobe = vi.fn((canvas: HTMLCanvasElement) => {
+    const wrapper = document.createElement('div')
+    canvas.parentElement?.insertBefore(wrapper, canvas)
+    wrapper.append(canvas)
+    return { update: vi.fn(), destroy: vi.fn() }
+  })
+  return { default: mockCreateGlobe }
 })
 
 const mockCreateGlobe = vi.mocked(createGlobe)
@@ -39,11 +39,11 @@ describe('Globe Component', () => {
 
   describe('Rendering', () => {
     it('renders container with correct default classes', () => {
-      render(<Globe />)
-      
-      const container = document.querySelector('canvas')?.parentElement
-      expect(container).toBeInTheDocument()
-      expect(container).toHaveClass(
+      const { container } = render(<Globe />)
+
+      const host = container.firstElementChild
+      expect(host).toContainElement(document.querySelector('canvas'))
+      expect(host).toHaveClass(
         'absolute',
         'inset-0',
         'mx-auto',
@@ -69,10 +69,11 @@ describe('Globe Component', () => {
     })
 
     it('applies custom className when provided', () => {
-      render(<Globe className="custom-globe-class" />)
-      
-      const container = document.querySelector('canvas')?.parentElement
-      expect(container).toHaveClass('custom-globe-class')
+      const { container } = render(<Globe className="custom-globe-class" />)
+
+      const host = container.firstElementChild
+      expect(host).toContainElement(document.querySelector('canvas'))
+      expect(host).toHaveClass('custom-globe-class')
     })
   })
 
@@ -93,8 +94,19 @@ describe('Globe Component', () => {
           baseColor: [1, 1, 1],
           markerColor: [251 / 255, 100 / 255, 21 / 255],
           glowColor: [1, 1, 1],
-          onRender: expect.any(Function)
         })
+      )
+      // v2 has no onRender: the component drives frames through globe.update()
+      expect(mockCreateGlobe.mock.calls[0][1]).not.toHaveProperty('onRender')
+    })
+
+    it('sizes the globe in CSS pixels (cobe 2 applies devicePixelRatio itself)', () => {
+      vi.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockReturnValue(300)
+
+      render(<Globe />)
+
+      expect(mockCreateGlobe.mock.calls[0][1]).toEqual(
+        expect.objectContaining({ width: 300, height: 300, devicePixelRatio: 2 }),
       )
     })
 
@@ -127,34 +139,84 @@ describe('Globe Component', () => {
       vi.useFakeTimers()
       try {
         const { unmount } = render(<Globe />)
-        vi.runAllTimers()
+        vi.runOnlyPendingTimers()
         expect(document.querySelector('canvas')!.style.opacity).toBe('1')
 
         const { destroy } = mockCreateGlobe.mock.results[0].value
         unmount()
+        expect(vi.getTimerCount()).toBe(0)
         expect(() => vi.runAllTimers()).not.toThrow()
         expect(destroy).toHaveBeenCalledTimes(1)
 
-        // Regression: unmounting before the fade-in timer fires used to throw on
-        // the null canvas ref.
+        // Unmount clears the fade-in timeout and stops the frame loop, also when
+        // neither has fired yet.
         render(<Globe />).unmount()
+        expect(vi.getTimerCount()).toBe(0)
         expect(() => vi.runAllTimers()).not.toThrow()
       } finally {
         vi.useRealTimers()
       }
     })
+
+    it('drives frames with requestAnimationFrame and stops on unmount', () => {
+      const ow = vi.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockReturnValue(300)
+      const frames: FrameRequestCallback[] = []
+      vi.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => frames.push(cb)) // ids 1, 2, 3…
+      const caf = vi.spyOn(window, 'cancelAnimationFrame').mockImplementation(() => {})
+
+      const { unmount } = render(<Globe />)
+      const globe = mockCreateGlobe.mock.results[0].value
+      const update = vi.mocked(globe.update)
+      expect(update).not.toHaveBeenCalled()
+
+      frames[0](0)
+      expect(update.mock.calls[0][0].phi).toBeCloseTo(0.001)
+      expect(update.mock.calls[0][0]).not.toHaveProperty('width') // size unchanged since creation
+
+      ow.mockReturnValue(400)
+      window.dispatchEvent(new Event('resize'))
+      frames[1](16)
+      expect(update.mock.calls[1][0].phi).toBeCloseTo(0.002)
+      expect(update.mock.calls[1][0]).toMatchObject({ width: 400, height: 400 })
+
+      frames[2](32)
+      expect(update.mock.calls[2][0]).not.toHaveProperty('width') // sent once, not every frame
+      expect(update).toHaveBeenCalledTimes(3)
+
+      unmount()
+      expect(caf).toHaveBeenCalledWith(4) // the frame armed by the last tick, not the first one
+      expect(globe.destroy).toHaveBeenCalledTimes(1)
+    })
+
+    it("unwraps the canvas from cobe's wrapper div on unmount", () => {
+      const { container, unmount } = render(<Globe />)
+      const host = container.firstElementChild
+      const canvas = document.querySelector('canvas')!
+      const wrapper = canvas.parentElement!
+      expect(wrapper).not.toBe(host)
+      expect(wrapper.parentElement).toBe(host)
+
+      unmount()
+      // React detaches host; the canvas must sit directly under it again so a
+      // re-run of the effect (Strict Mode) does not nest a second wrapper.
+      expect(canvas.parentElement).toBe(host)
+      expect(host!.children).toHaveLength(1)
+      expect(wrapper.contains(canvas)).toBe(false)
+    })
   })
 
   describe('Accessibility and Structure', () => {
     it('has proper canvas structure', () => {
-      render(<Globe />)
-      
+      const { container } = render(<Globe />)
+
+      const host = container.firstElementChild
       const canvas = document.querySelector('canvas')
-      const container = canvas?.parentElement
-      
+
       expect(canvas).toBeInTheDocument()
-      expect(container).toBeInTheDocument()
-      expect(container?.children).toHaveLength(1)
+      expect(host).toBeInTheDocument()
+      // One child: cobe's wrapper div, which holds the canvas
+      expect(host?.children).toHaveLength(1)
+      expect(canvas?.parentElement?.parentElement).toBe(host)
     })
   })
 

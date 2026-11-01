@@ -11,7 +11,7 @@ npm run test:coverage
 
 ## Layout
 
-- `setup.ts` mocks `next/navigation`, `next/link`, `next/image` and `framer-motion`. Its framer-motion mock renders any `motion.<tag>` as the plain tag.
+- `setup.ts` mocks `next/navigation`, `next/link`, `next/image` and `motion/react`. Its motion/react mock renders any `motion.<tag>` as the plain tag.
 - `../test-utils.tsx` wraps `render` with `ThemeProvider`.
 - `lib/` holds the content integrity tests: schema, index, featured-per-type, adjacency, image files on disk. They declare `@vitest-environment node` (no DOM needed, and Node builtins do not resolve under jsdom when `NODE_ENV=production`).
 - `scripts/` tests the content tooling in `scripts/content/`.

@@ -6,7 +6,7 @@ import {
   AnimatedSection,
   itemVariants,
 } from "../layout/section/AnimatedSection";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 interface TimeBlockProps {
   time: string;

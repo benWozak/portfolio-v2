@@ -1,6 +1,8 @@
 import React from "react";
 import Link from "next/link";
-import { SiGithub, SiLinkedin } from "react-icons/si";
+// react-icons 5.7 dropped SiLinkedin (Simple Icons removed the LinkedIn mark); Font Awesome still ships it.
+import { SiGithub } from "react-icons/si";
+import { FaLinkedin } from "react-icons/fa";
 
 type Props = {
   size: "sm" | "md" | "lg" | "xl";
@@ -34,7 +36,7 @@ export function Socials({ size }: Props) {
           target="_blank"
           aria-label="linkedin"
         >
-          <SiLinkedin
+          <FaLinkedin
             size={size ? SIZE_VARIANTS[size] : 24}
             className="text-foreground/70 hover:text-primary-500 transition-all"
           />

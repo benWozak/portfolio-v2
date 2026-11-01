@@ -1,4 +1,4 @@
-import '@testing-library/jest-dom'
+import '@testing-library/jest-dom/vitest'
 import React from 'react'
 import { vi } from 'vitest'
 
@@ -21,7 +21,6 @@ vi.mock('next/navigation', () => ({
 vi.mock('next/link', () => {
   return {
     default: ({ children, href, ...props }: any) => {
-      // eslint-disable-next-line jsx-a11y/anchor-has-content
       return React.createElement('a', { href, ...props }, children)
     },
   }
@@ -36,8 +35,8 @@ vi.mock('next/image', () => ({
   },
 }))
 
-// Mock framer-motion to avoid animation issues in tests
-vi.mock('framer-motion', () => ({
+// Mock motion/react to avoid animation issues in tests
+vi.mock('motion/react', () => ({
   // Any motion.<tag> renders as the plain <tag>; nothing to maintain when a component uses a new element.
   motion: new Proxy({}, { get: (_, tag) => tag as string }),
   AnimatePresence: ({ children }: { children: React.ReactNode }) => children,

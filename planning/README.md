@@ -40,7 +40,7 @@ Pre-flight merge path: **(a)**, since both `slug` and `content` are present (202
 - [x] 04 — Remove blog (`04-remove-blog.md`)
 - [x] 05 — Remove Payload (`05-remove-payload.md`)
 - [x] 06 — Projects index redesign (`06-projects-index-redesign.md`)
-- [ ] 07 — Projects detail redesign (`07-projects-detail-redesign.md`)
+- [x] 07 — Projects detail redesign (`07-projects-detail-redesign.md`)
 - [ ] 08 — Cleanup and hardening (`08-cleanup-and-hardening.md`)
 - [ ] 09 — Decommission services (`09-decommission-services.md`)
 

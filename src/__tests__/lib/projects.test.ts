@@ -1,4 +1,8 @@
 // src/__tests__/lib/projects.test.ts
+// @vitest-environment node
+// Node-only: reads content/ and public/ from disk. Under jsdom, Vite externalises
+// node: builtins for the browser, and with NODE_ENV=production (Vercel builds)
+// that externalised module is empty, so the import fails.
 import { describe, it, expect } from 'vitest'
 import { existsSync, readdirSync } from 'node:fs'
 import path from 'node:path'

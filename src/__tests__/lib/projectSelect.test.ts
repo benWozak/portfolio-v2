@@ -1,4 +1,6 @@
 // src/__tests__/lib/projectSelect.test.ts
+// @vitest-environment node
+// Node-only, like the other content tests; see projects.test.ts for why.
 import { describe, it, expect } from 'vitest'
 import { assertOneFeaturedPerType, pickFeatured } from '@/lib/projects/select'
 import { ProjectValidationError } from '@/lib/projects/schema'

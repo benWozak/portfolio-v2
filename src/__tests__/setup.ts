@@ -57,36 +57,41 @@ global.IntersectionObserver = vi.fn().mockImplementation(() => ({
   unobserve: vi.fn(),
 }))
 
-// Mock window methods
-Object.defineProperty(window, 'scrollTo', {
-  value: vi.fn(),
-  writable: true,
-})
+// Browser-only mocks. The content tests in src/__tests__/lib/ run in the
+// `node` environment (see their `@vitest-environment` directive), where there
+// is no window.
+if (typeof window !== 'undefined') {
+  // Mock window methods
+  Object.defineProperty(window, 'scrollTo', {
+    value: vi.fn(),
+    writable: true,
+  })
 
-// Mock matchMedia
-const mockMatchMedia = vi.fn().mockImplementation((query) => ({
-  matches: false,
-  media: query,
-  onchange: null,
-  addListener: vi.fn(),
-  removeListener: vi.fn(),
-  addEventListener: vi.fn(),
-  removeEventListener: vi.fn(),
-  dispatchEvent: vi.fn(),
-}))
+  // Mock matchMedia
+  const mockMatchMedia = vi.fn().mockImplementation((query) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  }))
 
-Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  value: mockMatchMedia,
-})
+  Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    value: mockMatchMedia,
+  })
 
-// Mock localStorage
-const localStorageMock = {
-  getItem: vi.fn(),
-  setItem: vi.fn(),
-  removeItem: vi.fn(),
-  clear: vi.fn(),
+  // Mock localStorage
+  const localStorageMock = {
+    getItem: vi.fn(),
+    setItem: vi.fn(),
+    removeItem: vi.fn(),
+    clear: vi.fn(),
+  }
+  Object.defineProperty(window, 'localStorage', {
+    value: localStorageMock,
+  })
 }
-Object.defineProperty(window, 'localStorage', {
-  value: localStorageMock,
-})

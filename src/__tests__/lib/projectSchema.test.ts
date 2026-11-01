@@ -77,6 +77,10 @@ describe('parseProject', () => {
     expect(parseProject({ ...valid, status }, 'x').status).toBe(status)
   })
 
+  it.each(['professional', 'personal', 'web', 'native'])('rejects the reserved slug "%s"', (slug) => {
+    expect(() => parseProject({ ...valid, slug, image: { ...valid.image, src: `/projects/${slug}/x.png` } }, 'test')).toThrow(/reserved/)
+  })
+
   it('rejects a slug that differs from the file name', () => {
     expect(() => parseProject(valid, 'other.json', 'other')).toThrow(/must equal the file name/)
   })

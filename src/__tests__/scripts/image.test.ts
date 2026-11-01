@@ -18,4 +18,9 @@ describe('toPublicFilename', () => {
   it('lower-cases and hyphenates whitespace', () => {
     expect(toPublicFilename('Recipe App Final.PNG')).toBe('recipe-app-final.png')
   })
+
+  it('collapses unsafe characters without leaving hyphens next to the dot', () => {
+    expect(toPublicFilename('My Shot #1 (Final).PNG')).toBe('my-shot-1-final.png')
+    expect(toPublicFilename('Screenshot 2026-10-31 at 9.41.12 PM.png')).toBe('screenshot-2026-10-31-at-9.41.12-pm.png')
+  })
 })

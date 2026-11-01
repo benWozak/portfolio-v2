@@ -12,7 +12,8 @@
     "test:ui": "vitest --ui",
     "test:run": "vitest run",
     "test:coverage": "vitest --coverage",
-    "content:check": "vitest run src/__tests__/lib"
+    "content:check": "vitest run src/__tests__/lib",
+    "content:new": "tsx scripts/content/new-project.ts"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",

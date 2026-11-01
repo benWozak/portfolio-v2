@@ -19,7 +19,12 @@ export class ProjectValidationError extends Error {
   }
 }
 
-const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
+export const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
+
+// Shadowed by a static group page (/projects/<type>) or a legacy redirect
+// (/projects/web, /projects/native) in next.config.ts.
+export const RESERVED_SLUGS = [...PROJECT_TYPES, 'web', 'native'] as const
+
 const ABSOLUTE_URL_RE = /^https?:\/\//
 
 function isRecord(v: unknown): v is Record<string, unknown> {
@@ -61,6 +66,7 @@ export function parseProject(raw: unknown, source: string, expectedSlug?: string
 
   const slug = str(r, 'slug')
   if (!SLUG_RE.test(slug)) fail('slug', 'must be lowercase words separated by single hyphens')
+  if ((RESERVED_SLUGS as readonly string[]).includes(slug)) fail('slug', `is reserved (${RESERVED_SLUGS.join(', ')})`)
   if (expectedSlug !== undefined && slug !== expectedSlug) fail('slug', `must equal the file name "${expectedSlug}"`)
 
   const type = str(r, 'type')

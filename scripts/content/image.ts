@@ -10,7 +10,7 @@ export interface ProjectImageMeta {
 }
 
 export function toPublicFilename(filename: string): string {
-  return filename.trim().toLowerCase().replace(/\s+/g, '-')
+  return filename.trim().toLowerCase().replace(/[^a-z0-9.]+/g, '-').replace(/-+(?=\.)|^-+|-+$/g, '')
 }
 
 export async function describeImage(buffer: Buffer): Promise<ProjectImageMeta> {

@@ -9,7 +9,7 @@ Next.js 16 App Router (Turbopack) + React 19, TypeScript strict, Tailwind 3.4 (H
 ## Commands
 
 - `npm run dev` / `npm run build` / `npm run start`
-- `npm run lint`, `npx tsc --noEmit` (run `rm -rf .next` first; stale route type stubs cause false errors)
+- `npm run lint` (`eslint .`, flat config in `eslint.config.mjs`), `npx tsc --noEmit` (run `rm -rf .next` first; stale route type stubs cause false errors)
 - `npm run test:run` (all; must be green), `npm run content:check` (content integrity; also runs as `prebuild`, locally and on Vercel)
 - `npm run content:new -- --slug <slug> --image <path>` scaffolds a project
 

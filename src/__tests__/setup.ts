@@ -21,7 +21,6 @@ vi.mock('next/navigation', () => ({
 vi.mock('next/link', () => {
   return {
     default: ({ children, href, ...props }: any) => {
-      // eslint-disable-next-line jsx-a11y/anchor-has-content
       return React.createElement('a', { href, ...props }, children)
     },
   }

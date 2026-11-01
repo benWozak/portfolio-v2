@@ -42,6 +42,7 @@ describe('ThemeToggle Component', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mockTheme.theme = 'light'
+    mockTheme.setTheme = mockSetTheme
   })
 
   describe('Rendering', () => {
@@ -247,13 +248,13 @@ describe('ThemeToggle Component', () => {
   })
 
   describe('Edge Cases', () => {
-    it('handles undefined theme gracefully', () => {
+    it('falls back to "system" when next-themes has no theme (server render)', () => {
       mockTheme.theme = undefined as any
-      
+
       expect(() => render(<ThemeToggle />)).not.toThrow()
-      
+
       const dropdown = screen.getByTestId('theme-dropdown')
-      expect(dropdown).toHaveAttribute('data-value', '')
+      expect(dropdown).toHaveAttribute('data-value', 'system')
     })
 
     it('handles invalid theme value', () => {

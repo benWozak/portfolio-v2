@@ -29,23 +29,17 @@ vi.mock('next/link', () => {
 
 // Mock Next.js Image component
 vi.mock('next/image', () => ({
-  default: (props: any) => {
+  // Strip Next-only props so React does not warn about unknown DOM attributes.
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  default: ({ priority, blurDataURL, placeholder, fill, ...props }: any) => {
     return React.createElement('img', { ...props, alt: props.alt })
   },
 }))
 
 // Mock framer-motion to avoid animation issues in tests
 vi.mock('framer-motion', () => ({
-  motion: {
-    div: 'div',
-    span: 'span',
-    a: 'a',
-    button: 'button',
-    li: 'li',
-    ul: 'ul',
-    article: 'article',
-    section: 'section',
-  },
+  // Any motion.<tag> renders as the plain <tag>; nothing to maintain when a component uses a new element.
+  motion: new Proxy({}, { get: (_, tag) => tag as string }),
   AnimatePresence: ({ children }: { children: React.ReactNode }) => children,
   useInView: () => true,
 }))

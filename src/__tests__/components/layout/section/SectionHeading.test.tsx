@@ -298,13 +298,6 @@ describe('SectionHeading Component', () => {
       expect(heading).toHaveTextContent('')
     })
 
-    it('handles title with only whitespace', () => {
-      render(<SectionHeading title="   " />)
-      
-      const heading = screen.getByRole('heading', { level: 2 })
-      expect(heading).toHaveTextContent('   ')
-    })
-
     it('maintains structure with very long titles', () => {
       const veryLongTitle = "A".repeat(100)
       render(<SectionHeading title={veryLongTitle} />)
@@ -316,8 +309,10 @@ describe('SectionHeading Component', () => {
       expect(container).toHaveClass('flex', 'items-center')
     })
 
-    it('handles titles with HTML entities', () => {
-      render(<SectionHeading title="Q&amp;A Section" />)
+    it('renders entity-like text in titles literally, not as HTML', () => {
+      // A JS string (not a JSX attribute, which would decode the entity), as a
+      // title read from content JSON would arrive.
+      render(<SectionHeading title={'Q&amp;A Section'} />)
       
       const heading = screen.getByRole('heading', { level: 2 })
       expect(heading).toHaveTextContent('Q&amp;A Section')

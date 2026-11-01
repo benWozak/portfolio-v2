@@ -28,7 +28,8 @@ describe('Hero Component', () => {
     it('renders main section element', () => {
       render(<Hero />)
       
-      const section = screen.getByRole('main') || screen.getByText('Your Vision').closest('section')
+      // Hero is a <section>, not the page's <main> landmark (the layout owns that)
+      const section = screen.getByText('Your Vision').closest('section')
       expect(section).toBeInTheDocument()
     })
 
@@ -161,14 +162,6 @@ describe('Hero Component', () => {
   })
 
   describe('Motion Animation', () => {
-    it('applies container variants to section', () => {
-      render(<Hero />)
-      
-      const section = screen.getByText('Your Vision').closest('section')
-      expect(section).toBeInTheDocument()
-      // Motion properties are handled by framer-motion, so we verify structure
-    })
-
     it('wraps animated elements properly', () => {
       render(<Hero />)
       

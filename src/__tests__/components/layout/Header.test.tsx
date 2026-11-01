@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { render, screen, fireEvent, waitFor } from '@/test-utils'
+import { render, screen, fireEvent, waitFor, within } from '@/test-utils'
 import userEvent from '@testing-library/user-event'
 import { Header } from '@/components/layout/Header'
 import { usePathname } from 'next/navigation'
@@ -39,6 +39,10 @@ vi.mock('@/components/ui/LinkButton', () => ({
 vi.mock('@/components/content', () => ({
   Socials: ({ size }: { size: string }) => <div data-testid={`socials-${size}`}>Socials</div>
 }))
+
+/** The open mobile-menu overlay (the close button's container). */
+const getOverlay = () =>
+  screen.getByRole('button', { name: /close mobile menu/i }).parentElement!
 
 describe('Header Component', () => {
   beforeEach(() => {
@@ -124,14 +128,15 @@ describe('Header Component', () => {
       render(<Header />)
       
       const mobileButton = screen.getByRole('button', { name: /toggle mobile menu/i })
+      expect(screen.getAllByRole('navigation')).toHaveLength(1)
       
       await user.click(mobileButton)
       
       expect(mobileButton).toHaveAttribute('aria-expanded', 'true')
       
-      // Mobile menu should be visible
-      const mobileMenu = screen.getByRole('navigation')
-      expect(mobileMenu).toBeInTheDocument()
+      // The overlay adds its own nav next to the desktop "Global" one
+      expect(within(getOverlay()).getByRole('navigation')).toBeInTheDocument()
+      expect(screen.getAllByRole('navigation')).toHaveLength(2)
     })
 
     it('closes mobile menu when close button clicked', async () => {
@@ -147,6 +152,7 @@ describe('Header Component', () => {
       await user.click(closeButton)
       
       expect(mobileButton).toHaveAttribute('aria-expanded', 'false')
+      expect(screen.queryByRole('button', { name: /close mobile menu/i })).not.toBeInTheDocument()
     })
 
     it('closes mobile menu when logo clicked', async () => {
@@ -157,16 +163,11 @@ describe('Header Component', () => {
       const mobileButton = screen.getByRole('button', { name: /toggle mobile menu/i })
       await user.click(mobileButton)
       
-      // Click logo in mobile menu
-      const mobileLogos = screen.getAllByTestId('logo')
-      const mobileMenuLogo = mobileLogos.find(logo => 
-        logo.closest('.fixed')?.classList.contains('z-50')
-      )
+      // Click the logo inside the mobile menu overlay
+      await user.click(within(getOverlay()).getByTestId('logo'))
       
-      if (mobileMenuLogo) {
-        await user.click(mobileMenuLogo.parentElement!)
-        expect(mobileButton).toHaveAttribute('aria-expanded', 'false')
-      }
+      expect(mobileButton).toHaveAttribute('aria-expanded', 'false')
+      expect(screen.queryByRole('button', { name: /close mobile menu/i })).not.toBeInTheDocument()
     })
 
     it('closes mobile menu when navigation item clicked', async () => {
@@ -177,16 +178,11 @@ describe('Header Component', () => {
       const mobileButton = screen.getByRole('button', { name: /toggle mobile menu/i })
       await user.click(mobileButton)
       
-      // Find mobile menu navigation links (they should be in the mobile menu overlay)
-      const mobileNavLinks = screen.getAllByTestId('link-/about')
-      const mobileLink = mobileNavLinks.find(link => 
-        link.closest('.fixed')?.classList.contains('z-50')
-      )
+      // Click a link inside the mobile menu overlay
+      await user.click(within(getOverlay()).getByTestId('link-/about'))
       
-      if (mobileLink) {
-        await user.click(mobileLink)
-        expect(mobileButton).toHaveAttribute('aria-expanded', 'false')
-      }
+      expect(mobileButton).toHaveAttribute('aria-expanded', 'false')
+      expect(screen.queryByRole('button', { name: /close mobile menu/i })).not.toBeInTheDocument()
     })
 
     it('renders mobile menu navigation items', async () => {

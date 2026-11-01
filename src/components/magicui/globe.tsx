@@ -87,8 +87,11 @@ export function Globe({
       },
     });
 
-    setTimeout(() => (canvasRef.current!.style.opacity = "1"), 0);
+    const fadeIn = setTimeout(() => {
+      if (canvasRef.current) canvasRef.current.style.opacity = "1";
+    }, 0);
     return () => {
+      clearTimeout(fadeIn);
       globe.destroy();
       window.removeEventListener("resize", onResize);
     };

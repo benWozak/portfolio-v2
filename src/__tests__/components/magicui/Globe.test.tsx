@@ -299,6 +299,30 @@ describe('Globe Component', () => {
   })
 
   describe('Dragging', () => {
+    it('pauses the auto-rotation while the pointer is over the globe, pins included', () => {
+      const frames: FrameRequestCallback[] = []
+      vi.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => frames.push(cb))
+      vi.spyOn(window, 'cancelAnimationFrame').mockImplementation(() => {})
+
+      const { container } = render(<Globe />)
+      const host = container.firstElementChild!
+      const update = vi.mocked(mockCreateGlobe.mock.results[0].value.update)
+
+      frames[0](0)
+      expect(update.mock.calls[0][0].phi).toBeCloseTo(0.001)
+
+      // The pins are siblings of the canvas, so the hover target is the host:
+      // moving from the canvas onto a pin must not resume the rotation.
+      fireEvent.pointerEnter(host)
+      frames[1](16)
+      frames[2](32)
+      expect(update.mock.calls[2][0].phi).toBeCloseTo(0.001)
+
+      fireEvent.pointerLeave(host)
+      frames[3](48)
+      expect(update.mock.calls[3][0].phi).toBeCloseTo(0.002)
+    })
+
     it('captures the pointer on pointerdown so crossing a pin does not end the drag', () => {
       const capture = vi.fn()
       const proto = HTMLElement.prototype as unknown as { setPointerCapture?: unknown }

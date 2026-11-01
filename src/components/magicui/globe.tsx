@@ -57,6 +57,7 @@ export function Globe({
   const width = useRef(0);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const pointerInteracting = useRef<number | null>(null);
+  const pointerOver = useRef(false);
   const pointerInteractionMovement = useRef(0);
 
   const r = useMotionValue(0);
@@ -113,7 +114,10 @@ export function Globe({
     let frame = 0;
     let lastWidth = width.current;
     const tick = () => {
-      if (!pointerInteracting.current) phi.current += 0.001;
+      // Auto-rotate unless the globe is being dragged or hovered.
+      if (pointerInteracting.current === null && !pointerOver.current) {
+        phi.current += 0.001;
+      }
       const next: Partial<COBEOptions> = { phi: phi.current + rs.get() };
       // update() reassigns canvas.width/height whenever it gets a size, which
       // can rebuild the drawing buffer, so only send the size when it changed.
@@ -145,6 +149,14 @@ export function Globe({
         "absolute inset-0 mx-auto aspect-[1/1] w-full max-w-[600px]",
         className,
       )}
+      // On the host, not the canvas: the pins are sibling hit targets, and
+      // moving onto one must keep the rotation paused.
+      onPointerEnter={() => {
+        pointerOver.current = true;
+      }}
+      onPointerLeave={() => {
+        pointerOver.current = false;
+      }}
     >
       <canvas
         aria-hidden="true"

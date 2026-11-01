@@ -184,7 +184,6 @@ describe('CTAButton Component', () => {
         'duration-300',
         'hover:text-primary-foreground',
         'hover:border-primary-foreground',
-        'text-md',
         'z-20'
       )
     })

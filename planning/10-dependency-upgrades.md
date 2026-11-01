@@ -252,14 +252,14 @@ Continue on `deps-upgrades`.
 **Files:**
 - Modify: every file matching `grep -rl "framer-motion" src`; `CLAUDE.md`; `src/__tests__/README.md`
 
-- [ ] **Step 1: Swap the package**
+- [x] **Step 1: Swap the package**
 
 ```bash
 npm uninstall framer-motion
 npm install motion@14.9.0
 ```
 
-- [ ] **Step 2: Rewrite the imports**
+- [x] **Step 2: Rewrite the imports**
 
 ```bash
 grep -rl "from \"framer-motion\"\|from 'framer-motion'" src | xargs sed -i '' "s#from \"framer-motion\"#from \"motion/react\"#; s#from 'framer-motion'#from 'motion/react'#"
@@ -269,7 +269,7 @@ grep -rn "framer-motion" src CLAUDE.md README.md docs 2>/dev/null
 
 Expected after the greps: only prose mentions in `CLAUDE.md` ("framer-motion" in the Stack and Conventions lines), `src/__tests__/README.md` and `docs/adding-a-project.md` if any. Change those words to `motion` (`motion/react`). The 12 source imports (`motion`, `AnimatePresence`, `MotionConfig`, `Variants`, `useInView`, `useMotionValue`, `useSpring`) are all exported from `motion/react` unchanged.
 
-- [ ] **Step 3: Gate.** Expected: green. The `setup.ts` mock now targets `motion/react`, so the Proxy-based `motion.<tag>` mock keeps working for every component.
+- [x] **Step 3: Gate.** Expected: green. The `setup.ts` mock now targets `motion/react`, so the Proxy-based `motion.<tag>` mock keeps working for every component.
 
 Commit: `chore(deps): framer-motion 12 → motion 14 (import from motion/react)`
 
@@ -281,7 +281,7 @@ Commit: `chore(deps): framer-motion 12 → motion 14 (import from motion/react)`
 
 Why: cobe 2.0.1's `index.d.ts` removes `onRender` from `COBEOptions`, and the shipped bundle contains no `requestAnimationFrame` and no `onRender` handling (checked in the tarball). `createGlobe` now returns `{ update(partial: Partial<COBEOptions>), destroy() }` and renders when `update` is called. The README example still shows `onRender`; it is stale.
 
-- [ ] **Step 1: Install and see the type errors**
+- [x] **Step 1: Install and see the type errors**
 
 ```bash
 npm install cobe@2.0.1
@@ -290,7 +290,7 @@ npx tsc --noEmit 2>&1 | head
 
 Expected: errors in `globe.tsx` on `onRender` (object literal may only specify known properties).
 
-- [ ] **Step 2: Update the test first.** In `Globe.test.tsx`:
+- [x] **Step 2: Update the test first.** In `Globe.test.tsx`:
 
 Replace the cobe mock so it returns `update` too:
 
@@ -344,7 +344,7 @@ npx vitest run src/__tests__/components/magicui/Globe.test.tsx 2>&1 | tail -6
 
 Expected: the new test fails (`update` never called) and the config-structure test fails on `onRender`.
 
-- [ ] **Step 3: Rewrite the effect in `globe.tsx`.** Replace the `useEffect` block (everything from `useEffect(() => {` to `}, [rs, config]);`) with:
+- [x] **Step 3: Rewrite the effect in `globe.tsx`.** Replace the `useEffect` block (everything from `useEffect(() => {` to `}, [rs, config]);`) with:
 
 ```tsx
   useEffect(() => {
@@ -391,7 +391,7 @@ Expected: the new test fails (`update` never called) and the config-structure te
 
 Also delete `onRender: () => {},` from `GLOBE_CONFIG` (the type no longer has it). Nothing else in the file changes.
 
-- [ ] **Step 4: Run the test file, then tsc**
+- [x] **Step 4: Run the test file, then tsc**
 
 ```bash
 npx vitest run src/__tests__/components/magicui/Globe.test.tsx 2>&1 | tail -4
@@ -400,9 +400,9 @@ npx tsc --noEmit
 
 Expected: all Globe tests pass; tsc silent.
 
-- [ ] **Step 5: Look at it.** `npm run dev`, open `/`. The globe fades in, rotates slowly, and dragging it spins with the spring. Check the Safari and Chrome consoles for WebGL errors (cobe 2 fixed a Firefox GLSL bug; Firefox too if available). Record the result in the hand-off log.
+- [x] **Step 5: Look at it.** `npm run dev`, open `/`. The globe fades in, rotates slowly, and dragging it spins with the spring. Check the Safari and Chrome consoles for WebGL errors (cobe 2 fixed a Firefox GLSL bug; Firefox too if available). Record the result in the hand-off log.
 
-- [ ] **Step 6: Gate.** Hand-off note: what the globe looked like in Step 5. Do not push. The owner checks the globe on the preview when they deploy.
+- [x] **Step 6: Gate.** Hand-off note: what the globe looked like in Step 5. Do not push. The owner checks the globe on the preview when they deploy.
 
 Commit: `feat(globe): cobe 2 with a component-owned frame loop`
 
@@ -849,3 +849,11 @@ _(append dated notes here)_
 - `npm update` already moved `vite` to 8.3.5 (Vitest 4.1.12's peer range allows ^8), so Tier 4's explicit `vite@^8` is a formality.
 - `@testing-library/dom` is now an explicit devDependency (`^10.4.2`), as jest-dom 7 requires.
 - Gate after every task: tsc silent, lint clean, 30 files / 430 tests, same route table.
+
+**2026-11-01 — Tier 2 (Tasks 7–8)**
+- Task 7: pure rename, spec-reviewed line by line (19 `motion/react` lines). One extra comment edit in `src/components/providers/Providers.tsx`. No separate code-quality review: no new code was written. Lockfile keeps a hoisted `framer-motion` 14.9.0 because `motion` depends on it; that is expected.
+- Task 8: the plan's cobe 2 recipe had two defects that review caught, both now fixed and pinned by tests.
+  1. **Canvas size.** cobe 2 multiplies `width`/`height` by `devicePixelRatio` itself (old cobe used `clientWidth * dpr` internally and only used the options for a uniform). Passing `offsetWidth * 2` with `devicePixelRatio: 2` rendered 2400×2400 for a 600 px globe. The component now passes CSS pixels and only resends the size when it changes.
+  2. **Wrapper div.** cobe 2 moves the canvas into a `<div style="position:relative;width:100%;height:100%">` that `destroy()` leaves behind, so Strict Mode re-runs nest wrappers. Cleanup now unwraps the canvas. The test mock mimics the wrapping.
+  3. The plan's rAF test mock (`cb(0); return 42` on every call) recursed to a stack overflow; replaced by a queue of frames with distinct ids, which also catches a cleanup that cancels a stale id. Suite: 30 files / 433 tests.
+- **OWNER CHECK (browser):** on `/` the globe should be sharp at its normal size, auto-rotate, drag with the spring, fade in, and show exactly one cobe wrapper div inside the globe container in dev (Strict Mode). A headless check only confirmed the `<canvas>` renders and the dev log is clean.

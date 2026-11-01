@@ -14,7 +14,7 @@ export function About() {
       <AnimatedSection className='flex gap-12 flex-col lg:flex-row mb-4 px-4 lg:px-2'>
         <motion.div variants={itemVariants}>
           <div className='relative flex size-full max-w-lg items-center justify-center overflow-hidden px-40 py-44 md:pt-8 md:pb-60'>
-            <Globe className='top-0 md:top-4 dark:invert' />
+            <Globe className='top-0 md:top-4' />
           </div>
         </motion.div>
         <motion.div className='max-w-xl' variants={itemVariants}>

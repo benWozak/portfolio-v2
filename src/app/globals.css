@@ -168,3 +168,148 @@
     height: 100dvh;
   }
 }
+
+/* About globe pins (src/components/magicui/globe.tsx). cobe 2 keeps a 1px
+   anchor named --cobe-<id> per marker and, while that point faces the viewer,
+   sets --cobe-visible-<id> on :root to a non-numeric token (deleted
+   otherwise). Each pin receives the anchor name and the visibility as inline
+   custom properties (--pin-anchor, --pin-visible). Unlayered: `@property`,
+   `@container` and `@supports` blocks are not utilities Tailwind 3 can place
+   in a layer, and nothing here needs overriding by a utility. */
+.globe-pins {
+  pointer-events: none;
+}
+
+/* Registering the property turns cobe's token into 1 and the absent case
+   (inline fallback) into 0, so the maths below is well defined. */
+@property --pin-visible {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1;
+}
+
+.globe-pin {
+  position: absolute;
+  position-anchor: var(--pin-anchor);
+  left: anchor(center);
+  top: anchor(center);
+  translate: -50% -100%; /* tip of the pin on the city */
+  pointer-events: none;
+  opacity: var(--pin-visible);
+  filter: blur(calc((1 - var(--pin-visible)) * 6px));
+  transition:
+    opacity 0.25s,
+    filter 0.25s;
+}
+
+.globe-pin-icon {
+  width: 14px;
+  height: 14px;
+  max-width: none;
+  transform-origin: 50% 100%;
+  pointer-events: auto;
+  transition: transform 0.2s;
+}
+
+/* A pin on the far side of the globe is invisible; it must not catch the
+   pointer either (style queries ship everywhere anchor positioning does). */
+@container style(--pin-visible: 0) {
+  .globe-pin-icon {
+    pointer-events: none;
+  }
+}
+
+/* Elbow leader line: from the pin head up-and-right, then flat to the label. */
+.globe-pin-lead {
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  width: 64px;
+  height: 36px;
+  max-width: none;
+  translate: -8px 0;
+}
+
+.globe-pin-lead path {
+  fill: none;
+  stroke: hsl(var(--primary));
+  stroke-width: 1;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  transition: stroke-dashoffset 0.35s ease-out;
+}
+
+.globe-pin-label {
+  position: absolute;
+  left: calc(50% + 12px);
+  bottom: calc(100% + 31px);
+  white-space: nowrap;
+  color: hsl(var(--foreground));
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+/* A pin whose label would collide with a neighbour's puts it on the left. */
+.globe-pin[data-side="left"] .globe-pin-lead {
+  left: auto;
+  right: 50%;
+  translate: 8px 0;
+  scale: -1 1;
+}
+.globe-pin[data-side="left"] .globe-pin-label {
+  left: auto;
+  right: calc(50% + 12px);
+}
+
+@media (hover: hover) {
+  .globe-pin:hover {
+    z-index: 1;
+  }
+  .globe-pin:hover .globe-pin-icon {
+    transform: scale(1.25);
+  }
+  .globe-pin:hover .globe-pin-lead path {
+    stroke-dashoffset: 0;
+  }
+  .globe-pin:hover .globe-pin-label {
+    opacity: 1;
+    transition-delay: 0.2s;
+  }
+}
+
+/* No hover on touch screens: lines and labels stay on. */
+@media (hover: none) {
+  .globe-pin-lead path {
+    stroke-dashoffset: 0;
+  }
+  .globe-pin-label {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .globe-pin,
+  .globe-pin-icon,
+  .globe-pin-lead path,
+  .globe-pin-label {
+    transition: none;
+  }
+}
+
+/* Without CSS anchor positioning the pins cannot be placed; cobe's own small
+   dots remain. Keep the list for screen readers (visually hidden, not
+   display: none). */
+@supports not ((anchor-name: --x) and (top: anchor(center))) {
+  .globe-pins {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}

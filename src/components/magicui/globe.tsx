@@ -14,10 +14,13 @@ export type GlobePin = {
   label: string;
   /** [latitude, longitude] */
   location: [number, number];
+  /** Side the label sits on; default right. */
+  side?: "left" | "right";
 };
 
 export const GLOBE_PINS: GlobePin[] = [
-  { id: "yvr", label: "Vancouver, BC", location: [49.2827, -123.1207] },
+  // 2° from Calgary; on touch screens both labels are always on, so this one goes left.
+  { id: "yvr", label: "Vancouver, BC", location: [49.2827, -123.1207], side: "left" },
   { id: "yyc", label: "Calgary, AB", location: [51.0447, -114.0719] },
   { id: "den", label: "Denver, CO", location: [39.7392, -104.9903] },
   { id: "san", label: "San Diego, CA", location: [32.715736, -117.161087] },
@@ -150,6 +153,9 @@ export function Globe({
         )}
         ref={canvasRef}
         onPointerDown={(e) => {
+          // Capture so crossing a pin (its own hit target) does not fire
+          // pointerout on the canvas and end the drag.
+          e.currentTarget.setPointerCapture?.(e.pointerId);
           pointerInteracting.current = e.clientX;
           updatePointerInteraction(e.clientX);
         }}
@@ -171,10 +177,11 @@ export function Globe({
         wrapper so the anchors are inside the pins' containing block.
       */}
       <ul className="globe-pins" aria-label="Places I have worked">
-        {pins.map(({ id, label }) => (
+        {pins.map(({ id, label, side }) => (
           <li
             key={id}
             className="globe-pin"
+            data-side={side}
             style={
               {
                 "--pin-anchor": `--cobe-${id}`,
@@ -190,7 +197,7 @@ export function Globe({
               <circle cx="12" cy="10" r="3" fill="#fff" />
             </svg>
             <svg className="globe-pin-lead" viewBox="0 0 64 36" aria-hidden="true">
-              <path d="M8 36 L20 12 H60" fill="none" />
+              <path d="M8 36 L20 12 H60" fill="none" pathLength={100} />
             </svg>
             <span className="globe-pin-label">{label}</span>
           </li>

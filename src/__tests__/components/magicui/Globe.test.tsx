@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { render } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import { Globe } from '@/components/magicui/globe'
 import createGlobe, { type COBEOptions } from 'cobe'
 
@@ -280,6 +280,37 @@ describe('Globe Component', () => {
       expect(pins[0].textContent).toBe('New York, NY')
       expect((pins[0] as HTMLElement).style.getPropertyValue('--pin-anchor')).toBe('--cobe-nyc')
       expect(mockCreateGlobe.mock.calls[0][1].markers).toEqual([{ id: 'nyc', location: [40.7128, -74.006], size: 0.02 }])
+    })
+
+    it('puts only the Vancouver label on the left (it would collide with Calgary on touch screens)', () => {
+      const { container } = render(<Globe />)
+
+      const left = container.querySelectorAll('li.globe-pin[data-side]')
+      expect(left).toHaveLength(1)
+      expect(left[0]).toHaveAttribute('data-side', 'left')
+      expect(left[0].textContent).toBe('Vancouver, BC')
+    })
+
+    it('normalises the leader path length so the draw animation spans the whole line', () => {
+      const { container } = render(<Globe />)
+
+      expect(container.querySelector('svg.globe-pin-lead path')).toHaveAttribute('pathLength', '100')
+    })
+  })
+
+  describe('Dragging', () => {
+    it('captures the pointer on pointerdown so crossing a pin does not end the drag', () => {
+      const capture = vi.fn()
+      const proto = HTMLElement.prototype as unknown as { setPointerCapture?: unknown }
+      const original = proto.setPointerCapture
+      proto.setPointerCapture = capture
+      try {
+        render(<Globe />)
+        fireEvent.pointerDown(document.querySelector('canvas')!, { clientX: 10, pointerId: 7 })
+        expect(capture).toHaveBeenCalledTimes(1)
+      } finally {
+        proto.setPointerCapture = original
+      }
     })
   })
 

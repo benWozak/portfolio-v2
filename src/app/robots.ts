@@ -1,4 +1,5 @@
 import { headers } from 'next/headers'
+import { SITE_URL } from '@/lib/site'
 
 export default async function robots() {
   const headersList = await headers();
@@ -12,7 +13,7 @@ export default async function robots() {
           disallow: '/',
         },
       ],
-      host: 'https://benwozak.dev',
+      host: SITE_URL,
     }
   }
   
@@ -23,6 +24,6 @@ export default async function robots() {
         allow: '/',
       },
     ],
-    sitemap: 'https://benwozak.dev/sitemap.xml',
+    sitemap: `${SITE_URL}/sitemap.xml`,
   }
 }

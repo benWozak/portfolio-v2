@@ -5,12 +5,28 @@ import { ProjectGrid } from "@/components/content/projects/ProjectGrid";
 import { ProjectTabs } from "@/components/content/projects/ProjectTabs";
 import { PROJECT_GROUPS } from "@/components/content/projects/groups";
 import { getProjectsByType } from "@/lib/projects";
+import { SITE_IMAGE, SITE_LOCALE, SITE_NAME } from "@/lib/site";
 
 const group = PROJECT_GROUPS.personal;
 
 export const metadata: Metadata = {
   title: group.heading,
   description: group.intro,
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    locale: SITE_LOCALE,
+    url: group.href,
+    title: group.heading,
+    description: group.intro,
+    images: [SITE_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: group.heading,
+    description: group.intro,
+    images: [SITE_IMAGE],
+  },
 };
 
 export default function PersonalProjectsPage() {

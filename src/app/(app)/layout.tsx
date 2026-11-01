@@ -6,6 +6,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import "../../styles/normalization.css";
 import { Header, Footer } from "@/components/layout";
+import { SITE_IMAGE, SITE_LOCALE, SITE_NAME, SITE_URL } from "@/lib/site";
 
 const geistSans = localFont({
   src: [
@@ -34,7 +35,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://benwozak.dev/"),
+  metadataBase: new URL(`${SITE_URL}/`),
   title: {
     default: "Ben Wozak | Software Developer",
     template: "%s | Ben Wozak",
@@ -62,27 +63,19 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    locale: "en_US",
-    url: "https://benwozak.dev/",
+    locale: SITE_LOCALE,
+    url: `${SITE_URL}/`,
     title: "Ben Wozak | Software Developer",
     description:
       "Explore my projects. Specializing in React, Next.js, and modern web technologies.",
-    siteName: "Ben Wozaks Portfolio",
-    images: [
-      {
-        url: "https://benwozak.dev/BW_logo.svg",
-        width: 1200,
-        height: 630,
-        alt: "Ben Wozak - Software Developer",
-      },
-    ],
+    siteName: SITE_NAME,
+    images: [SITE_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     title: "Ben Wozak | Software Developer",
     description: "Check out my latest web development projects.",
-    creator: "@your_twitter_handle",
-    images: ["https://benwozak.dev/BW_logo.svg"],
+    images: [SITE_IMAGE],
   },
   robots: {
     index: true,

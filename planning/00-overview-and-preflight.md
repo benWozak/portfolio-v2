@@ -6,7 +6,7 @@
 
 **Architecture (end state):** A fully static Next.js 15 App Router site. Project content lives in `content/projects/<slug>.json`, images in `public/projects/<slug>/`. A synchronous loader in `src/lib/projects/` validates every file at module init and exposes `getProjects`, `getProjectBySlug`, `getFeaturedProject`, `getAdjacentProjects`. No database, no admin UI, no draft mode, no revalidation, no runtime image processing. The only server-side route left is the Turnstile verification endpoint for the contact form.
 
-**Tech Stack:** Next.js 15.4 (App Router, React 19), Tailwind 3.4, framer-motion, next-themes, Vitest 4 + Testing Library, `react-markdown` + `remark-gfm` (added in chunk 07), `sharp` as a devDependency for content tooling only. Node 22.17, npm. (Chunk 10, 2026-11-01: Next 16.4, TypeScript 6, ESLint 10 flat config, Vitest 5, Motion 14, cobe 2; Tailwind stays 3.4 until its deferred tier runs.)
+**Tech Stack:** Next.js 15.4 (App Router, React 19), Tailwind 3.4, framer-motion, next-themes, Vitest 4 + Testing Library, `react-markdown` + `remark-gfm` (added in chunk 07), `sharp` as a devDependency for content tooling only. Node 22.17, npm. (Chunk 10, 2026-11-01: Next 16.4, TypeScript 6, ESLint 9 flat config (10 blocked by plugin peer ranges), Vitest 5, Motion 14, cobe 2; Tailwind stays 3.4 until its deferred tier runs.)
 
 ---
 

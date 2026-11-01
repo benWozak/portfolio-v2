@@ -6,7 +6,7 @@
 
 **Architecture:** One branch, `deps-upgrades`, off `main`. Five tiers are commit groups on it; inside a tier, one commit per package group, so the owner can bisect or drop a tier. Every package is installed with an explicit version (`npm install pkg@x.y.z`) so the lockfile changes surgically. The gate after every task is the same four commands plus a build. **Tiers 1–4 run in this session; Tier 5 (Tailwind 4) is written down but not executed.**
 
-**Tech Stack (end state):** Next 16.4, React 19.3, TypeScript 6.0, ESLint 10 flat config, Vitest 5 on Vite 8, Tailwind 4.3, Motion 14, cobe 2, lucide-react 1.
+**Tech Stack (end state):** Next 16.4, React 19.3, TypeScript 6.0, ESLint 9 flat config (10 deferred, see hand-off), Vitest 5 on Vite 8, Tailwind 4.3, Motion 14, cobe 2, lucide-react 1.
 
 ## Why these tiers
 
@@ -414,7 +414,7 @@ Continue on `deps-upgrades`.
 
 ### Task 9: TypeScript 6.0
 
-- [ ] **Step 1: Install**
+- [x] **Step 1: Install**
 
 ```bash
 npm install -D typescript@6.0.3
@@ -423,9 +423,9 @@ rm -rf .next && npx tsc --noEmit
 
 Expected: silent. Our tsconfig already has `paths` without `baseUrl`, `moduleResolution: bundler`, `esModuleInterop: true` and no `target: es5`, so none of the 6.0 deprecations apply. Known possible fallout: 6.0 is stricter about conflicting declarations even under `skipLibCheck`; if it reports a conflict between two `@types` packages, upgrade or dedupe the pair (`npm ls <name>`) rather than adding `ignoreDeprecations`. If it reports `Cannot find name 'process'` or `Cannot find module 'node:fs'`, add `"types": ["node"]` to `compilerOptions` and record it.
 
-- [ ] **Step 2: Lint still works** (typescript-eslint 8.x supports `<6.1.0`): `npm run lint`. Expected: clean, no "unsupported TypeScript version" warning.
+- [x] **Step 2: Lint still works** (typescript-eslint 8.x supports `<6.1.0`): `npm run lint`. Expected: clean, no "unsupported TypeScript version" warning.
 
-- [ ] **Step 3: Gate.**
+- [x] **Step 3: Gate.**
 
 Commit: `chore(deps): typescript 6.0`
 
@@ -434,7 +434,7 @@ Commit: `chore(deps): typescript 6.0`
 **Files:**
 - Modify: `package.json` (`next`, `eslint-config-next`, scripts), `CLAUDE.md`, `README.md`
 
-- [ ] **Step 1: Install**
+- [x] **Step 1: Install**
 
 ```bash
 npm install next@16.4.3
@@ -443,15 +443,15 @@ npm install -D eslint-config-next@16.4.3
 
 Do not run `npx @next/codemod upgrade`: the three things it would do here (bump packages, rewrite `next lint`, generate a `FlatCompat` ESLint config) are done by hand in this task and Task 11 so the result matches the current Next docs rather than the codemod's legacy shim.
 
-- [ ] **Step 2: Scripts.** In `package.json` change `"dev": "next dev --turbopack"` to `"dev": "next dev"` (Turbopack is the default; the flag is redundant). Leave `"lint": "next lint"` for Task 11.
+- [x] **Step 2: Scripts.** In `package.json` change `"dev": "next dev --turbopack"` to `"dev": "next dev"` (Turbopack is the default; the flag is redundant). Leave `"lint": "next lint"` for Task 11.
 
-- [ ] **Step 3: Check the config surface.** `next.config.ts` needs no edit; confirm:
+- [x] **Step 3: Check the config surface.** `next.config.ts` needs no edit; confirm:
   - `experimental.optimizePackageImports` still exists in 16.4.3 (it does: `dist/server/config-shared.d.ts:619`).
   - `images.minimumCacheTTL`, `deviceSizes`, `imageSizes` are explicit, so the 16 default changes (TTL 4 h, `16` dropped from `imageSizes`, `qualities: [75]`) do not alter output. No `<Image quality=…>` is used anywhere (`grep -rn "quality=" src` is empty).
   - There is no `middleware.ts`, no `eslint` key, no webpack config, no parallel routes.
   - `src/app/robots.ts` already awaits `headers()`; `[slug]/page.tsx` already awaits `params`.
 
-- [ ] **Step 4: Build**
+- [x] **Step 4: Build**
 
 ```bash
 rm -rf .next && npm run build 2>&1 | tail -30
@@ -459,7 +459,7 @@ rm -rf .next && npm run build 2>&1 | tail -30
 
 Expected: the build runs `content:check` first, then "▲ Next.js 16.4.3 (Turbopack)", then the route table. `next build` now type-checks through the project-local `tsc` CLI (default in 16 for TS ≥ 6), which prints plain tsc diagnostics. Note that the `Size` / `First Load JS` columns are gone from the table; that is a Next 16 change, not a regression.
 
-- [ ] **Step 5: Smoke the server**
+- [x] **Step 5: Smoke the server**
 
 ```bash
 npx next start -p 3100 & PID=$!; sleep 3
@@ -470,11 +470,11 @@ kill $PID
 
 Expected: `200` for every page, `200` for robots and sitemap, `404` for `/nope`, and the POST returns `{"success":false,"error":"Missing Turnstile token"}` with 400.
 
-- [ ] **Step 6: Dev server.** `npm run dev`, open `/` and `/projects/professional`; check the terminal for Turbopack warnings about PostCSS or fonts. Expected: none.
+- [x] **Step 6: Dev server.** `npm run dev`, open `/` and `/projects/professional`; check the terminal for Turbopack warnings about PostCSS or fonts. Expected: none.
 
-- [ ] **Step 7: Docs.** `CLAUDE.md` Stack line: "Next.js 16 App Router + React 19 … TypeScript 6". `README.md`: "Static Next.js 16 site". `planning/00-overview-and-preflight.md` Tech Stack line: append "(upgraded to Next 16 / TS 6 in chunk 10)".
+- [x] **Step 7: Docs.** `CLAUDE.md` Stack line: "Next.js 16 App Router + React 19 … TypeScript 6". `README.md`: "Static Next.js 16 site". `planning/00-overview-and-preflight.md` Tech Stack line: append "(upgraded to Next 16 / TS 6 in chunk 10)".
 
-- [ ] **Step 8: Gate** (lint still runs through `next lint` at this point; that is fine for one commit).
+- [x] **Step 8: Gate** (lint still runs through `next lint` at this point; that is fine for one commit).
 
 Commit: `chore(deps): next 16.4 (Turbopack default, tsc-based build type-check)`
 
@@ -485,7 +485,7 @@ Commit: `chore(deps): next 16.4 (Turbopack default, tsc-based build type-check)`
 - Create: `eslint.config.mjs`
 - Modify: `package.json` (`eslint`, `lint` script)
 
-- [ ] **Step 1: Install**
+- [x] **Step 1: Install**
 
 ```bash
 npm install -D eslint@10.14.0
@@ -493,7 +493,7 @@ npm install -D eslint@10.14.0
 
 `eslint-config-next@16.4.x` declares `eslint: ">=9.0.0"` and the Next docs state 16.4.0+ supports ESLint 10. If `npm install` reports an `ERESOLVE` from `eslint-plugin-react` or `eslint-plugin-jsx-a11y`, stop and record it: fall back to `eslint@9.39.5` for this tier and note ESLint 10 as a follow-up (do not use `--legacy-peer-deps`).
 
-- [ ] **Step 2: Replace the config**
+- [x] **Step 2: Replace the config**
 
 ```bash
 git rm .eslintrc.json
@@ -523,7 +523,7 @@ export default defineConfig([
 
 In `package.json` change `"lint": "next lint"` to `"lint": "eslint ."`.
 
-- [ ] **Step 3: Run it and triage**
+- [x] **Step 3: Run it and triage**
 
 ```bash
 npm run lint 2>&1 | tail -40
@@ -536,7 +536,7 @@ Expected: new findings are likely from `eslint-plugin-react-hooks` 7 (React Comp
 
 Expected after triage: `npm run lint` exits 0 with no warnings.
 
-- [ ] **Step 4: Confirm nothing else referenced `next lint`**
+- [x] **Step 4: Confirm nothing else referenced `next lint`**
 
 ```bash
 grep -rn "next lint\|eslintrc" --include='*.md' --include='*.json' --include='*.ts' --include='*.mjs' . --exclude-dir=node_modules --exclude-dir=.next
@@ -544,7 +544,7 @@ grep -rn "next lint\|eslintrc" --include='*.md' --include='*.json' --include='*.
 
 Expected: only history in `planning/`. Update `CLAUDE.md` Commands (`npm run lint` now runs `eslint .`) and `src/__tests__/README.md` if it names the linter.
 
-- [ ] **Step 5: Gate.** Hand-off note: the lint triage list (rules disabled, sites fixed). Do not push. When the owner deploys: home globe, a project page, `/contact` submission end-to-end (Turnstile + EmailJS), `/robots.txt` on both hosts.
+- [x] **Step 5: Gate.** Hand-off note: the lint triage list (rules disabled, sites fixed). Do not push. When the owner deploys: home globe, a project page, `/contact` submission end-to-end (Turnstile + EmailJS), `/robots.txt` on both hosts.
 
 Commit: `chore(lint): eslint 10 flat config replaces next lint`
 
@@ -822,6 +822,8 @@ Commit: `feat(styles): tailwind 4 with tokens in @theme inline`
 
 ## Deferred, on purpose
 
+- **ESLint 10.** `eslint-config-next@16.4.3` depends on `eslint-plugin-react@7.37`, `eslint-plugin-jsx-a11y@6.10` and `eslint-plugin-import@2.32`, whose `eslint` peer ranges stop at `^9`. ESLint 10 installs only with three `ERESOLVE overriding peer dependency` warnings (on Vercel too) and `npm ls` exits 1, and several of those plugins' rules still call `context.getFilename()` / `getSourceCode()` / `parserOptions`, which ESLint 10 removed. Retry when those three plugins publish ESLint 10 support (watch `npm view eslint-plugin-react peerDependencies.eslint`). The flat config is already in place, so the switch will be a one-line version bump. Dependabot's `majors` group will keep offering it; close those PRs until then.
+
 - **TypeScript 7.** Switch when typescript-eslint supports it (expected alongside the 7.1 API). The alias recipe from the TS 7.0 announcement (`"typescript": "npm:@typescript/typescript6"`, `"@typescript/native": "npm:typescript@^7"`) is the fallback if that takes long.
 - **jsdom 30** (needs Node ≥ 22.22) and **`@types/node` 24/26**: follow the runtime when Vercel's default Node moves.
 
@@ -857,3 +859,11 @@ _(append dated notes here)_
   2. **Wrapper div.** cobe 2 moves the canvas into a `<div style="position:relative;width:100%;height:100%">` that `destroy()` leaves behind, so Strict Mode re-runs nest wrappers. Cleanup now unwraps the canvas. The test mock mimics the wrapping.
   3. The plan's rAF test mock (`cb(0); return 42` on every call) recursed to a stack overflow; replaced by a queue of frames with distinct ids, which also catches a cleanup that cancels a stale id. Suite: 30 files / 433 tests.
 - **OWNER CHECK (browser):** on `/` the globe should be sharp at its normal size, auto-rotate, drag with the spring, fade in, and show exactly one cobe wrapper div inside the globe container in dev (Strict Mode). A headless check only confirmed the `<canvas>` renders and the dev log is clean.
+
+**2026-11-01 — Tier 3 (Tasks 9–11)**
+- **Order swapped: Next 16 (Task 10) landed before TypeScript 6 (Task 9).** TS 6 turns on `noUncheckedSideEffectImports`, which rejects the two plain `.css` side-effect imports in `src/app/layout.tsx` under Next 15's types; Next 16's `types/global.d.ts` declares `*.css`, so doing Next first avoided a throwaway `declare module` file.
+- Next 16: `next build` rewrote `tsconfig.json` `jsx: preserve` → `react-jsx` (its new default); kept. `next dev` generates `AGENTS.md` (`agentRules`); committed, noted in `CLAUDE.md`, `agentRules: false` turns it off. `package.json` `next` is now a caret range (`^16.4.3`) like every other dependency; it was an exact `15.4.11` pin from the lockfile saga, which the committed lockfile makes unnecessary. Smoke: all eight routes answered as before, POST `/api/contact/verify` without a token → 400. Build output no longer shows `Size`/`First Load JS`.
+- **ESLint 10 blocked, stayed on 9.39.5** (see Deferred). The flat config, `lint: eslint .` and the wider lint scope (configs, `scripts/`, `content/`) are done; the only findings were an unused disable directive in `setup.ts` and a `require()` in `tailwind.config.ts`, now an ESM import whose emitted CSS is byte-identical.
+- **Audit correction.** Tier 1's note said "24 → 1 moderate"; the real count after Tier 1 was **18 moderate** from two root advisories, unchanged through Tier 3: `minimatch <11.0.1` (GHSA-g3hv-75wg-m249) under ESLint 9 and eslint-config-next's plugins, and `postcss-selector-parser <6.1.5` (GHSA-rj75-hqrm-r3gf) under `@tailwindcss/typography@0.5.20`. Both dev-only; npm's only "fix" is a downgrade. The first clears when ESLint 10 becomes installable; the second when typography 0.5.21+ or Tailwind 4 (Tier 5) lands.
+- Vitest prints a Vite warning that `vitest.config.ts` uses ESM syntax in a file loaded as CJS (`configLoader: 'native'` will be the future default). Harmless on Vite 8.3 today; renaming to `vitest.config.mts` is the fix if Tier 4 turns it into an error.
+- Gate after every task: tsc silent, lint clean, 30 files / 433 tests, same routes.

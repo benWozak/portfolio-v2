@@ -36,8 +36,8 @@ vi.mock('next/image', () => ({
   },
 }))
 
-// Mock framer-motion to avoid animation issues in tests
-vi.mock('framer-motion', () => ({
+// Mock motion/react to avoid animation issues in tests
+vi.mock('motion/react', () => ({
   // Any motion.<tag> renders as the plain <tag>; nothing to maintain when a component uses a new element.
   motion: new Proxy({}, { get: (_, tag) => tag as string }),
   AnimatePresence: ({ children }: { children: React.ReactNode }) => children,

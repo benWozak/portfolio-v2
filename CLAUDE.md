@@ -4,7 +4,7 @@ Personal portfolio for Ben Wozak at https://benwozak.dev. Statically generated N
 
 ## Stack
 
-Next.js 15 App Router + React 19, TypeScript strict, Tailwind 3.4 (HSL tokens in `src/app/globals.css`), framer-motion, next-themes, Vitest + Testing Library. Deployed on Vercel. Node 22, npm, `package-lock.json` is committed.
+Next.js 15 App Router + React 19, TypeScript strict, Tailwind 3.4 (HSL tokens in `src/app/globals.css`), motion (`motion/react`), next-themes, Vitest + Testing Library. Deployed on Vercel. Node 22, npm, `package-lock.json` is committed.
 
 ## Commands
 
@@ -24,7 +24,7 @@ Next.js 15 App Router + React 19, TypeScript strict, Tailwind 3.4 (HSL tokens in
 
 - Interactive elements use the `.focus-ring` utility.
 - Motion: `MotionConfig reducedMotion="user"` is global. Entrance pattern is `AnimatedSection` (fades in at 30% in view) + `itemVariants`.
-- Tests live in `src/__tests__/`, mirrored by path. `src/__tests__/setup.ts` mocks next/navigation, next/image, next/link and framer-motion; the framer-motion mock renders any `motion.<tag>` as the plain tag via a Proxy, so new elements need no mock changes. The content tests in `src/__tests__/lib/` declare `@vitest-environment node` (one reads the filesystem, none needs a DOM); under jsdom with `NODE_ENV=production` (Vercel) a `node:` import resolves to nothing.
+- Tests live in `src/__tests__/`, mirrored by path. `src/__tests__/setup.ts` mocks next/navigation, next/image, next/link and motion/react; the motion/react mock renders any `motion.<tag>` as the plain tag via a Proxy, so new elements need no mock changes. The content tests in `src/__tests__/lib/` declare `@vitest-environment node` (one reads the filesystem, none needs a DOM); under jsdom with `NODE_ENV=production` (Vercel) a `node:` import resolves to nothing.
 - `src/lib/projects/schema.ts` and `scripts/content/*` must stay free of Next imports; the scripts run under `tsx`.
 - Env vars: only EmailJS (`NEXT_PUBLIC_KEY`, `NEXT_PUBLIC_SERVICE_ID`, `NEXT_PUBLIC_TEMPLATE_ID`) and Turnstile (`NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`). See `.env.example`.
 

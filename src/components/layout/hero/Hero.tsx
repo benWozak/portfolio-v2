@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { CTAButton } from "../../ui";
 import { itemVariants } from "../section/AnimatedSection";
 import { TechOrbit } from "./TechOrbit";

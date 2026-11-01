@@ -2,9 +2,9 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen } from '@/test-utils'
 import { AnimatedSection, itemVariants } from '@/components/layout/section/AnimatedSection'
 
-// Mock framer-motion
+// Mock motion/react
 const mockUseInView = vi.fn()
-vi.mock('framer-motion', () => ({
+vi.mock('motion/react', () => ({
   motion: {
     div: ({ children, variants, initial, animate, className, ...props }: any) => (
       <div 

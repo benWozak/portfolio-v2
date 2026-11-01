@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { AnimatedSection, itemVariants } from "./AnimatedSection";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 interface SectionHeadingProps {
   title: string;

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import Logo from "./Logo";
 import { ThemeToggle } from "./ThemeToggle";
 import { LinkButton } from "../ui/LinkButton";

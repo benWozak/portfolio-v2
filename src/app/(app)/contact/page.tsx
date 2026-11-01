@@ -6,7 +6,7 @@ import {
   AnimatedSection,
   itemVariants,
 } from "../../../components/layout/section/AnimatedSection";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { LinkButton } from "../../../components/ui";
 
 export default function Contact() {

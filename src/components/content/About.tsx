@@ -5,7 +5,7 @@ import {
   AnimatedSection,
   itemVariants,
 } from "../layout/section/AnimatedSection";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Globe } from "../magicui/globe";
 
 export function About() {

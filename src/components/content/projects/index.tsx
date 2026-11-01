@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import Section from "../../layout/section";
 import { AnimatedSection, itemVariants } from "../../layout/section/AnimatedSection";
 import type { Project } from "@/types";

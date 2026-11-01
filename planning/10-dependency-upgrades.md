@@ -561,7 +561,7 @@ Continue on `deps-upgrades`.
 **Files:**
 - Modify: `package.json` (versions, `engines`, remove `test:ui`), `vitest.config.ts` only if Step 3 demands it
 
-- [ ] **Step 1: Install**
+- [x] **Step 1: Install**
 
 ```bash
 npm install -D vitest@5.0.5 @vitest/coverage-v8@5.0.5 @vitejs/plugin-react@6.1.2 vite@^8.3.5
@@ -569,7 +569,7 @@ npm install -D vitest@5.0.5 @vitest/coverage-v8@5.0.5 @vitejs/plugin-react@6.1.2
 
 `vite` is explicit because Vitest 5 makes it a peer dependency and plugin-react 6 requires `vite ^8`. If npm reports an `ERESOLVE` on `oxc-transform-react` or `@rolldown/plugin-babel`, those are optional peers of plugin-react; retry with the exact `vite@8.3.5`.
 
-- [ ] **Step 2: Declare the runtime.** In `package.json`, after `"private": true,` add:
+- [x] **Step 2: Declare the runtime.** In `package.json`, after `"private": true,` add:
 
 ```json
   "engines": {
@@ -579,7 +579,7 @@ npm install -D vitest@5.0.5 @vitest/coverage-v8@5.0.5 @vitejs/plugin-react@6.1.2
 
 Vercel reads `engines.node` to pick the build image, and Vitest 5 requires ≥ 22.12. Also delete the `"test:ui": "vitest --ui"` script: `@vitest/ui` was never installed, so it has never worked (or install `@vitest/ui@5.0.5` if the owner wants it; the plan deletes).
 
-- [ ] **Step 3: Run the suite**
+- [x] **Step 3: Run the suite**
 
 ```bash
 npm run test:run 2>&1 | tail -20
@@ -593,7 +593,7 @@ Expected: green. Vitest 5 changes that could bite and what to do:
   - Per-file `// @vitest-environment node` directives are unchanged.
   - Vitest no longer searches parent directories for a config; `vitest.config.ts` is in the root, so no change.
 
-- [ ] **Step 4: Coverage still works**
+- [x] **Step 4: Coverage still works**
 
 ```bash
 npx vitest run --coverage 2>&1 | tail -8
@@ -601,11 +601,11 @@ npx vitest run --coverage 2>&1 | tail -8
 
 Expected: the text table prints; `coverage/` is created (gitignored). Coverage `exclude` patterns without wildcards are now treated as directories (`src/__tests__/` → `src/__tests__/**`), which is what the config meant.
 
-- [ ] **Step 5: Gate.** `npm run lint` must pass with `eslint .` and the new `vite` import graph; `npm run build` runs `content:check` under Vitest 5.
+- [x] **Step 5: Gate.** `npm run lint` must pass with `eslint .` and the new `vite` import graph; `npm run build` runs `content:check` under Vitest 5.
 
 Commit: `chore(deps): vitest 5, vite 8, @vitejs/plugin-react 6; declare node 22.x`
 
-- [ ] **Step 6: STOP. Final hand-off.** Do not start Tier 5. Write the hand-off log entry and report to the owner:
+- [x] **Step 6: STOP. Final hand-off.** Do not start Tier 5. Write the hand-off log entry and report to the owner:
   - Branch `deps-upgrades`, not pushed; `git log --oneline main..deps-upgrades`.
   - `npm outdated` output (expected: only `tailwindcss` 3.4.x → 4.x and `typescript` 6 → 7 remain).
   - `npm audit` result (expected: 0).
@@ -812,13 +812,13 @@ Commit: `feat(styles): tailwind 4 with tokens in @theme inline`
 
 ## Done when (this session: Tiers 0–4)
 
-- [ ] Branch `deps-upgrades` exists locally, unpushed, with one commit per task above through Task 12.
-- [ ] `npm outdated` lists only `tailwindcss` (Tier 5 deferred) and `typescript` 7.x (deliberately deferred).
-- [ ] `npm audit` prints `found 0 vulnerabilities`.
-- [ ] The gate passes on the branch tip: tsc, `eslint .`, `test:run`, `build`.
-- [ ] `planning/README.md` lists chunk 10 with tiers 1–4 ticked and 5 open.
-- [ ] `CLAUDE.md` Stack and Commands lines describe the new toolchain (still says Tailwind 3.4).
-- [ ] The final hand-off (Task 12 Step 6) is in the hand-off log.
+- [x] Branch `deps-upgrades` exists locally, unpushed, with one commit per task above through Task 12.
+- [x] `npm outdated` lists only `tailwindcss` (Tier 5 deferred), `typescript` 7.x and `eslint` 10 (both deliberately deferred), and `@types/node` 26 (tracks the Node 22 runtime on purpose).
+- [ ] `npm audit` prints `found 0 vulnerabilities`. **Not met:** 18 moderate severity vulnerabilities, all dev-only, two root advisories (`minimatch` via ESLint 9's tree, `postcss-selector-parser` via `@tailwindcss/typography`); see the Tier 3 note. Clears with ESLint 10 and Tailwind 4 respectively.
+- [x] The gate passes on the branch tip: tsc, `eslint .`, `test:run`, `build`.
+- [x] `planning/README.md` lists chunk 10 with tiers 1–4 ticked and 5 open.
+- [x] `CLAUDE.md` Stack and Commands lines describe the new toolchain (still says Tailwind 3.4).
+- [x] The final hand-off (Task 12 Step 6) is in the hand-off log.
 
 ## Deferred, on purpose
 
@@ -867,3 +867,16 @@ _(append dated notes here)_
 - **Audit correction.** Tier 1's note said "24 → 1 moderate"; the real count after Tier 1 was **18 moderate** from two root advisories, unchanged through Tier 3: `minimatch <11.0.1` (GHSA-g3hv-75wg-m249) under ESLint 9 and eslint-config-next's plugins, and `postcss-selector-parser <6.1.5` (GHSA-rj75-hqrm-r3gf) under `@tailwindcss/typography@0.5.20`. Both dev-only; npm's only "fix" is a downgrade. The first clears when ESLint 10 becomes installable; the second when typography 0.5.21+ or Tailwind 4 (Tier 5) lands.
 - Vitest prints a Vite warning that `vitest.config.ts` uses ESM syntax in a file loaded as CJS (`configLoader: 'native'` will be the future default). Harmless on Vite 8.3 today; renaming to `vitest.config.mts` is the fix if Tier 4 turns it into an error.
 - Gate after every task: tsc silent, lint clean, 30 files / 433 tests, same routes.
+
+**2026-11-01 — Tier 4 (Task 12) and final hand-off**
+- Vitest 5.0.5, Vite 8.3.5 (explicit devDependency, now a peer of Vitest), `@vitejs/plugin-react` 6.1.2, `@vitest/coverage-v8` 5.0.5 installed with no peer warnings. `engines.node: "22.x"` added; `test:ui` script removed.
+- One source change: `src/__tests__/setup.ts` imports `@testing-library/jest-dom/vitest` instead of `@testing-library/jest-dom`. Vitest 5 no longer reads jest-dom's `jest.Matchers` augmentation, so every `toBeInTheDocument`/`toHaveClass` was a TS2339 under `tsc` (tests still ran). The `/vitest` entry augments Vitest's `Assertion` directly.
+- `clearMocks: true` default caused no failures. jsdom prints five `Not implemented: navigation to another Document` lines during the suite (link clicks under jsdom); informational, not failures. The Vite `configLoader: 'native'` warning about `vitest.config.ts` persists and is still a warning.
+- Gate on the branch tip: tsc silent, `eslint .` clean, 30 files / 433 tests, coverage report renders (94 % statements), build with Vitest 5 running `content:check` and the same route table.
+
+**FINAL HAND-OFF (2026-11-01).** Branch `deps-upgrades`, 15 commits ahead of `main`, **not pushed**. Tier 5 (Tailwind 4) not started, per the owner.
+- `npm outdated`: `tailwindcss` 3.4.19 → 4.3.3 (Tier 5), `typescript` 6.0.3 → 7.0.2 (deferred), `eslint` 9.39.5 → 10.14.0 (deferred, plugin peers), `@types/node` 22.x → 26 (intentional, tracks Node 22).
+- `npm audit`: 18 moderate severity vulnerabilities (dev-only; see Tier 3).
+- **OWNER CHECKS before deploying:** (1) Vercel → Settings → Build and Deployment → Node.js Version is `22.x` (the new `engines.node` also asks for it; Vitest 5 needs ≥ 22.12 for `prebuild`). (2) On the preview: home globe sharp, spinning, draggable, one cobe wrapper div in dev; a project page; `/contact` end-to-end (Turnstile + EmailJS 5); `/robots.txt` on both hosts; Vercel Analytics 2 still records a page view. (3) Visually compare the LinkedIn icon in the footer/socials (Font Awesome glyph replaces the removed Simple Icons one).
+- Suggested PR title: `Chunk 10: dependency upgrades, tiers 1–4 (Tailwind 4 deferred)`.
+- Process note: the mechanical install tasks (1–6, 9, 10, 12) were run by the orchestrator with the gate after each; tasks that wrote code or config (7, 8, 11) went through a fresh implementer plus spec and quality reviews. The quality review of Task 8 caught two real defects in the plan's cobe recipe (canvas rendered at 4× per side; leaked wrapper div).

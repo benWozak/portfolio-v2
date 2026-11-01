@@ -4,7 +4,7 @@ Personal portfolio for Ben Wozak at https://benwozak.dev. Statically generated N
 
 ## Stack
 
-Next.js 16 App Router (Turbopack) + React 19, TypeScript strict, Tailwind 3.4 (HSL tokens in `src/app/globals.css`), motion (`motion/react`), next-themes, Vitest + Testing Library. Deployed on Vercel. Node 22, npm, `package-lock.json` is committed.
+Next.js 16 App Router (Turbopack) + React 19, TypeScript strict, Tailwind 3.4 (HSL tokens in `src/app/globals.css`), motion (`motion/react`), next-themes, Vitest 5 + Testing Library. Deployed on Vercel. Node 22 (`engines.node`), npm, `package-lock.json` is committed.
 
 ## Commands
 

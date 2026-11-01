@@ -1,10 +1,11 @@
+// Root layout. It lives at src/app/ (not inside the (app) group) so that Next's /_not-found route for unmatched URLs renders inside it with ./not-found.tsx; a not-found.tsx inside a route group only serves notFound() calls made within that group.
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Providers } from "@/components/providers/Providers";
 import localFont from "next/font/local";
 import "./globals.css";
-import "../../styles/normalization.css";
+import "../styles/normalization.css";
 import { Header, Footer } from "@/components/layout";
 import { SITE_IMAGE, SITE_LOCALE, SITE_NAME, SITE_URL } from "@/lib/site";
 

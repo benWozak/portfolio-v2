@@ -11,3 +11,16 @@ updates:
         update-types: [minor, patch]
       majors:
         update-types: [major]
+    # Majors deferred on purpose (planning/10-dependency-upgrades.md). Dependabot only
+    # bumps versions, so these need a migration first. Drop an entry when it is done.
+    ignore:
+      - dependency-name: tailwindcss      # Tier 5: needs @tailwindcss/postcss + CSS-first config
+        update-types: ["version-update:semver-major"]
+      - dependency-name: typescript       # 7.x: typescript-eslint caps TS below 6.1
+        update-types: ["version-update:semver-major"]
+      - dependency-name: eslint           # 10.x: eslint-config-next plugins peer on ESLint 9
+        update-types: ["version-update:semver-major"]
+      - dependency-name: jsdom            # 30.x: needs Node >= 22.22
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@types/node"    # follow the Node 22 runtime
+        update-types: ["version-update:semver-major"]

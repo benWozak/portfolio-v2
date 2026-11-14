@@ -1,16 +1,17 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { render, screen, fireEvent } from '@/test-utils'
+import { render, screen, fireEvent, hydrate } from '@/test-utils'
 import userEvent from '@testing-library/user-event'
 import Logo from '@/components/layout/Logo'
 
 // Mock next-themes
-vi.mock('next-themes', () => {
-  const mockTheme = { theme: 'light', resolvedTheme: 'light' }
-  return {
-    useTheme: vi.fn(() => mockTheme),
-    ThemeProvider: ({ children }: { children: React.ReactNode }) => <div>{children}</div>
-  }
-})
+const mockTheme = vi.hoisted(() => ({
+  theme: 'light' as string | undefined,
+  resolvedTheme: 'light' as string | undefined,
+}))
+vi.mock('next-themes', () => ({
+  useTheme: vi.fn(() => mockTheme),
+  ThemeProvider: ({ children }: { children: React.ReactNode }) => <div>{children}</div>
+}))
 
 // Mock the smooth scroll hook
 vi.mock('@/utils/hooks/useSmoothScroll', () => ({
@@ -24,14 +25,16 @@ vi.mock('next/navigation', () => ({
 
 // Mock Next.js Image component
 vi.mock('next/image', () => ({
-  default: ({ src, alt, width, height, className, priority }: any) => (
-    <div 
-      data-src={src} 
-      data-alt={alt} 
-      data-width={width} 
-      data-height={height} 
+  default: ({ src, alt, width, height, className, priority, preload, fetchPriority }: any) => (
+    <div
+      data-src={src}
+      data-alt={alt}
+      data-width={width}
+      data-height={height}
       className={className}
       data-priority={priority}
+      data-preload={preload}
+      data-fetch-priority={fetchPriority}
       data-testid="logo-image"
     />
   )
@@ -49,7 +52,9 @@ vi.mock('next/link', () => ({
 describe('Logo Component', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    
+    mockTheme.theme = 'light'
+    mockTheme.resolvedTheme = 'light'
+
     // Mock matchMedia
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
@@ -78,15 +83,25 @@ describe('Logo Component', () => {
       expect(logoLink).toHaveAttribute('href', '/')
     })
 
-    it('renders logo image with correct attributes', () => {
+    it('renders a light and a dark logo variant with shared attributes', () => {
       render(<Logo />)
-      
-      const logoImage = screen.getByTestId('logo-image')
-      expect(logoImage).toHaveAttribute('data-alt', 'Brand Logo')
-      expect(logoImage).toHaveAttribute('data-width', '187.8')
-      expect(logoImage).toHaveAttribute('data-height', '216')
-      expect(logoImage).toHaveClass('h-16', 'w-auto')
-      expect(logoImage).toHaveAttribute('data-priority', 'true')
+
+      const logoImages = screen.getAllByTestId('logo-image')
+      expect(logoImages.map((image) => image.getAttribute('data-src'))).toEqual([
+        '/BW_logo.svg',
+        '/BW_logo_light.svg',
+      ])
+      for (const logoImage of logoImages) {
+        expect(logoImage).toHaveAttribute('data-alt', 'Brand Logo')
+        expect(logoImage).toHaveAttribute('data-width', '187.8')
+        expect(logoImage).toHaveAttribute('data-height', '216')
+        expect(logoImage).toHaveClass('h-16', 'w-auto')
+        expect(logoImage).toHaveAttribute('data-fetch-priority', 'high')
+        // Preloading (or eager loading) would fetch both variants; lazy loading
+        // fetches only the one that is displayed.
+        expect(logoImage).not.toHaveAttribute('data-priority')
+        expect(logoImage).not.toHaveAttribute('data-preload')
+      }
     })
 
     it('applies correct styling classes', () => {
@@ -98,15 +113,28 @@ describe('Logo Component', () => {
   })
 
   describe('Theme-based Logo Source', () => {
-    it('renders logo with appropriate source', () => {
+    it('lets the dark class on <html> pick the variant', () => {
       render(<Logo />)
-      
-      const logoImage = screen.getByTestId('logo-image')
-      
-      // Should render with a logo source (either light or dark)
-      expect(logoImage).toHaveAttribute('data-src')
-      const src = logoImage.getAttribute('data-src')
-      expect(src).toMatch(/\/BW_logo(_light)?\.svg/)
+
+      const [lightThemeLogo, darkThemeLogo] = screen.getAllByTestId('logo-image')
+      expect(lightThemeLogo).toHaveAttribute('data-src', '/BW_logo.svg')
+      expect(lightThemeLogo).toHaveClass('dark:hidden')
+      expect(lightThemeLogo).not.toHaveClass('hidden')
+      expect(darkThemeLogo).toHaveAttribute('data-src', '/BW_logo_light.svg')
+      expect(darkThemeLogo).toHaveClass('hidden', 'dark:block')
+    })
+
+    it('matches the server HTML when the client already knows the theme', async () => {
+      // next-themes has no theme on the server, but its first client render
+      // reads the stored preference from localStorage.
+      mockTheme.theme = undefined
+      mockTheme.resolvedTheme = undefined
+      const { hydrationErrors } = await hydrate(<Logo />, () => {
+        mockTheme.theme = 'dark'
+        mockTheme.resolvedTheme = 'dark'
+      })
+
+      expect(hydrationErrors).toEqual([])
     })
   })
 

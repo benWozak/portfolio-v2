@@ -30,7 +30,7 @@
   "liveUrl": "https://homechef-companion.vercel.app/",
   "githubUrl": "https://github.com/benWozak/homechef-companion-frontend",
   "image": {
-    "src": "/projects/homechef-companion/recipe-app.png",
+    "src": "/projects/homechef-companion/recipe-app.webp",
     "alt": "HomeChef Companion",
     "width": 3006,
     "height": 1364,

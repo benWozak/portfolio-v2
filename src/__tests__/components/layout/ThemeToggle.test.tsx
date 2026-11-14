@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen } from '@/test-utils'
+import { render, screen, hydrate, within } from '@/test-utils'
 import userEvent from '@testing-library/user-event'
 import { ThemeToggle } from '@/components/layout/ThemeToggle'
 import { useTheme } from 'next-themes'
@@ -244,6 +244,21 @@ describe('ThemeToggle Component', () => {
       expect(screen.getByTestId('sun-icon')).toHaveAttribute('data-size', '16')
       expect(screen.getByTestId('moon-icon')).toHaveAttribute('data-size', '16')
       expect(screen.getByTestId('laptop-icon')).toHaveAttribute('data-size', '16')
+    })
+  })
+
+  describe('Hydration', () => {
+    it('matches the server HTML when the client already knows the stored theme', async () => {
+      // next-themes has no theme on the server, but its first client render
+      // reads the stored preference from localStorage.
+      mockTheme.theme = undefined as any
+      const { container, hydrationErrors } = await hydrate(<ThemeToggle />, () => {
+        mockTheme.theme = 'dark'
+      })
+
+      expect(hydrationErrors).toEqual([])
+      // Once hydrated, the toggle shows the stored preference.
+      expect(within(container).getByTestId('theme-dropdown')).toHaveAttribute('data-value', 'dark')
     })
   })
 

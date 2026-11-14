@@ -3,7 +3,7 @@
   "name": "Calgary Folk Fest",
   "type": "professional",
   "status": "Live",
-  "featured": true,
+  "featured": false,
   "order": 2,
   "description": "Calgary Folk Music Festival is a long-standing cultural event held annually in the heart of downtown Calgary, Alberta.",
   "techStack": {

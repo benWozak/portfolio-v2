@@ -1,0 +1,66 @@
+{
+  "slug": "nduro",
+  "name": "Nduro",
+  "type": "professional",
+  "status": "Live",
+  "featured": true,
+  "order": 1,
+  "description": "An AI coach for triathletes and runners that builds a plan around a race and adapts it each morning to sleep, recovery and schedule. I led engineering on the React Native app and its API.",
+  "techStack": {
+    "frontend": [
+      "React Native",
+      "TypeScript",
+      "TanStack Query",
+      "React Hook Form/Zod",
+      "Reanimated"
+    ],
+    "backend": [
+      "Node.js/Express",
+      "Prisma",
+      "PostgreSQL",
+      "OpenAI"
+    ],
+    "other": [
+      "Terra (wearables)",
+      "Apple HealthKit",
+      "RevenueCat",
+      "Firebase",
+      "Sentry",
+      "GitHub Actions/fastlane",
+      "Render",
+      "AWS S3/SES"
+    ]
+  },
+  "liveUrl": "https://nduroai.com/",
+  "githubUrl": null,
+  "image": {
+    "src": "/projects/nduro/nduro-app-store.webp",
+    "alt": "Four Nduro App Store panels: a triathlete with the tagline \"Train with intent\", the plan calendar and a workout summary on two tilted phones, the Daily Brief screen with HRV, resting heart rate, sleep and today's workouts, and the coach screen offering to move today's swim or soften the rest of the week.",
+    "width": 2400,
+    "height": 1240,
+    "blurDataURL": "data:image/webp;base64,UklGRkoAAABXRUJQVlA4ID4AAADQAQCdASoQAAgAA4BaJZwAAusjnBA/MAD+5SuYq7OegAb0AHUalttBsQWXJoQUsUJ5Lfoa0zpp/GGcWIECAA=="
+  },
+  "overview": "[Nduro](https://nduroai.com/) is an AI training coach for triathletes and runners. An athlete selects a race and connects a wearable device. Nduro builds a plan around their race date and fitness, then monitors their progress and adjusts it each morning from their sleep, HRV and resting heart rate. A coach chat answers training questions and can reshape the week, and progress is tracked. It's live on the [App Store](https://apps.apple.com/us/app/nduro-triathlon-run-coach/id6752853347) and [Google Play](https://play.google.com/store/apps/details?id=com.nduro.app).\n\nI joined in January 2026 as lead engineer on contract. I took over a React Native app and an Express API that an agency team had started, and I work directly with the founder, a seasoned triathlete and Boston-qualifying marathoner with a deep understanding of the domain. From then until October, I've been the main contributor on the project. I have now taken a step back with another developer brought in, I sit in as a technical advisor/consultant.",
+  "challenge": "The core problem was reliability. A training plan only works if the athlete trusts it. A serious athlete stops trusting it the first time it prescribes something a coach never would. The plan also has to bend. It needs to fit each athlete's schedule and adjust to a bad night's sleep or a missed session without losing the build toward race day.\n\nLanguage models seem like the obvious tool, and they're good at writing a session that reads like a coach wrote it. But they're unreliable at the arithmetic underneath, and their output gets less consistent as the individual inputs pile up. Those inputs vary too as athletes connect different wearables and not every device reports the same data. On top of that, the plan and the coach chat had to stay in sync, so an athlete could change things from the chat and the plan would still adapt and grow around those changes.",
+  "solution": "I built the plan generator as a custom pipeline. Deterministic layers set the core of the plan along a fixed path, and the model works inside tight harnesses on top of them. It makes the judgement calls that depend on the athlete, such as which workout fills a slot, and how a session should change for their sleep, recovery and schedule. Code makes every decision that involves a number, and the model only makes choices the code has already narrowed. Deterministic passes set the phases, the week-by-week volume curve and the deload weeks. They also place the long run, long ride and race day, keeping any days the athlete pinned. The model then picks which workout fills each supporting slot, from a list the code built for that phase and discipline, and writes the session itself. A pick that isn't on the list is rejected and retried, then replaced with the safest option.\n\nThe AI coach works from the same data. It reads the plan and the athlete's recovery, and I gave it tools that move, swap and bulk-reschedule workouts. It also has a memory, so it keeps context from one conversation to the next.",
+  "keyTakeaways": [
+    "Letting code own every number and narrowing what the model may choose made plan quality something I could test.",
+    "The founder knew the domain inside out and I knew the technical side, so the product depended on close collaboration between us. We made that work by keeping our conversations focused on outcomes for athletes. Documentation played a critical role here.",
+    "Agency infrastructure is built to ship many projects for many clients. As a solo developer, I needed to adapt it into a standalone system that one person could easily manage."
+  ],
+  "sections": [
+    {
+      "heading": "Multi-race seasons",
+      "body": "Most plans are built around a single race, but age-group athletes race whole seasons: a tune-up half eight weeks before a marathon, or a sprint triathlon on the way to a half or full Ironman. I extended the generator so an athlete can add any number of races to their season and choose which ones to train through on the way to their main event. Each race gets a taper and recovery sized to how much it matters and how long it is, so the smaller races fit into the build instead of interrupting it. The coach reads the same race list, so it knows which race each session is building toward. Along the way I added Olympic and sprint triathlon to the plans the generator can build."
+    },
+    {
+      "heading": "Workouts on the watch",
+      "body": "Planned workouts are sent to the athlete's watch, so it shows zone and pace cues during the session. The harder part is keeping that copy accurate. A workout can be moved by the athlete, rewritten by the coach, cancelled, or replaced when the plan rebuilds, and every one of those paths moves or retracts the copy on the watch. The same integration brings sleep, HRV and resting heart rate back from the athlete's wearables, and those feed the morning adjustment."
+    },
+    {
+      "heading": "Shipping it",
+      "body": "I wrote the first GitHub Actions iOS workflow and the Android build pipeline, which the team extended into the current setup. Pushes to the dev branch go to TestFlight and Firebase App Distribution for testing, and pushes to main produce the store builds. On subscriptions, I worked with the team on the RevenueCat integration, a feature gate by tier on the API, and an end-to-end audit of trials, renewals and cancellations."
+    }
+  ],
+  "updatedAt": "2026-11-14T14:31:10.373Z"
+}
